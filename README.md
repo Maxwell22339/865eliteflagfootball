@@ -15,22 +15,19 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background-image: url('https://images.unsplash.com/photo-1518604666860-9ed391f76460?auto=format&fit=crop&w=1920&q=80');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
+            color: #e0e0e0;
+            background: #1a1a2e;
         }
 
         header {
-            background: linear-gradient(135deg, #ff6f00 0%, #ff8f00 100%);
+            background: linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #0f0f23 100%);
             color: white;
             padding: 1rem 0;
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            border-bottom: 3px solid #ff6f00;
         }
 
         .container {
@@ -62,6 +59,7 @@
             border-radius: 50%;
             background: #fff;
             padding: 2px;
+            border: 3px solid #ff6f00;
         }
 
 
@@ -89,13 +87,14 @@
             position: absolute;
             right: 0;
             top: calc(100% + 8px);
-            background: white;
+            background: #16213e;
             border-radius: 6px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.4);
             padding: 6px 0;
             min-width: 160px;
             display: none;
             z-index: 2000;
+            border: 1px solid #2a2a4a;
         }
         .login-dropdown.visible { display: block; }
         .login-dropdown .dropdown-item {
@@ -106,18 +105,17 @@
             background: transparent;
             text-align: left;
             cursor: pointer;
-            color: #333;
+            color: #e0e0e0;
             font-size: 0.95rem;
         }
-        .login-dropdown .dropdown-item:hover { background: #f5f5f5; }
+        .login-dropdown .dropdown-item:hover { background: #1e2d50; }
         .cta-button.small { padding: 6px 10px; font-size: 0.95rem; border-radius: 4px; }
         .login-dropdown.hidden { display: none; }
 
         .hero {
-            background: linear-gradient(rgba(26, 35, 126, 0.8), rgba(57, 73, 171, 0.8)), 
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><rect fill="%23f0f0f0" width="1200" height="600"/></svg>');
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(135deg, rgba(15,15,35,0.92) 0%, rgba(22,33,62,0.88) 40%, rgba(15,15,35,0.95) 100%),
+                        repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(255,111,0,0.08) 49px, rgba(255,111,0,0.08) 50px),
+                        repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(255,111,0,0.08) 49px, rgba(255,111,0,0.08) 50px);
             color: white;
             text-align: center;
             padding: 120px 20px;
@@ -125,34 +123,46 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border-bottom: 4px solid #ff6f00;
         }
 
         .hero-content h1 {
             font-size: 3.5rem;
             margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.6);
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
 
         .hero-content p {
             font-size: 1.5rem;
             margin-bottom: 2rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #ff8f00;
         }
 
         .cta-button {
             display: inline-block;
-            background: #ff6f00;
+            background: linear-gradient(135deg, #ff6f00, #ff8f00);
             color: white;
             padding: 12px 30px;
             text-decoration: none;
             border-radius: 5px;
             font-size: 1.1rem;
-            transition: background 0.3s;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
             border: none;
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255,111,0,0.3);
         }
 
         .cta-button:hover {
-            background: #e65100;
+            background: linear-gradient(135deg, #e65100, #ff6f00);
+            box-shadow: 0 6px 20px rgba(255,111,0,0.5);
+            transform: translateY(-1px);
         }
 
         section {
@@ -162,12 +172,14 @@
         h2 {
             font-size: 2.5rem;
             margin-bottom: 2rem;
-            color: #ff6f00;
+            color: #ff8f00;
             text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
         .about {
-            background: #f5f5f5;
+            background: #16213e;
         }
 
         .about-content {
@@ -180,73 +192,49 @@
         .about-text h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
-            color: #ff6f00;
+            color: #ff8f00;
         }
 
         .about-text p {
             margin-bottom: 1rem;
             line-height: 1.8;
+            color: #ccc;
         }
 
         .schedule {
-            background: #f5f5f5;
+            background: #1a1a2e;
         }
-
-        /* weekly schedule grid styles */
-        .schedule-grid {
-            table-layout: fixed;
-            width: 100%;
-        }
-        .schedule-grid th,
-        .schedule-grid td {
-            border: 1px solid #e0e0e0;
-            width: calc(100% / 7);
-            height: 100px;
-            text-align: center;
-            vertical-align: middle;
-            padding: 4px;
-            position: relative;
-        }
-        .schedule-grid td img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-        .schedule-grid td input {
-            width: 100%;
-            height: 100%;
-            border: none;
-            padding: 4px;
-            box-sizing: border-box;
-        }
-        /* matchup display */
-        .matchup { display: flex; align-items: center; gap: 6px; justify-content: center; }
-        .team-logo { width: 30px; height: 30px; object-fit: contain; }
 
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
+            background: #16213e;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border: 1px solid #2a2a4a;
         }
 
         .schedule-table th {
-            background: #ff6f00;
+            background: linear-gradient(135deg, #e65100, #ff6f00);
             color: white;
             padding: 15px;
             text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.95rem;
         }
 
         .schedule-table td {
             padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #2a2a4a;
+            color: #e0e0e0;
         }
 
         .schedule-table tr:hover {
-            background: #f0f0f0;
+            background: #1e2d50;
         }
+
 
         .win {
             color: #4caf50;
@@ -259,114 +247,132 @@
         }
 
         .teams {
-            background: #f5f5f5;
+            background: #1a1a2e;
         }
 
         .teams-table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
+            background: #16213e;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border: 1px solid #2a2a4a;
         }
 
         .teams-table th {
-            background: #ff6f00;
+            background: linear-gradient(135deg, #e65100, #ff6f00);
             color: white;
             padding: 15px;
             text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .teams-table td {
             padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #2a2a4a;
+            color: #e0e0e0;
         }
 
         .teams-table tr:hover {
-            background: #f0f0f0;
+            background: #1e2d50;
         }
 
         .teams-table input {
             width: 100%;
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid #2a2a4a;
             border-radius: 4px;
             font-size: 1rem;
+            background: #0f0f23;
+            color: #e0e0e0;
         }
 
         .users {
-            background: white;
+            background: #16213e;
         }
 
         .users-table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
+            background: #16213e;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border: 1px solid #2a2a4a;
         }
 
         .users-table th {
-            background: #ff6f00;
+            background: linear-gradient(135deg, #e65100, #ff6f00);
             color: white;
             padding: 15px;
             text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .users-table td {
             padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #2a2a4a;
+            color: #e0e0e0;
         }
 
         .users-table tr:hover {
-            background: #f0f0f0;
+            background: #1e2d50;
         }
 
         .users-table input {
             width: 100%;
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid #2a2a4a;
             border-radius: 4px;
             font-size: 1rem;
+            background: #0f0f23;
+            color: #e0e0e0;
         }
 
         .coaches {
-            background: #f5f5f5;
+            background: #1a1a2e;
         }
 
         .coaches-table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
+            background: #16213e;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            border: 1px solid #2a2a4a;
         }
 
         .coaches-table th {
-            background: #ff6f00;
+            background: linear-gradient(135deg, #e65100, #ff6f00);
             color: white;
             padding: 15px;
             text-align: left;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .coaches-table td {
             padding: 15px;
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid #2a2a4a;
+            color: #e0e0e0;
         }
 
         .coaches-table tr:hover {
-            background: #f0f0f0;
+            background: #1e2d50;
         }
 
         .coaches-table input {
             width: 100%;
             padding: 8px;
-            border: 1px solid #ddd;
+            border: 1px solid #2a2a4a;
             border-radius: 4px;
             font-size: 1rem;
+            background: #0f0f23;
+            color: #e0e0e0;
         }
 
         .registration-grid {
@@ -378,30 +384,33 @@
         .registration-form {
             max-width: 1000px;
             margin: 0 auto 16px auto;
-            background: white;
+            background: #16213e;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             padding: 16px;
+            border: 1px solid #2a2a4a;
         }
 
         .registration-form label {
             display: block;
             margin-bottom: 6px;
             font-weight: 600;
-            color: #333;
+            color: #e0e0e0;
         }
 
         .registration-form input,
         .registration-form select {
             width: 100%;
             padding: 10px;
-            border: 1px solid #ddd;
+            border: 1px solid #2a2a4a;
             border-radius: 4px;
             font-size: 1rem;
+            background: #0f0f23;
+            color: #e0e0e0;
         }
 
         .payments {
-            background: #f5f5f5;
+            background: #16213e;
         }
 
         .payments-grid {
@@ -412,39 +421,47 @@
         }
 
         .payment-card {
-            background: white;
+            background: #1a1a2e;
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             padding: 16px;
             border-top: 4px solid #ff6f00;
+            border: 1px solid #2a2a4a;
+            border-top: 4px solid #ff6f00;
+        }
+
+        .payment-card h3 {
+            color: #ff8f00;
         }
 
         .payment-amount {
             font-size: 1.6rem;
             font-weight: 700;
-            color: #e65100;
+            color: #ff6f00;
             margin-top: 6px;
         }
 
         /* Documents / Forms styling */
         .documents, .documents-public {
-            background: #ffffff;
+            background: #1a1a2e;
         }
 
         .documents-table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
+            background: #16213e;
             border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
             margin-top: 1rem;
+            border: 1px solid #2a2a4a;
         }
 
         .documents-table th,
         .documents-table td {
             padding: 12px;
-            border-bottom: 1px solid #eaeaea;
+            border-bottom: 1px solid #2a2a4a;
+            color: #e0e0e0;
         }
 
         .doc-actions button {
@@ -466,7 +483,7 @@
         .sign-modal .login-content { max-width: 900px; }
 
         .contact { 
-            background: #ff6f00;
+            background: linear-gradient(135deg, #e65100, #ff6f00);
             color: white;
             text-align: center;
         }
@@ -483,15 +500,16 @@
         }
 
         .contact-item h3 {
-            color: #ff6f00;
+            color: white;
             margin-bottom: 1rem;
         }
 
         footer {
-            background: #e65100;
-            color: white;
+            background: #0f0f23;
+            color: #aaa;
             text-align: center;
             padding: 20px;
+            border-top: 3px solid #ff6f00;
         }
 
         .login-modal {
@@ -512,17 +530,18 @@
         }
 
         .login-content {
-            background-color: white;
+            background-color: #16213e;
             padding: 28px;
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
             width: 100%;
             max-width: 400px;
-            max-height: 80vh; /* keep modal within viewport */
+            max-height: 80vh;
             display: flex;
             flex-direction: column;
             gap: 12px;
-            overflow: hidden; /* inner area will scroll */
+            overflow: hidden;
+            border: 1px solid #2a2a4a;
         }
 
         /* Make the register/login area independently scrollable */
@@ -543,7 +562,7 @@
 
         .login-content h2 {
             text-align: center;
-            color: #ff6f00;
+            color: #ff8f00;
             margin-bottom: 20px;
         }
 
@@ -555,24 +574,28 @@
         .login-content input {
             padding: 12px;
             margin-bottom: 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #2a2a4a;
             border-radius: 4px;
             font-size: 1rem;
+            background: #0f0f23;
+            color: #e0e0e0;
         }
 
         .login-content button {
             padding: 12px;
-            background: #ff6f00;
+            background: linear-gradient(135deg, #ff6f00, #ff8f00);
             color: white;
             border: none;
             border-radius: 4px;
             font-size: 1rem;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            font-weight: 700;
+            text-transform: uppercase;
         }
 
         .login-content button:hover {
-            background: #e65100;
+            background: linear-gradient(135deg, #e65100, #ff6f00);
         }
 
         .admin-only {
@@ -584,13 +607,14 @@
         }
 
         .admin-header {
-            background: #ff6f00;
+            background: linear-gradient(135deg, #0f0f23, #16213e);
             color: white;
             padding: 10px 20px;
             text-align: right;
             position: sticky;
             top: 0;
             z-index: 50;
+            border-bottom: 2px solid #ff6f00;
         }
 
         .admin-header button {
@@ -637,10 +661,17 @@
         .admin-editable ::selection {
             background: rgba(255,111,0,0.3);
         }
-        /* schedule edit highlight */
-        .schedule-edit-highlight {
-            background: #fff9c4; /* light yellow */
+        /* Page navigation — each section is its own page */
+        #about, #standings, #leagueSchedule, #player-stats, #payments,
+        #documentsPublic, #guestArea, #myProfile, #contact, #leagueAdmin {
+            display: none;
         }
+        /* Admin nav items hidden by default, shown when admin is logged in */
+        .admin-nav-item { display: none; }
+        .admin-nav-item.visible { display: list-item; }
+        /* Member nav item hidden by default */
+        .member-nav-item { display: none; }
+        .member-nav-item.visible { display: list-item; }
     </style>
 </head>
 <body>
@@ -721,10 +752,10 @@
         <span style="font-weight:bold; margin-right:12px;">Admin Editing Mode</span>
         <span id="adminNameDisplay" style="font-weight:bold; margin-right:12px;"></span>
         <button id="changeLogoBtn" class="cta-button small" style="margin-right:8px;">Change Logo</button>
-        <button id="changeWallpaperBtn" class="cta-button small" style="margin-right:8px;">Change Wallpaper</button>
         <input id="logoUploadInput" type="file" accept="image/*" style="display:none;">
-        <input id="wallpaperUploadInput" type="file" accept="image/*" style="display:none;">
         <button id="togglePageEditBtn" onclick="togglePageEdit()" class="cta-button small" style="margin-right:8px;">Disable Editing</button>
+        <button id="saveChangesBtn" onclick="saveAllChanges()" style="background:#4caf50; color:white; border:none; padding:8px 18px; border-radius:4px; cursor:pointer; font-weight:bold; margin-right:8px;">💾 Save Changes</button>
+        <span id="saveMsg" style="color:#fff; margin-right:8px; font-size:0.9rem;"></span>
         <button onclick="logout()">Logout</button>
     </div>
 
@@ -744,10 +775,19 @@
                 </div>
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
                     <li><a href="#standings">League Standings</a></li>
-                    <li><a href="#league-schedule">League Schedule</a></li>
-                    <li><a href="#teams">Stats</a></li>
-                    <li><a href="#payments">Team/Free Agent Sign Up</a></li>
+                    <li><a href="#leagueSchedule">League Schedule</a></li>
+                    <li><a href="#player-stats">Stats</a></li>
+                    <li><a href="#payments">Sign Up</a></li>
+                    <li><a href="#documentsPublic">Documents</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                    <li class="admin-nav-item" id="navStats"><a href="#teams">Teams by State</a></li>
+                    <li class="admin-nav-item" id="navLeagueAdmin"><a href="#leagueAdmin">League Admin</a></li>
+                    <li class="admin-nav-item" id="navUsers"><a href="#users">Users</a></li>
+                    <li class="admin-nav-item" id="navCoaches"><a href="#coaches">Coaches</a></li>
+                    <li class="admin-nav-item" id="navManageDocs"><a href="#documentsAdmin">Manage Docs</a></li>
+                    <li class="member-nav-item" id="navProfile"><a href="#myProfile">My Profile</a></li>
                     <li class="login-menu">
                         <button id="loginMenuBtn" class="cta-button small" aria-haspopup="true" aria-expanded="false">Login ▾</button>
                         <div id="loginDropdown" class="login-dropdown hidden" style="display:none">
@@ -801,46 +841,124 @@
 
 
     <!-- League Standings Section -->
-    <section class="schedule" id="standings">
+    <section class="schedule" id="standings" data-no-admin-edit="true" contenteditable="false">
         <div class="container">
             <h2>League Standings</h2>
-            <table class="schedule-table">
+            <table class="schedule-table" id="leagueStandingsTable">
                 <thead>
                     <tr>
                         <th>Team</th>
                         <th>Wins</th>
                         <th>Losses</th>
-                        <th>Win %</th>
+                        <th>Points Scored</th>
+                        <th>Points Allowed</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="leagueStandingsBody">
                     <tr>
                         <td>865 ELITE FLAG FOOTBALL</td>
                         <td>0</td>
                         <td>0</td>
-                        <td>.000</td>
+                        <td>0</td>
+                        <td>0</td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </section>
 
-    <!-- League Schedule Section -->
-    <section class="schedule" id="league-schedule">
+    <section class="schedule" id="leagueSchedule" data-no-admin-edit="true" contenteditable="false">
         <div class="container">
-            <h2>League Schedule <button id="scheduleEditBtn" class="cta-button small" style="display:none; margin-left:10px;">Edit Schedule</button></h2>
-            <p style="text-align: center; margin-bottom: 2rem; font-size: 1.1rem;">Field&nbsp;1 matchups with times listed in the left column. Logos and names are shown in the format <em>logo name vs logo name</em>.</p>
-            <table class="schedule-table schedule-grid" id="scheduleTable">
+            <h2>League Schedule</h2>
+            <table class="schedule-table" id="leagueScheduleTable">
                 <thead>
                     <tr>
+                        <th>Week</th>
+                        <th>Date</th>
                         <th>Time</th>
-                        <th>Field 1</th>
+                        <th>Matchup</th>
+                        <th>Location</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
-                <tbody id="scheduleTbody">
-                    <!-- rows generated by script -->
+                <tbody id="leagueScheduleBody">
+                    <tr>
+                        <td>Week 1</td>
+                        <td>TBD</td>
+                        <td>TBD</td>
+                        <td>865 ELITE FLAG FOOTBALL vs TBD</td>
+                        <td>TBD</td>
+                        <td>Upcoming</td>
+                    </tr>
                 </tbody>
             </table>
+        </div>
+    </section>
+
+    <!-- Player Stats Section -->
+    <section class="schedule" id="player-stats" data-no-admin-edit="true" contenteditable="false">
+        <div class="container">
+            <h2>Stats</h2>
+
+            <!-- Offensive Player Stats -->
+            <h3 style="color:#ff6f00; margin-top:1.5rem; margin-bottom:0.5rem; text-align:center;">Offensive Player Stats</h3>
+            <table class="schedule-table" id="offensiveStatsTable">
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Team</th>
+                        <th>Touchdowns</th>
+                        <th>Passing Yards</th>
+                        <th>Rushing Yards</th>
+                        <th>Receptions</th>
+                        <th>Receiving Yards</th>
+                    </tr>
+                </thead>
+                <tbody id="offensiveStatsBody">
+                    <tr>
+                        <td>—</td>
+                        <td>—</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="offensiveStatsAdminBtns" style="text-align:center; margin:10px 0; display:none;">
+                <button class="cta-button small" onclick="addStatsRow('offensiveStatsBody','offensive')">+ Add Offensive Player</button>
+            </div>
+
+            <!-- Defensive Player Stats -->
+            <h3 style="color:#ff6f00; margin-top:2rem; margin-bottom:0.5rem; text-align:center;">Defensive Player Stats</h3>
+            <table class="schedule-table" id="defensiveStatsTable">
+                <thead>
+                    <tr>
+                        <th>Player</th>
+                        <th>Team</th>
+                        <th>Tackles</th>
+                        <th>Sacks</th>
+                        <th>Interceptions</th>
+                        <th>Fumble Recoveries</th>
+                        <th>Flag Pulls</th>
+                    </tr>
+                </thead>
+                <tbody id="defensiveStatsBody">
+                    <tr>
+                        <td>—</td>
+                        <td>—</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="defensiveStatsAdminBtns" style="text-align:center; margin:10px 0; display:none;">
+                <button class="cta-button small" onclick="addStatsRow('defensiveStatsBody','defensive')">+ Add Defensive Player</button>
+            </div>
         </div>
     </section>
 
@@ -895,6 +1013,53 @@
 
     <!-- Admin Editable Sections -->
     <div id="adminOnly" class="admin-only">
+        <section class="schedule" id="leagueAdmin" data-no-admin-edit="true" contenteditable="false">
+            <div class="container">
+                <h2>League Admin</h2>
+
+                <h3 style="color:#ff6f00; margin-top:1.5rem; margin-bottom:0.75rem; text-align:center;">Manage League Standings</h3>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Team</th>
+                            <th>Wins</th>
+                            <th>Losses</th>
+                            <th>Points Scored</th>
+                            <th>Points Allowed</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leagueStandingsAdminBody"></tbody>
+                </table>
+                <div style="text-align:center; margin:12px 0;">
+                    <button type="button" class="cta-button small" onclick="addLeagueAdminRow('standings')">+ Add Standings Row</button>
+                    <button type="button" class="cta-button small" style="margin-left:8px;" onclick="saveStandingsFromAdminForm()">Save Standings</button>
+                </div>
+                <p id="leagueStandingsAdminMsg" style="text-align:center; margin-top:8px;"></p>
+
+                <h3 style="color:#ff6f00; margin-top:2rem; margin-bottom:0.75rem; text-align:center;">Manage League Schedule</h3>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Week</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Matchup</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leagueScheduleAdminBody"></tbody>
+                </table>
+                <div style="text-align:center; margin:12px 0;">
+                    <button type="button" class="cta-button small" onclick="addLeagueAdminRow('schedule')">+ Add Schedule Row</button>
+                    <button type="button" class="cta-button small" style="margin-left:8px;" onclick="saveScheduleFromAdminForm()">Save Schedule</button>
+                </div>
+                <p id="leagueScheduleAdminMsg" style="text-align:center; margin-top:8px;"></p>
+            </div>
+        </section>
+
         <!-- Teams by State Section -->
     <section class="teams" id="teams">
         <div class="container">
@@ -912,7 +1077,7 @@
                     <tr>
                         <td>
                             <div style="display:flex;align-items:center;">
-                                <img class="team-logo" src="" alt="" style="width:30px;height:30px;margin-right:4px;">
+                                <img class="team-logo" src="" alt="" style="width:60px;height:60px;margin-right:4px;">
                                 <input type="file" accept="image/*" class="team-logo-input">
                             </div>
                         </td>
@@ -923,7 +1088,7 @@
                     <tr>
                         <td>
                             <div style="display:flex;align-items:center;">
-                                <img class="team-logo" src="" alt="" style="width:30px;height:30px;margin-right:4px;">
+                                <img class="team-logo" src="" alt="" style="width:60px;height:60px;margin-right:4px;">
                                 <input type="file" accept="image/*" class="team-logo-input">
                             </div>
                         </td>
@@ -934,7 +1099,7 @@
                     <tr>
                         <td>
                             <div style="display:flex;align-items:center;">
-                                <img class="team-logo" src="" alt="" style="width:30px;height:30px;margin-right:4px;">
+                                <img class="team-logo" src="" alt="" style="width:60px;height:60px;margin-right:4px;">
                                 <input type="file" accept="image/*" class="team-logo-input">
                             </div>
                         </td>
@@ -945,7 +1110,7 @@
                     <tr>
                         <td>
                             <div style="display:flex;align-items:center;">
-                                <img class="team-logo" src="" alt="" style="width:30px;height:30px;margin-right:4px;">
+                                <img class="team-logo" src="" alt="" style="width:60px;height:60px;margin-right:4px;">
                                 <input type="file" accept="image/*" class="team-logo-input">
                             </div>
                         </td>
@@ -956,7 +1121,7 @@
                     <tr>
                         <td>
                             <div style="display:flex;align-items:center;">
-                                <img class="team-logo" src="" alt="" style="width:30px;height:30px;margin-right:4px;">
+                                <img class="team-logo" src="" alt="" style="width:60px;height:60px;margin-right:4px;">
                                 <input type="file" accept="image/*" class="team-logo-input">
                             </div>
                         </td>
@@ -1166,14 +1331,72 @@
         // --- Admin credentials (unchanged) ---
         const ADMIN_USERNAME = '123';
         const ADMIN_PASSWORD = '123';
-        const PAGE_CONTENT_KEY = 'siteContentHTML_v1';
+        const PAGE_CONTENT_KEY = 'siteContentHTML_v2';
         const SITE_LOGO_KEY = 'siteLogoDataUrl_v1';
-        const SITE_WALLPAPER_KEY = 'siteWallpaperDataUrl_v1';
         const PAYMENT_LINKS_KEY = 'paypalPaymentLinks_v1';
         let PAYMENT_LINKS = {
             team: '',
             freeAgent: ''
         };
+
+        // ---- Page navigation (SPA-style) ----
+        const ALL_PAGE_IDS = ['home','about','standings','leagueSchedule','player-stats','payments',
+            'leagueAdmin','teams','users','coaches','documentsAdmin','documentsPublic','guestArea','myProfile','contact'];
+
+        function isAdminLoggedIn() {
+            return sessionStorage.getItem('adminLoggedIn') === 'true';
+        }
+
+        function isMemberLoggedIn() {
+            return sessionStorage.getItem('memberLoggedIn') === 'true';
+        }
+
+        function canAccessPage(id) {
+            const adminOnlyPages = ['leagueAdmin', 'teams', 'users', 'coaches', 'documentsAdmin'];
+            const memberOnlyPages = ['myProfile', 'guestArea'];
+
+            if (adminOnlyPages.indexOf(id) !== -1) {
+                return isAdminLoggedIn();
+            }
+
+            if (memberOnlyPages.indexOf(id) !== -1) {
+                return isMemberLoggedIn();
+            }
+
+            return true;
+        }
+
+        function showPage(id) {
+            if (id && id.startsWith('#')) id = id.substring(1);
+            if (ALL_PAGE_IDS.indexOf(id) === -1 || !canAccessPage(id)) {
+                id = 'home';
+            }
+            ALL_PAGE_IDS.forEach(function(pageId) {
+                var el = document.getElementById(pageId);
+                if (el) el.style.display = 'none';
+            });
+            var target = document.getElementById(id);
+            if (target) {
+                target.style.display = 'block';
+                window.scrollTo(0, 0);
+                if (history.pushState) history.pushState(null, '', '#' + id);
+                else window.location.hash = id;
+            }
+        }
+
+        window.addEventListener('popstate', function() {
+            var id = window.location.hash ? window.location.hash.substring(1) : 'home';
+            if (ALL_PAGE_IDS.indexOf(id) !== -1 && canAccessPage(id)) {
+                ALL_PAGE_IDS.forEach(function(pageId) {
+                    var el = document.getElementById(pageId);
+                    if (el) el.style.display = 'none';
+                });
+                var target = document.getElementById(id);
+                if (target) { target.style.display = 'block'; window.scrollTo(0, 0); }
+            } else {
+                showPage('home');
+            }
+        });
 
         function loadPaymentLinks() {
             try {
@@ -1233,7 +1456,6 @@
         function applySavedBranding() {
             try {
                 const savedLogo = localStorage.getItem(SITE_LOGO_KEY);
-                const savedWallpaper = localStorage.getItem(SITE_WALLPAPER_KEY);
                 if (savedLogo) {
                     document.querySelectorAll('.site-logo').forEach(img => { img.src = savedLogo; });
                     const icon = document.querySelector('link[rel="icon"]');
@@ -1242,13 +1464,6 @@
                         icon.type = 'image/png';
                     }
                 }
-                if (savedWallpaper) {
-                    document.body.style.backgroundImage = `url('${savedWallpaper}')`;
-                    document.body.style.backgroundSize = 'cover';
-                    document.body.style.backgroundPosition = 'center';
-                    document.body.style.backgroundAttachment = 'fixed';
-                    document.body.style.backgroundRepeat = 'no-repeat';
-                }
             } catch (err) {
                 // Ignore branding restore errors.
             }
@@ -1256,22 +1471,13 @@
 
         function bindAdminBrandingControls() {
             const changeLogoBtn = document.getElementById('changeLogoBtn');
-            const changeWallpaperBtn = document.getElementById('changeWallpaperBtn');
             const logoUploadInput = document.getElementById('logoUploadInput');
-            const wallpaperUploadInput = document.getElementById('wallpaperUploadInput');
 
             if (changeLogoBtn && logoUploadInput && !changeLogoBtn.dataset.bound) {
                 changeLogoBtn.dataset.bound = 'true';
                 changeLogoBtn.addEventListener('click', function() {
                     if (sessionStorage.getItem('adminLoggedIn') !== 'true') return;
                     logoUploadInput.click();
-                });
-            }
-            if (changeWallpaperBtn && wallpaperUploadInput && !changeWallpaperBtn.dataset.bound) {
-                changeWallpaperBtn.dataset.bound = 'true';
-                changeWallpaperBtn.addEventListener('click', function() {
-                    if (sessionStorage.getItem('adminLoggedIn') !== 'true') return;
-                    wallpaperUploadInput.click();
                 });
             }
 
@@ -1297,28 +1503,6 @@
                     this.value = '';
                 });
             }
-
-            if (wallpaperUploadInput && !wallpaperUploadInput.dataset.bound) {
-                wallpaperUploadInput.dataset.bound = 'true';
-                wallpaperUploadInput.addEventListener('change', function() {
-                    const file = this.files && this.files[0];
-                    if (!file || sessionStorage.getItem('adminLoggedIn') !== 'true') return;
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const dataUrl = e.target && e.target.result;
-                        if (!dataUrl) return;
-                        document.body.style.backgroundImage = `url('${dataUrl}')`;
-                        document.body.style.backgroundSize = 'cover';
-                        document.body.style.backgroundPosition = 'center';
-                        document.body.style.backgroundAttachment = 'fixed';
-                        document.body.style.backgroundRepeat = 'no-repeat';
-                        localStorage.setItem(SITE_WALLPAPER_KEY, dataUrl);
-                        flushPersistSiteContent();
-                    };
-                    reader.readAsDataURL(file);
-                    this.value = '';
-                });
-            }
         }
 
         function ensureAdminBrandingUI() {
@@ -1337,28 +1521,9 @@
                 else adminHeader.appendChild(btn);
             }
 
-            if (!document.getElementById('changeWallpaperBtn')) {
-                const btn = document.createElement('button');
-                btn.id = 'changeWallpaperBtn';
-                btn.className = 'cta-button small';
-                btn.style.marginRight = '8px';
-                btn.textContent = 'Change Wallpaper';
-                if (toggleBtn) adminHeader.insertBefore(btn, toggleBtn);
-                else adminHeader.appendChild(btn);
-            }
-
             if (!document.getElementById('logoUploadInput')) {
                 const input = document.createElement('input');
                 input.id = 'logoUploadInput';
-                input.type = 'file';
-                input.accept = 'image/*';
-                input.style.display = 'none';
-                adminHeader.appendChild(input);
-            }
-
-            if (!document.getElementById('wallpaperUploadInput')) {
-                const input = document.createElement('input');
-                input.id = 'wallpaperUploadInput';
                 input.type = 'file';
                 input.accept = 'image/*';
                 input.style.display = 'none';
@@ -1376,10 +1541,62 @@
             try {
                 const saved = localStorage.getItem(PAGE_CONTENT_KEY);
                 const container = document.getElementById('siteContent');
-                if (saved && container) container.innerHTML = saved;
+                if (saved && container) {
+                    container.innerHTML = saved;
+                }
             } catch (err) {
                 // If localStorage is unavailable or corrupted, continue with default markup.
             }
+            // Always run lockdown after restoring — cleans ALL admin artifacts
+            lockdownForPublic();
+        }
+
+        /* ── Public Lockdown ──────────────────────────────────────
+           Strips every editable/admin artifact from the page.
+           Called on every page load BEFORE any admin check runs,
+           so a non-admin visitor can never see editing controls. */
+        function lockdownForPublic() {
+            // 1. Remove ALL contenteditable attributes everywhere
+            document.querySelectorAll('[contenteditable]').forEach(function(el) {
+                el.removeAttribute('contenteditable');
+            });
+
+            // 2. Remove admin-editable class from body
+            document.body.classList.remove('admin-editable');
+
+            // 3. Hide admin header & all its buttons
+            var adminHdr = document.getElementById('adminHeader');
+            if (adminHdr) { adminHdr.style.display = 'none'; adminHdr.classList.add('hidden'); }
+
+            // 4. Hide admin-only navigation links
+            document.querySelectorAll('.admin-nav-item').forEach(function(el) { el.classList.remove('visible'); });
+
+            // 5. Hide admin-only sections container
+            var adminOnly = document.getElementById('adminOnly');
+            if (adminOnly) adminOnly.classList.remove('visible');
+
+            // 6. Hide stats admin buttons (Add Player)
+            var offBtn = document.getElementById('offensiveStatsAdminBtns');
+            if (offBtn) offBtn.style.display = 'none';
+            var defBtn = document.getElementById('defensiveStatsAdminBtns');
+            if (defBtn) defBtn.style.display = 'none';
+
+            // 7. Remove admin-only "Remove" column headers from stats tables
+            document.querySelectorAll('.admin-remove-th').forEach(function(el) { el.remove(); });
+
+            // 8. Re-apply explicit non-editable on protected sections
+            ['standings','leagueSchedule','leagueAdmin','player-stats','adminHeader','memberHeader','paypalSettings'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) { el.setAttribute('contenteditable','false'); el.setAttribute('data-no-admin-edit','true'); }
+            });
+
+            // 9. Disable and hide admin-only form controls in case a saved state leaked them into view
+            document.querySelectorAll('#adminOnly input, #adminOnly select, #adminOnly textarea, #adminOnly button').forEach(function(el) {
+                el.disabled = true;
+            });
+            document.querySelectorAll('#adminOnly .team-logo-input').forEach(function(el) {
+                el.style.display = 'none';
+            });
         }
 
         function persistSiteContent() {
@@ -1387,7 +1604,31 @@
                 if (sessionStorage.getItem('adminLoggedIn') !== 'true') return;
                 const container = document.getElementById('siteContent');
                 if (!container) return;
-                localStorage.setItem(PAGE_CONTENT_KEY, container.innerHTML);
+                // Clone and strip ALL admin artifacts before saving
+                const clone = container.cloneNode(true);
+                // Remove contenteditable attributes
+                clone.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
+                // Clear dynamically-rendered admin content so non-admin visitors won't see inputs
+                var offClone = clone.querySelector('#offensiveStatsBody');
+                if (offClone) offClone.innerHTML = '';
+                var defClone = clone.querySelector('#defensiveStatsBody');
+                if (defClone) defClone.innerHTML = '';
+                // Force admin header hidden in saved state
+                var ahClone = clone.querySelector('#adminHeader');
+                if (ahClone) { ahClone.style.display = 'none'; ahClone.classList.add('hidden'); }
+                // Force admin-only sections hidden in saved state
+                var aoClone = clone.querySelector('#adminOnly');
+                if (aoClone) aoClone.classList.remove('visible');
+                // Force admin nav items hidden
+                clone.querySelectorAll('.admin-nav-item').forEach(function(el) { el.classList.remove('visible'); });
+                // Hide stats admin buttons
+                var offBtnC = clone.querySelector('#offensiveStatsAdminBtns');
+                if (offBtnC) offBtnC.style.display = 'none';
+                var defBtnC = clone.querySelector('#defensiveStatsAdminBtns');
+                if (defBtnC) defBtnC.style.display = 'none';
+                // Remove admin-only column headers from stats
+                clone.querySelectorAll('.admin-remove-th').forEach(function(el) { el.remove(); });
+                localStorage.setItem(PAGE_CONTENT_KEY, clone.innerHTML);
             } catch (err) {
                 // Ignore storage write failures.
             }
@@ -1401,6 +1642,14 @@
         bindAdminBrandingControls();
         bindPayPalSettingsControls();
         renderPayPalSettings();
+
+        // Show the correct page immediately after restoring content
+        (function() {
+            var h = window.location.hash ? window.location.hash.substring(1) : 'home';
+            var restricted = ['myProfile','guestArea','leagueAdmin','teams','users','coaches','documentsAdmin'];
+            var validPage = ALL_PAGE_IDS.indexOf(h) !== -1 && restricted.indexOf(h) === -1 ? h : 'home';
+            showPage(validPage);
+        })();
 
         // logo/image support removed — header shows text only.
 
@@ -1490,11 +1739,27 @@
         window.addEventListener('load', function() {
             renderDocumentsList();
             // admin
-            if (sessionStorage.getItem('adminLoggedIn') === 'true') showAdminView();
-            else {
-                document.getElementById('adminHeader').style.display = 'none';
-                document.getElementById('adminOnly').classList.remove('visible');
-                enablePageEdit(false);
+            if (sessionStorage.getItem('adminLoggedIn') === 'true') {
+                document.getElementById('adminHeader').style.display = 'block';
+                const stored = sessionStorage.getItem('adminUsername');
+                const adminNameEl = document.getElementById('adminNameDisplay');
+                if (adminNameEl) adminNameEl.textContent = stored ? '(' + stored + ')' : '';
+                document.getElementById('adminOnly').classList.add('visible');
+                document.querySelectorAll('.admin-nav-item').forEach(el => el.classList.add('visible'));
+                enablePageEdit(true);
+                renderUsersTableForAdmin();
+                renderDocsAdmin && renderDocsAdmin();
+                renderAllStats && renderAllStats();
+                renderAdminPaymentRequests && renderAdminPaymentRequests();
+                renderPayPalSettings && renderPayPalSettings();
+                bindPayPalSettingsControls && bindPayPalSettingsControls();
+                // restore to hashed page or default to teams
+                const h = window.location.hash ? window.location.hash.substring(1) : 'leagueAdmin';
+                showPage(ALL_PAGE_IDS.indexOf(h) !== -1 ? h : 'leagueAdmin');
+            } else {
+                // Non-admin: full lockdown — no editing visible anywhere
+                lockdownForPublic();
+                renderAllStats && renderAllStats();
             }
             applySavedBranding();
             ensureAdminBrandingUI();
@@ -1503,11 +1768,21 @@
             bindPayPalSettingsControls();
             renderPayPalSettings();
             // member
-            if (sessionStorage.getItem('memberLoggedIn') === 'true') showMemberView();
-            else {
+            if (sessionStorage.getItem('memberLoggedIn') === 'true') {
+                const username = sessionStorage.getItem('memberUsername');
+                const isGuest = sessionStorage.getItem('memberIsGuest') === 'true';
+                document.getElementById('memberHeader').style.display = 'block';
+                document.getElementById('memberNameDisplay').textContent = isGuest ? (username + ' (Guest)') : username;
+                if (!isGuest) {
+                    const navProfile = document.getElementById('navProfile');
+                    if (navProfile) navProfile.classList.add('visible');
+                    showPage('myProfile');
+                    renderMyProfile && renderMyProfile();
+                } else {
+                    showPage('guestArea');
+                }
+            } else {
                 document.getElementById('memberHeader').style.display = 'none';
-                document.getElementById('myProfile').style.display = 'none';
-                document.getElementById('guestArea').style.display = 'none';
             }
         });
 
@@ -1685,11 +1960,11 @@
             document.getElementById('memberHeader').style.display = 'block';
             document.getElementById('memberNameDisplay').textContent = isGuest ? (username + ' (Guest)') : username;
             if (isGuest) {
-                document.getElementById('myProfile').style.display = 'none';
-                document.getElementById('guestArea').style.display = 'block';
+                showPage('guestArea');
             } else {
-                document.getElementById('guestArea').style.display = 'none';
-                document.getElementById('myProfile').style.display = 'block';
+                const navProfile = document.getElementById('navProfile');
+                if (navProfile) navProfile.classList.add('visible');
+                showPage('myProfile');
                 renderMyProfile();
             }
         }
@@ -1698,9 +1973,9 @@
             sessionStorage.removeItem('memberUsername');
             sessionStorage.removeItem('memberIsGuest');
             document.getElementById('memberHeader').style.display = 'none';
-            document.getElementById('myProfile').style.display = 'none';
-            document.getElementById('guestArea').style.display = 'none';
-            renderSchedule && renderSchedule();
+            const navProfile = document.getElementById('navProfile');
+            if (navProfile) navProfile.classList.remove('visible');
+            showPage('home');
         }
 
         // Guest login disabled (admin/member login only).
@@ -1980,120 +2255,379 @@
         renderDocumentsList();
         renderAdminPaymentRequests();
 
-        // --- Weekly schedule persistence & rendering ---
-        function defaultSchedule() {
-            const times = ['10am','11am','12pm','1pm','2pm','3pm'];
-            return times.map(t => ({ time: t, team1: {name:'', logo:''}, team2: {name:'', logo:''} }));
+        // ---- Player Stats (Offensive / Defensive) ----
+        const LEAGUE_STANDINGS_KEY = 'leagueStandings_v1';
+        const LEAGUE_SCHEDULE_KEY = 'leagueSchedule_v1';
+        const OFFENSIVE_STATS_KEY = 'offensivePlayerStats_v1';
+        const DEFENSIVE_STATS_KEY = 'defensivePlayerStats_v1';
+        const leagueStandingsFields = [
+            { key: 'team', placeholder: 'Team name' },
+            { key: 'wins', placeholder: '0' },
+            { key: 'losses', placeholder: '0' },
+            { key: 'pointsScored', placeholder: '0' },
+            { key: 'pointsAgainst', placeholder: '0' }
+        ];
+        const leagueScheduleFields = [
+            { key: 'week', placeholder: 'Week 1' },
+            { key: 'date', placeholder: 'MM/DD/YYYY' },
+            { key: 'time', placeholder: '7:00 PM' },
+            { key: 'matchup', placeholder: 'Team A vs Team B' },
+            { key: 'location', placeholder: 'Field name' },
+            { key: 'status', placeholder: 'Upcoming' }
+        ];
+        const defaultLeagueStandings = [
+            {
+                team: '865 ELITE FLAG FOOTBALL',
+                wins: '0',
+                losses: '0',
+                pointsScored: '0',
+                pointsAgainst: '0'
+            }
+        ];
+        const defaultLeagueSchedule = [
+            {
+                week: 'Week 1',
+                date: 'TBD',
+                time: 'TBD',
+                matchup: '865 ELITE FLAG FOOTBALL vs TBD',
+                location: 'TBD',
+                status: 'Upcoming'
+            }
+        ];
+        const offensiveCols = ['Player','Team','Touchdowns','Passing Yards','Rushing Yards','Receptions','Receiving Yards'];
+        const defensiveCols = ['Player','Team','Tackles','Sacks','Interceptions','Fumble Recoveries','Flag Pulls'];
+
+        function escapeHtml(value) {
+            return String(value == null ? '' : value)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
         }
-        function loadSchedule() {
-            try { return JSON.parse(localStorage.getItem('weeklySchedule')) || defaultSchedule(); }
-            catch (e) { return defaultSchedule(); }
-        }
-        function saveSchedule(sch) {
-            localStorage.setItem('weeklySchedule', JSON.stringify(sch));
-            renderSchedule();
-        }
-        function renderSchedule() {
-            const tbody = document.getElementById('scheduleTbody');
-            if (!tbody) return;
-            const schedule = loadSchedule();
-            const isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
-            tbody.innerHTML = '';
-            // make sure edit button visibility matches admin state
-            const editBtn = document.getElementById('scheduleEditBtn');
-            if (editBtn) editBtn.style.display = isAdmin ? 'inline-block' : 'none';
-            schedule.forEach((row, rowIdx) => {
-                const tr = document.createElement('tr');
-                let cell = '';
-                if (isAdmin) {
-                    cell = `<td><div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;">
-                        <div style="flex:1;min-width:40%;text-align:center;">
-                            ${row.team1.logo?`<img src="${row.team1.logo}" class="team-logo">`:''}
-                            <input type="file" data-row="${rowIdx}" data-team="1" data-field="logo" accept="image/*">
-                        </div>
-                        <input type="text" data-row="${rowIdx}" data-team="1" data-field="name" placeholder="Team 1 name" value="${row.team1.name}" style="flex:1;min-width:40%;">
-                        <span style="flex-basis:100%;text-align:center;">vs</span>
-                        <div style="flex:1;min-width:40%;text-align:center;">
-                            ${row.team2.logo?`<img src="${row.team2.logo}" class="team-logo">`:''}
-                            <input type="file" data-row="${rowIdx}" data-team="2" data-field="logo" accept="image/*">
-                        </div>
-                        <input type="text" data-row="${rowIdx}" data-team="2" data-field="name" placeholder="Team 2 name" value="${row.team2.name}" style="flex:1;min-width:40%;">
-                    </div></td>`;
-                } else {
-                    const t1 = row.team1;
-                    const t2 = row.team2;
-                    cell = `<td><div class="matchup">
-                        ${t1.logo?`<img src="${t1.logo}" class="team-logo" alt="">`:''}
-                        ${t1.name||''} vs
-                        ${t2.logo?`<img src="${t2.logo}" class="team-logo" alt="">`:''}
-                        ${t2.name||''}
-                    </div></td>`;
-                }
-                tr.innerHTML = `<td>${row.time}</td>` + cell;
-                tbody.appendChild(tr);
+
+        function cloneRows(rows) {
+            return rows.map(function(row) {
+                return Object.assign({}, row);
             });
-            if (isAdmin) {
-                // handle file uploads separately
-                tbody.querySelectorAll('input[type="file"]').forEach(inp => {
-                    inp.addEventListener('change', function() {
-                        const r = Number(this.dataset.row);
-                        const t = Number(this.dataset.team);
-                        const file = this.files[0];
-                        if (file) {
-                            const reader = new FileReader();
-                            reader.onload = () => {
-                                const sch = loadSchedule();
-                                sch[r][`team${t}`].logo = reader.result;
-                                saveSchedule(sch);
-                            };
-                            reader.readAsDataURL(file);
-                        }
-                    });
-                });
-                tbody.querySelectorAll('input[type="text"]').forEach(inp => {
-                    inp.addEventListener('input', function() {
-                        const r = Number(this.dataset.row);
-                        const t = Number(this.dataset.team);
-                        const f = this.dataset.field;
-                        const sch = loadSchedule();
-                        sch[r][`team${t}`][f] = this.value.trim();
-                        saveSchedule(sch);
-                    });
-                });
+        }
+
+        function blankLeagueRow(fields) {
+            var row = {};
+            fields.forEach(function(field) {
+                row[field.key] = '';
+            });
+            return row;
+        }
+
+        function loadLeagueCollection(key, defaults) {
+            try {
+                const raw = localStorage.getItem(key);
+                if (raw === null) return cloneRows(defaults);
+                const parsed = JSON.parse(raw);
+                return Array.isArray(parsed) ? parsed : cloneRows(defaults);
+            } catch (e) {
+                return cloneRows(defaults);
             }
         }
-        renderSchedule();
 
-        // schedule editing state & toggle handler
-        let scheduleEditing = false;
-        function toggleScheduleEdit() {
-            const isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
-            if (!isAdmin) {
-                alert('Admin login is required to edit the league schedule.');
+        function saveLeagueCollection(key, rows) {
+            localStorage.setItem(key, JSON.stringify(rows));
+        }
+
+        function loadLeagueStandings() {
+            return loadLeagueCollection(LEAGUE_STANDINGS_KEY, defaultLeagueStandings);
+        }
+
+        function saveLeagueStandings(rows) {
+            saveLeagueCollection(LEAGUE_STANDINGS_KEY, rows);
+        }
+
+        function loadLeagueSchedule() {
+            return loadLeagueCollection(LEAGUE_SCHEDULE_KEY, defaultLeagueSchedule);
+        }
+
+        function saveLeagueSchedule(rows) {
+            saveLeagueCollection(LEAGUE_SCHEDULE_KEY, rows);
+        }
+
+        function syncLeagueStandingsFromPublicTable() {
+            const tbody = document.getElementById('leagueStandingsBody');
+            if (!tbody) return;
+            const rows = Array.from(tbody.querySelectorAll('tr')).map(function(tr) {
+                const cells = Array.from(tr.querySelectorAll('td')).map(function(td) {
+                    return td.innerText.trim();
+                });
+                if (cells.length < 5) return null;
+                return {
+                    team: cells[0] || '',
+                    wins: cells[1] || '',
+                    losses: cells[2] || '',
+                    pointsScored: cells[3] || '',
+                    pointsAgainst: cells[4] || ''
+                };
+            }).filter(function(row) {
+                return row && Object.keys(row).some(function(key) { return row[key]; });
+            });
+            saveLeagueStandings(rows);
+            renderLeagueAdminTable('leagueStandingsAdminBody', leagueStandingsFields, rows, 'standings');
+        }
+
+        function syncLeagueScheduleFromPublicTable() {
+            const tbody = document.getElementById('leagueScheduleBody');
+            if (!tbody) return;
+            const rows = Array.from(tbody.querySelectorAll('tr')).map(function(tr) {
+                const cells = Array.from(tr.querySelectorAll('td')).map(function(td) {
+                    return td.innerText.trim();
+                });
+                if (cells.length < 6) return null;
+                return {
+                    week: cells[0] || '',
+                    date: cells[1] || '',
+                    time: cells[2] || '',
+                    matchup: cells[3] || '',
+                    location: cells[4] || '',
+                    status: cells[5] || ''
+                };
+            }).filter(function(row) {
+                return row && Object.keys(row).some(function(key) { return row[key]; });
+            });
+            saveLeagueSchedule(rows);
+            renderLeagueAdminTable('leagueScheduleAdminBody', leagueScheduleFields, rows, 'schedule');
+        }
+
+        function renderLeagueStandingsPublic() {
+            const tbody = document.getElementById('leagueStandingsBody');
+            if (!tbody) return;
+            const rows = loadLeagueStandings();
+            if (!rows.length) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#aaa;">Standings will be posted soon.</td></tr>';
                 return;
             }
-            scheduleEditing = !scheduleEditing;
-            const btn = document.getElementById('scheduleEditBtn');
-            if (btn) btn.textContent = scheduleEditing ? 'Stop Editing' : 'Edit Schedule';
-            const inputs = document.querySelectorAll('#scheduleTbody input');
-            inputs.forEach(inp => {
-                if (scheduleEditing) {
-                    inp.classList.add('schedule-edit-highlight');
-                    inp.addEventListener('focus', removeHighlightOnFocus);
-                } else {
-                    inp.classList.remove('schedule-edit-highlight');
-                    inp.removeEventListener('focus', removeHighlightOnFocus);
-                }
+            tbody.innerHTML = rows.map(function(row) {
+                return '<tr>' +
+                    '<td>' + escapeHtml(row.team || '\u2014') + '</td>' +
+                    '<td>' + escapeHtml(row.wins || '0') + '</td>' +
+                    '<td>' + escapeHtml(row.losses || '0') + '</td>' +
+                    '<td>' + escapeHtml(row.pointsScored || '0') + '</td>' +
+                    '<td>' + escapeHtml(row.pointsAgainst || '0') + '</td>' +
+                '</tr>';
+            }).join('');
+        }
+
+        function renderLeagueSchedulePublic() {
+            const tbody = document.getElementById('leagueScheduleBody');
+            if (!tbody) return;
+            const rows = loadLeagueSchedule();
+            if (!rows.length) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#aaa;">Schedule will be posted soon.</td></tr>';
+                return;
+            }
+            tbody.innerHTML = rows.map(function(row) {
+                return '<tr>' +
+                    '<td>' + escapeHtml(row.week || '\u2014') + '</td>' +
+                    '<td>' + escapeHtml(row.date || '\u2014') + '</td>' +
+                    '<td>' + escapeHtml(row.time || '\u2014') + '</td>' +
+                    '<td>' + escapeHtml(row.matchup || '\u2014') + '</td>' +
+                    '<td>' + escapeHtml(row.location || '\u2014') + '</td>' +
+                    '<td>' + escapeHtml(row.status || '\u2014') + '</td>' +
+                '</tr>';
+            }).join('');
+        }
+
+        function renderLeagueAdminTable(bodyId, fields, rows, type) {
+            const tbody = document.getElementById(bodyId);
+            if (!tbody) return;
+            const editableRows = rows.length ? rows : [blankLeagueRow(fields)];
+            let html = '';
+            editableRows.forEach(function(row, rowIdx) {
+                html += '<tr>';
+                fields.forEach(function(field) {
+                    html += '<td><input type="text" data-key="' + field.key + '" value="' + escapeHtml(row[field.key] || '') + '" placeholder="' + escapeHtml(field.placeholder) + '"></td>';
+                });
+                html += '<td><button type="button" class="cta-button small" style="background:#c62828;" onclick="removeLeagueAdminRow(\'' + type + '\',' + rowIdx + ')">Remove</button></td>';
+                html += '</tr>';
+            });
+            tbody.innerHTML = html;
+        }
+
+        function renderLeagueAdminTables() {
+            renderLeagueStandingsPublic();
+            renderLeagueSchedulePublic();
+            renderLeagueAdminTable('leagueStandingsAdminBody', leagueStandingsFields, loadLeagueStandings(), 'standings');
+            renderLeagueAdminTable('leagueScheduleAdminBody', leagueScheduleFields, loadLeagueSchedule(), 'schedule');
+        }
+
+        function collectLeagueAdminRows(bodyId, fields) {
+            const tbody = document.getElementById(bodyId);
+            if (!tbody) return [];
+            return Array.from(tbody.querySelectorAll('tr')).map(function(row) {
+                const item = {};
+                fields.forEach(function(field) {
+                    const input = row.querySelector('input[data-key="' + field.key + '"]');
+                    item[field.key] = input ? input.value.trim() : '';
+                });
+                return item;
+            }).filter(function(row) {
+                return fields.some(function(field) {
+                    return row[field.key];
+                });
             });
         }
-        function removeHighlightOnFocus(e) {
-            e.target.classList.remove('schedule-edit-highlight');
+
+        function showLeagueAdminMessage(id, text, color) {
+            const msg = document.getElementById(id);
+            if (!msg) return;
+            msg.style.color = color;
+            msg.textContent = text;
+            setTimeout(function() {
+                if (msg.textContent === text) msg.textContent = '';
+            }, 3000);
         }
-        document.getElementById('scheduleEditBtn')?.addEventListener('click', toggleScheduleEdit);
-        
+
+        function addLeagueAdminRow(type) {
+            if (!isAdminLoggedIn()) return;
+            if (type === 'standings') {
+                const rows = loadLeagueStandings();
+                rows.push(blankLeagueRow(leagueStandingsFields));
+                renderLeagueAdminTable('leagueStandingsAdminBody', leagueStandingsFields, rows, 'standings');
+                return;
+            }
+            const rows = loadLeagueSchedule();
+            rows.push(blankLeagueRow(leagueScheduleFields));
+            renderLeagueAdminTable('leagueScheduleAdminBody', leagueScheduleFields, rows, 'schedule');
+        }
+
+        function removeLeagueAdminRow(type, rowIdx) {
+            if (!isAdminLoggedIn()) return;
+            if (type === 'standings') {
+                const rows = collectLeagueAdminRows('leagueStandingsAdminBody', leagueStandingsFields);
+                rows.splice(rowIdx, 1);
+                renderLeagueAdminTable('leagueStandingsAdminBody', leagueStandingsFields, rows, 'standings');
+                return;
+            }
+            const rows = collectLeagueAdminRows('leagueScheduleAdminBody', leagueScheduleFields);
+            rows.splice(rowIdx, 1);
+            renderLeagueAdminTable('leagueScheduleAdminBody', leagueScheduleFields, rows, 'schedule');
+        }
+
+        function saveStandingsFromAdminForm() {
+            if (!isAdminLoggedIn()) return;
+            const rows = collectLeagueAdminRows('leagueStandingsAdminBody', leagueStandingsFields);
+            saveLeagueStandings(rows);
+            renderLeagueAdminTables();
+            showLeagueAdminMessage('leagueStandingsAdminMsg', 'Standings saved successfully.', 'green');
+        }
+
+        function saveScheduleFromAdminForm() {
+            if (!isAdminLoggedIn()) return;
+            const rows = collectLeagueAdminRows('leagueScheduleAdminBody', leagueScheduleFields);
+            saveLeagueSchedule(rows);
+            renderLeagueAdminTables();
+            showLeagueAdminMessage('leagueScheduleAdminMsg', 'Schedule saved successfully.', 'green');
+        }
+
+        function loadPlayerStats(key) {
+            try { return JSON.parse(localStorage.getItem(key)) || null; } catch(e) { return null; }
+        }
+        function savePlayerStats(key, data) {
+            localStorage.setItem(key, JSON.stringify(data));
+        }
+
+        function renderStatsTable(bodyId, key, cols) {
+            const tbody = document.getElementById(bodyId);
+            if (!tbody) return;
+            const isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
+            const data = loadPlayerStats(key) || [cols.map(function() { return ''; })];
+            let html = '';
+            data.forEach(function(row, rIdx) {
+                html += '<tr>';
+                row.forEach(function(cell, cIdx) {
+                    if (isAdmin) {
+                        html += '<td><input type="text" value="' + (cell || '') + '" data-statskey="' + key + '" data-row="' + rIdx + '" data-col="' + cIdx + '" style="width:100%;text-align:center;border:1px solid #ddd;padding:4px;"></td>';
+                    } else {
+                        html += '<td>' + (cell || '\u2014') + '</td>';
+                    }
+                });
+                if (isAdmin) {
+                    html += '<td><button class="cta-button small" style="background:#c62828;padding:2px 8px;font-size:0.75rem;" onclick="removeStatsRow(\'' + bodyId + '\',\'' + key + '\',' + rIdx + ')">✕</button></td>';
+                }
+                html += '</tr>';
+            });
+            tbody.innerHTML = html;
+
+            // bind input events for admin
+            if (isAdmin) {
+                tbody.querySelectorAll('input[type="text"]').forEach(function(inp) {
+                    inp.addEventListener('input', function() {
+                        var r = Number(this.dataset.row);
+                        var c = Number(this.dataset.col);
+                        var k = this.dataset.statskey;
+                        var d = loadPlayerStats(k) || [];
+                        if (d[r]) { d[r][c] = this.value; savePlayerStats(k, d); markUnsaved(); }
+                    });
+                });
+            }
+        }
+
+        function addStatsRow(bodyId, type) {
+            var key = type === 'offensive' ? OFFENSIVE_STATS_KEY : DEFENSIVE_STATS_KEY;
+            var cols = type === 'offensive' ? offensiveCols : defensiveCols;
+            var data = loadPlayerStats(key) || [];
+            data.push(cols.map(function() { return ''; }));
+            savePlayerStats(key, data);
+            renderStatsTable(bodyId, key, cols);
+            markUnsaved();
+        }
+
+        function removeStatsRow(bodyId, key, rowIdx) {
+            var cols = key === OFFENSIVE_STATS_KEY ? offensiveCols : defensiveCols;
+            var data = loadPlayerStats(key) || [];
+            if (data.length <= 1) { alert('Cannot remove the last row.'); return; }
+            data.splice(rowIdx, 1);
+            savePlayerStats(key, data);
+            renderStatsTable(bodyId, key, cols);
+            markUnsaved();
+        }
+
+        function renderAllStats() {
+            var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
+            // Show/hide admin buttons
+            var offBtn = document.getElementById('offensiveStatsAdminBtns');
+            var defBtn = document.getElementById('defensiveStatsAdminBtns');
+            if (offBtn) offBtn.style.display = isAdmin ? 'block' : 'none';
+            if (defBtn) defBtn.style.display = isAdmin ? 'block' : 'none';
+            // Add/remove "Remove" column header
+            var offThead = document.querySelector('#offensiveStatsTable thead tr');
+            var defThead = document.querySelector('#defensiveStatsTable thead tr');
+            if (isAdmin) {
+                if (offThead && !offThead.querySelector('.admin-remove-th')) {
+                    var th = document.createElement('th'); th.textContent = ''; th.className = 'admin-remove-th'; offThead.appendChild(th);
+                }
+                if (defThead && !defThead.querySelector('.admin-remove-th')) {
+                    var th2 = document.createElement('th'); th2.textContent = ''; th2.className = 'admin-remove-th'; defThead.appendChild(th2);
+                }
+            } else {
+                if (offThead) { var rmTh = offThead.querySelector('.admin-remove-th'); if (rmTh) rmTh.remove(); }
+                if (defThead) { var rmTh2 = defThead.querySelector('.admin-remove-th'); if (rmTh2) rmTh2.remove(); }
+            }
+            renderStatsTable('offensiveStatsBody', OFFENSIVE_STATS_KEY, offensiveCols);
+            renderStatsTable('defensiveStatsBody', DEFENSIVE_STATS_KEY, defensiveCols);
+        }
+        renderLeagueAdminTables();
+        renderAllStats();
+
         // page-wide edit state
         let pageEditing = false;
         let persistTimer = null;
+        let unsavedChanges = false;
+        function markUnsaved() {
+            unsavedChanges = true;
+            const btn = document.getElementById('saveChangesBtn');
+            if (btn) btn.style.background = '#e65100';
+            const msg = document.getElementById('saveMsg');
+            if (msg) msg.textContent = 'Unsaved changes';
+        }
         function flushPersistSiteContent() {
             if (persistTimer) {
                 clearTimeout(persistTimer);
@@ -2103,46 +2637,116 @@
         }
         function queuePersistSiteContent() {
             if (!pageEditing) return;
-            if (persistTimer) clearTimeout(persistTimer);
-            persistTimer = setTimeout(persistSiteContent, 250);
+            markUnsaved();
+        }
+        function saveAllChanges() {
+            if (sessionStorage.getItem('adminLoggedIn') !== 'true') return;
+            if (pageEditing) {
+                syncLeagueStandingsFromPublicTable();
+                syncLeagueScheduleFromPublicTable();
+                renderLeagueStandingsPublic();
+                renderLeagueSchedulePublic();
+            } else {
+                saveStandingsFromAdminForm();
+                saveScheduleFromAdminForm();
+            }
+            persistSiteContent();
+            // also save payment links currently in inputs
+            var teamLink = document.getElementById('paypalTeamLink');
+            var freeLink = document.getElementById('paypalFreeAgentLink');
+            if (teamLink && freeLink) {
+                savePaymentLinks({ team: teamLink.value, freeAgent: freeLink.value });
+            }
+            unsavedChanges = false;
+            var btn = document.getElementById('saveChangesBtn');
+            if (btn) btn.style.background = '#4caf50';
+            var msg = document.getElementById('saveMsg');
+            if (msg) { msg.textContent = '✓ All changes saved!'; setTimeout(function(){ msg.textContent = ''; }, 3000); }
         }
         document.addEventListener('input', queuePersistSiteContent, true);
         document.addEventListener('change', queuePersistSiteContent, true);
-        window.addEventListener('beforeunload', flushPersistSiteContent);
+        window.addEventListener('beforeunload', function(e) {
+            flushPersistSiteContent();
+            if (unsavedChanges && sessionStorage.getItem('adminLoggedIn') === 'true') {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
         document.addEventListener('visibilitychange', function() {
             if (document.visibilityState === 'hidden') flushPersistSiteContent();
         });
 
+        function setAdminEditableText(enable) {
+            var editableSelector = 'header .logo span, header .nav-links a, #home h1, #home p, #home .cta-button, section h2, section h3, section h4, section p, section li, section td, section th, section label, section a, section button, footer p';
+            var protectedScopeSelector = '.login-modal, #adminHeader, #memberHeader, #player-stats, #leagueAdmin, form';
+
+            document.querySelectorAll(editableSelector).forEach(function(el) {
+                if (el.closest(protectedScopeSelector)) {
+                    el.setAttribute('contenteditable', 'false');
+                    return;
+                }
+
+                if (enable) {
+                    el.setAttribute('contenteditable', 'true');
+                } else if (el.getAttribute('contenteditable') === 'true') {
+                    el.removeAttribute('contenteditable');
+                }
+            });
+        }
+
         function enablePageEdit(enable) {
+            // HARD GATE: never allow editing unless admin is logged in
+            if (!isAdminLoggedIn()) {
+                pageEditing = false;
+                lockdownForPublic();
+                return;
+            }
             pageEditing = enable;
             if (enable) {
-                document.body.setAttribute('contenteditable','true');
+                setAdminEditableText(true);
                 document.body.classList.add('admin-editable');
+                // Protect all form controls and protected surfaces from contenteditable
+                document.querySelectorAll('form, input, select, textarea, canvas, .login-modal, #memberHeader, #adminHeader, #paymentForm, #leagueAdmin, #player-stats').forEach(function(el) {
+                    el.setAttribute('contenteditable', 'false');
+                });
+                document.querySelectorAll('#adminOnly input, #adminOnly select, #adminOnly textarea, #adminOnly button').forEach(function(el) {
+                    el.disabled = false;
+                });
+                document.querySelectorAll('#adminOnly .team-logo-input').forEach(function(el) {
+                    el.style.display = '';
+                });
                 enforceNonEditableAdminUI();
                 const btn = document.getElementById('togglePageEditBtn');
                 if (btn) btn.textContent = 'Disable Editing';
             } else {
-                document.body.removeAttribute('contenteditable');
+                pageEditing = false;
+                setAdminEditableText(false);
+                document.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
                 document.body.classList.remove('admin-editable');
+                document.querySelectorAll('#adminOnly input, #adminOnly select, #adminOnly textarea, #adminOnly button').forEach(function(el) {
+                    el.disabled = false;
+                });
+                document.querySelectorAll('#adminOnly .team-logo-input').forEach(function(el) {
+                    el.style.display = '';
+                });
                 const btn = document.getElementById('togglePageEditBtn');
                 if (btn) btn.textContent = 'Enable Editing';
                 persistSiteContent();
             }
         }
         function togglePageEdit() {
+            if (sessionStorage.getItem('adminLoggedIn') !== 'true') return;
             enablePageEdit(!pageEditing);
         }
 
         // --- end Documents functions ---
 
-        // Smooth scrolling for navigation links (retain existing behavior)
+        // Page navigation for all anchor links with hash hrefs
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                const id = this.getAttribute('href').substring(1);
+                if (id) showPage(id);
             });
         });
 
@@ -2184,17 +2788,19 @@
             const stored = sessionStorage.getItem('adminUsername');
             if (adminNameEl) adminNameEl.textContent = stored ? '(' + stored + ')' : '';
             document.getElementById('adminOnly').classList.add('visible');
+            // show admin nav items
+            document.querySelectorAll('.admin-nav-item').forEach(el => el.classList.add('visible'));
             // enable full-page editing
             enablePageEdit(true);
             // refresh admin tables
             renderUsersTableForAdmin();
             renderDocsAdmin && renderDocsAdmin();
-            renderSchedule && renderSchedule();
+            renderLeagueAdminTables && renderLeagueAdminTables();
+            renderAllStats && renderAllStats();
             renderAdminPaymentRequests && renderAdminPaymentRequests();
             renderPayPalSettings && renderPayPalSettings();
             bindPayPalSettingsControls && bindPayPalSettingsControls();
-            // automatically enable schedule edit mode
-            if (!scheduleEditing) toggleScheduleEdit();
+            showPage('leagueAdmin');
             persistSiteContent();
         }
 
@@ -2202,16 +2808,16 @@
             flushPersistSiteContent();
             sessionStorage.removeItem('adminLoggedIn');
             sessionStorage.removeItem('adminUsername');
-            document.getElementById('loginModal').classList.remove('hidden');
-            document.getElementById('loginModal').style.display = 'flex';
-            document.getElementById('adminHeader').style.display = 'none';
-            document.getElementById('adminOnly').classList.remove('visible');
-            // disable editable mode
-            enablePageEdit(false);
+            // Full public lockdown — removes ALL editing artifacts
+            lockdownForPublic();
+            renderLeagueAdminTables && renderLeagueAdminTables();
+            // Re-render tables in public (non-admin) mode
+            renderAllStats && renderAllStats();
+            // Clear login form
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
             document.getElementById('loginError').textContent = '';
-            renderSchedule && renderSchedule();
+            showPage('home');
         }
 
         // Logo upload handling (admin-only)
