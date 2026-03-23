@@ -235,6 +235,99 @@
             background: #1e2d50;
         }
 
+        .schedule-matchup {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 18px;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .schedule-team {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            min-width: 110px;
+        }
+
+        .schedule-team-logo {
+            width: 72px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #ff6f00;
+            background: #fff;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.35);
+        }
+
+        .schedule-team-logo-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ff8f00;
+            background: #0f0f23;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .schedule-team-name {
+            font-weight: 700;
+            line-height: 1.3;
+            max-width: 150px;
+        }
+
+        .schedule-versus {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #ff8f00;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .schedule-admin-matchup {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(180px, 1fr));
+            gap: 12px;
+        }
+
+        .schedule-admin-team-block {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .schedule-admin-team-block label {
+            margin-bottom: 0;
+            font-size: 0.85rem;
+            color: #ffb366;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .schedule-admin-team-block input[type="file"] {
+            padding: 8px;
+        }
+
+        .schedule-admin-logo-preview {
+            width: 72px;
+            height: 72px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 3px solid #ff6f00;
+            background: #fff;
+        }
+
+        .schedule-admin-logo-preview.hidden {
+            display: none;
+        }
+
+        .schedule-admin-logo-empty {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
 
         .win {
             color: #4caf50;
@@ -652,6 +745,19 @@
             .schedule-table td {
                 padding: 10px;
             }
+
+            .schedule-admin-matchup {
+                grid-template-columns: 1fr;
+            }
+
+            .schedule-matchup {
+                gap: 12px;
+            }
+
+            .schedule-team-logo {
+                width: 60px;
+                height: 60px;
+            }
         }
 
         /* highlight editable areas when admin has editing enabled */
@@ -663,7 +769,7 @@
         }
         /* Page navigation — each section is its own page */
         #about, #standings, #leagueSchedule, #player-stats, #payments,
-        #documentsPublic, #guestArea, #myProfile, #contact, #leagueAdmin {
+        #documentsPublic, #guestArea, #myProfile, #contact {
             display: none;
         }
         /* Admin nav items hidden by default, shown when admin is logged in */
@@ -783,7 +889,6 @@
                     <li><a href="#documentsPublic">Documents</a></li>
                     <li><a href="#contact">Contact</a></li>
                     <li class="admin-nav-item" id="navStats"><a href="#teams">Teams by State</a></li>
-                    <li class="admin-nav-item" id="navLeagueAdmin"><a href="#leagueAdmin">League Admin</a></li>
                     <li class="admin-nav-item" id="navUsers"><a href="#users">Users</a></li>
                     <li class="admin-nav-item" id="navCoaches"><a href="#coaches">Coaches</a></li>
                     <li class="admin-nav-item" id="navManageDocs"><a href="#documentsAdmin">Manage Docs</a></li>
@@ -886,12 +991,46 @@
                         <td>Week 1</td>
                         <td>TBD</td>
                         <td>TBD</td>
-                        <td>865 ELITE FLAG FOOTBALL vs TBD</td>
+                        <td>
+                            <div class="schedule-matchup" data-home-logo="" data-away-logo="">
+                                <div class="schedule-team schedule-team-home">
+                                    <div class="schedule-team-logo schedule-team-logo-placeholder">86</div>
+                                    <div class="schedule-team-name">865 ELITE FLAG FOOTBALL</div>
+                                </div>
+                                <div class="schedule-versus">VS</div>
+                                <div class="schedule-team schedule-team-away">
+                                    <div class="schedule-team-logo schedule-team-logo-placeholder">TB</div>
+                                    <div class="schedule-team-name">TBD</div>
+                                </div>
+                            </div>
+                        </td>
                         <td>TBD</td>
                         <td>Upcoming</td>
                     </tr>
                 </tbody>
             </table>
+            <div id="leagueScheduleAdminPanel" class="admin-only" data-no-admin-edit="true" contenteditable="false" style="margin-top:24px;">
+                <h3 style="color:#ff6f00; margin-top:1.5rem; margin-bottom:0.75rem; text-align:center;">Manage League Schedule</h3>
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Week</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Teams</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leagueScheduleAdminBody"></tbody>
+                </table>
+                <div style="text-align:center; margin:12px 0;">
+                    <button type="button" class="cta-button small" onclick="addLeagueAdminRow('schedule')">+ Add Schedule Row</button>
+                    <button type="button" class="cta-button small" style="margin-left:8px;" onclick="saveScheduleFromAdminForm()">Save Schedule</button>
+                </div>
+                <p id="leagueScheduleAdminMsg" style="text-align:center; margin-top:8px;"></p>
+            </div>
         </div>
     </section>
 
@@ -997,10 +1136,70 @@
                             <option value="team">Team Registration ($500)</option>
                             <option value="freeAgent">Free Agent ($50)</option>
                         </select>
+                        <p style="margin-top:6px; font-size:0.9rem; color:#bbb;">Choose team or free agent and the required signup boxes will appear right below.</p>
                     </div>
                     <div>
                         <label for="payMethod">Method</label>
                         <input id="payMethod" type="text" value="PayPal Checkout" readonly>
+                    </div>
+                    <div id="teamYearsWrap">
+                        <label for="payTeamYears">How Many Years As A Team?</label>
+                        <input id="payTeamYears" type="text" placeholder="Example: 3 years together">
+                    </div>
+                    <div id="teamMemberCountWrap">
+                        <label for="payTeamMembers">Number of Team Members</label>
+                        <select id="payTeamMembers">
+                            <option value="">Select team size</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20+</option>
+                        </select>
+                    </div>
+                    <div id="freeAgentPositionWrap" style="display:none;">
+                        <label for="payPosition">What Position Do You Play?</label>
+                        <select id="payPosition">
+                            <option value="">Select position</option>
+                            <option value="QB">QB</option>
+                            <option value="RB">RB</option>
+                            <option value="WR">WR</option>
+                            <option value="TE">TE</option>
+                            <option value="C">C</option>
+                            <option value="OL">OL</option>
+                            <option value="DL">DL</option>
+                            <option value="LB">LB</option>
+                            <option value="DB">DB</option>
+                            <option value="S">S</option>
+                            <option value="ATH">ATH</option>
+                            <option value="Rusher">Rusher</option>
+                        </select>
+                    </div>
+                    <div id="freeAgentExperienceWrap" style="display:none;">
+                        <label for="payExperience">How Long Have You Been Playing Flag Football?</label>
+                        <input id="payExperience" type="text" placeholder="Example: 4 years">
+                    </div>
+                    <div id="teamCoachingStaffWrap">
+                        <label for="payCoachingStaff">Number of Coaching Staff</label>
+                        <select id="payCoachingStaff">
+                            <option value="">Select coaching staff count</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5+</option>
+                        </select>
                     </div>
                 </div>
                 <div style="margin-top:12px; text-align:center;">
@@ -1013,53 +1212,6 @@
 
     <!-- Admin Editable Sections -->
     <div id="adminOnly" class="admin-only">
-        <section class="schedule" id="leagueAdmin" data-no-admin-edit="true" contenteditable="false">
-            <div class="container">
-                <h2>League Admin</h2>
-
-                <h3 style="color:#ff6f00; margin-top:1.5rem; margin-bottom:0.75rem; text-align:center;">Manage League Standings</h3>
-                <table class="schedule-table">
-                    <thead>
-                        <tr>
-                            <th>Team</th>
-                            <th>Wins</th>
-                            <th>Losses</th>
-                            <th>Points Scored</th>
-                            <th>Points Allowed</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leagueStandingsAdminBody"></tbody>
-                </table>
-                <div style="text-align:center; margin:12px 0;">
-                    <button type="button" class="cta-button small" onclick="addLeagueAdminRow('standings')">+ Add Standings Row</button>
-                    <button type="button" class="cta-button small" style="margin-left:8px;" onclick="saveStandingsFromAdminForm()">Save Standings</button>
-                </div>
-                <p id="leagueStandingsAdminMsg" style="text-align:center; margin-top:8px;"></p>
-
-                <h3 style="color:#ff6f00; margin-top:2rem; margin-bottom:0.75rem; text-align:center;">Manage League Schedule</h3>
-                <table class="schedule-table">
-                    <thead>
-                        <tr>
-                            <th>Week</th>
-                            <th>Date</th>
-                            <th>Time</th>
-                            <th>Matchup</th>
-                            <th>Location</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="leagueScheduleAdminBody"></tbody>
-                </table>
-                <div style="text-align:center; margin:12px 0;">
-                    <button type="button" class="cta-button small" onclick="addLeagueAdminRow('schedule')">+ Add Schedule Row</button>
-                    <button type="button" class="cta-button small" style="margin-left:8px;" onclick="saveScheduleFromAdminForm()">Save Schedule</button>
-                </div>
-                <p id="leagueScheduleAdminMsg" style="text-align:center; margin-top:8px;"></p>
-            </div>
-        </section>
-
         <!-- Teams by State Section -->
     <section class="teams" id="teams">
         <div class="container">
@@ -1224,8 +1376,27 @@
                         <input id="paypalFreeAgentLink" type="url" placeholder="https://www.paypal.com/checkoutnow?token=...">
                     </div>
                 </div>
+                <div style="margin-top:12px;">
+                    <label for="adminNotificationEmail">Signup Notification Email</label>
+                    <input id="adminNotificationEmail" type="email" placeholder="Email address that receives signup notifications">
+                </div>
+                <div class="registration-grid" style="margin-top:12px;">
+                    <div>
+                        <label for="emailjsPublicKey">EmailJS Public Key</label>
+                        <input id="emailjsPublicKey" type="text" placeholder="Public key from EmailJS">
+                    </div>
+                    <div>
+                        <label for="emailjsServiceId">EmailJS Service ID</label>
+                        <input id="emailjsServiceId" type="text" placeholder="service_xxxxxxx">
+                    </div>
+                    <div>
+                        <label for="emailjsTemplateId">EmailJS Template ID</label>
+                        <input id="emailjsTemplateId" type="text" placeholder="template_xxxxxxx">
+                    </div>
+                </div>
+                <p style="text-align:center; margin-top:10px; color:#bbb;">Admin-only: signup notifications will be emailed to the address above when EmailJS is configured.</p>
                 <div style="margin-top:12px; text-align:center;">
-                    <button id="savePayPalLinksBtn" type="button" class="cta-button">Save PayPal Links</button>
+                    <button id="savePayPalLinksBtn" type="button" class="cta-button">Save Payment Settings</button>
                 </div>
                 <p id="paypalSettingsMsg" style="text-align:center; margin-top:10px;"></p>
             </div>
@@ -1233,7 +1404,7 @@
             <h2 style="margin-top:24px;">Payment Approvals</h2>
             <table class="teams-table documents-table">
                 <thead>
-                    <tr><th>Name</th><th>Email</th><th>Type</th><th>Status</th><th>Submitted</th><th>Actions</th></tr>
+                    <tr><th>Name</th><th>Email</th><th>Type</th><th>Details</th><th>Status</th><th>Submitted</th><th>Actions</th></tr>
                 </thead>
                 <tbody id="adminPaymentsTbody"></tbody>
             </table>
@@ -1327,21 +1498,29 @@
     </footer>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
         // --- Admin credentials (unchanged) ---
         const ADMIN_USERNAME = '123';
         const ADMIN_PASSWORD = '123';
-        const PAGE_CONTENT_KEY = 'siteContentHTML_v2';
+        const PAGE_CONTENT_KEY = 'siteContentHTML_v3';
         const SITE_LOGO_KEY = 'siteLogoDataUrl_v1';
         const PAYMENT_LINKS_KEY = 'paypalPaymentLinks_v1';
+        const PAYMENT_NOTIFICATION_SETTINGS_KEY = 'paymentNotificationSettings_v1';
         let PAYMENT_LINKS = {
             team: '',
             freeAgent: ''
         };
+        let PAYMENT_NOTIFICATION_SETTINGS = {
+            adminEmail: '',
+            publicKey: '',
+            serviceId: '',
+            templateId: ''
+        };
 
         // ---- Page navigation (SPA-style) ----
         const ALL_PAGE_IDS = ['home','about','standings','leagueSchedule','player-stats','payments',
-            'leagueAdmin','teams','users','coaches','documentsAdmin','documentsPublic','guestArea','myProfile','contact'];
+            'teams','users','coaches','documentsAdmin','documentsPublic','guestArea','myProfile','contact'];
 
         function isAdminLoggedIn() {
             return sessionStorage.getItem('adminLoggedIn') === 'true';
@@ -1352,7 +1531,7 @@
         }
 
         function canAccessPage(id) {
-            const adminOnlyPages = ['leagueAdmin', 'teams', 'users', 'coaches', 'documentsAdmin'];
+            const adminOnlyPages = ['teams', 'users', 'coaches', 'documentsAdmin'];
             const memberOnlyPages = ['myProfile', 'guestArea'];
 
             if (adminOnlyPages.indexOf(id) !== -1) {
@@ -1410,6 +1589,25 @@
             }
         }
 
+        function loadPaymentNotificationSettings() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(PAYMENT_NOTIFICATION_SETTINGS_KEY) || '{}');
+                PAYMENT_NOTIFICATION_SETTINGS = {
+                    adminEmail: saved.adminEmail || '',
+                    publicKey: saved.publicKey || '',
+                    serviceId: saved.serviceId || '',
+                    templateId: saved.templateId || ''
+                };
+            } catch (err) {
+                PAYMENT_NOTIFICATION_SETTINGS = {
+                    adminEmail: '',
+                    publicKey: '',
+                    serviceId: '',
+                    templateId: ''
+                };
+            }
+        }
+
         function savePaymentLinks(links) {
             PAYMENT_LINKS = {
                 team: (links.team || '').trim(),
@@ -1418,18 +1616,72 @@
             localStorage.setItem(PAYMENT_LINKS_KEY, JSON.stringify(PAYMENT_LINKS));
         }
 
+        function savePaymentNotificationSettings(settings) {
+            PAYMENT_NOTIFICATION_SETTINGS = {
+                adminEmail: (settings.adminEmail || '').trim(),
+                publicKey: (settings.publicKey || '').trim(),
+                serviceId: (settings.serviceId || '').trim(),
+                templateId: (settings.templateId || '').trim()
+            };
+            localStorage.setItem(PAYMENT_NOTIFICATION_SETTINGS_KEY, JSON.stringify(PAYMENT_NOTIFICATION_SETTINGS));
+        }
+
+        async function sendAdminPaymentNotification(details) {
+            loadPaymentNotificationSettings();
+
+            if (!PAYMENT_NOTIFICATION_SETTINGS.adminEmail ||
+                !PAYMENT_NOTIFICATION_SETTINGS.publicKey ||
+                !PAYMENT_NOTIFICATION_SETTINGS.serviceId ||
+                !PAYMENT_NOTIFICATION_SETTINGS.templateId ||
+                !window.emailjs) {
+                return { sent: false, reason: 'not-configured' };
+            }
+
+            try {
+                await window.emailjs.send(
+                    PAYMENT_NOTIFICATION_SETTINGS.serviceId,
+                    PAYMENT_NOTIFICATION_SETTINGS.templateId,
+                    {
+                        to_email: PAYMENT_NOTIFICATION_SETTINGS.adminEmail,
+                        admin_email: PAYMENT_NOTIFICATION_SETTINGS.adminEmail,
+                        registration_type: details.type === 'team' ? 'Team Registration' : 'Free Agent',
+                        payer_name: details.name,
+                        payer_email: details.email,
+                        team_member_count: details.teamMembers || 'N/A',
+                        coaching_staff_count: details.coachingStaff || 'N/A',
+                        team_years: details.teamYears || 'N/A',
+                        player_position: details.position || 'N/A',
+                        football_experience: details.experience || 'N/A',
+                        paypal_link: details.paypalLink || 'Not configured',
+                        submitted_at: details.submittedAt,
+                        message: 'A new ' + (details.type === 'team' ? 'team registration' : 'free agent') + ' payment request was submitted.'
+                    },
+                    {
+                        publicKey: PAYMENT_NOTIFICATION_SETTINGS.publicKey
+                    }
+                );
+                return { sent: true };
+            } catch (err) {
+                return { sent: false, reason: 'send-failed', error: err };
+            }
+        }
+
         function bindPayPalSettingsControls() {
             const saveBtn = document.getElementById('savePayPalLinksBtn');
             const teamInput = document.getElementById('paypalTeamLink');
             const freeInput = document.getElementById('paypalFreeAgentLink');
+            const adminEmailInput = document.getElementById('adminNotificationEmail');
+            const publicKeyInput = document.getElementById('emailjsPublicKey');
+            const serviceIdInput = document.getElementById('emailjsServiceId');
+            const templateIdInput = document.getElementById('emailjsTemplateId');
             const msg = document.getElementById('paypalSettingsMsg');
-            if (!saveBtn || !teamInput || !freeInput || saveBtn.dataset.bound) return;
+            if (!saveBtn || !teamInput || !freeInput || !adminEmailInput || !publicKeyInput || !serviceIdInput || !templateIdInput || saveBtn.dataset.bound) return;
             saveBtn.dataset.bound = 'true';
             saveBtn.addEventListener('click', function() {
                 if (sessionStorage.getItem('adminLoggedIn') !== 'true') {
                     if (msg) {
                         msg.style.color = '#e65100';
-                        msg.textContent = 'Admin login required to save PayPal links.';
+                        msg.textContent = 'Admin login required to save payment settings.';
                     }
                     return;
                 }
@@ -1437,9 +1689,15 @@
                     team: teamInput.value,
                     freeAgent: freeInput.value
                 });
+                savePaymentNotificationSettings({
+                    adminEmail: adminEmailInput.value,
+                    publicKey: publicKeyInput.value,
+                    serviceId: serviceIdInput.value,
+                    templateId: templateIdInput.value
+                });
                 if (msg) {
                     msg.style.color = 'green';
-                    msg.textContent = 'PayPal links saved successfully.';
+                    msg.textContent = 'Payment settings saved successfully.';
                 }
                 flushPersistSiteContent();
             });
@@ -1447,10 +1705,19 @@
 
         function renderPayPalSettings() {
             loadPaymentLinks();
+            loadPaymentNotificationSettings();
             const teamInput = document.getElementById('paypalTeamLink');
             const freeInput = document.getElementById('paypalFreeAgentLink');
+            const adminEmailInput = document.getElementById('adminNotificationEmail');
+            const publicKeyInput = document.getElementById('emailjsPublicKey');
+            const serviceIdInput = document.getElementById('emailjsServiceId');
+            const templateIdInput = document.getElementById('emailjsTemplateId');
             if (teamInput) teamInput.value = PAYMENT_LINKS.team || '';
             if (freeInput) freeInput.value = PAYMENT_LINKS.freeAgent || '';
+            if (adminEmailInput) adminEmailInput.value = PAYMENT_NOTIFICATION_SETTINGS.adminEmail || '';
+            if (publicKeyInput) publicKeyInput.value = PAYMENT_NOTIFICATION_SETTINGS.publicKey || '';
+            if (serviceIdInput) serviceIdInput.value = PAYMENT_NOTIFICATION_SETTINGS.serviceId || '';
+            if (templateIdInput) templateIdInput.value = PAYMENT_NOTIFICATION_SETTINGS.templateId || '';
         }
 
         function applySavedBranding() {
@@ -1574,6 +1841,8 @@
             // 5. Hide admin-only sections container
             var adminOnly = document.getElementById('adminOnly');
             if (adminOnly) adminOnly.classList.remove('visible');
+            var scheduleAdminPanel = document.getElementById('leagueScheduleAdminPanel');
+            if (scheduleAdminPanel) scheduleAdminPanel.classList.remove('visible');
 
             // 6. Hide stats admin buttons (Add Player)
             var offBtn = document.getElementById('offensiveStatsAdminBtns');
@@ -1585,13 +1854,16 @@
             document.querySelectorAll('.admin-remove-th').forEach(function(el) { el.remove(); });
 
             // 8. Re-apply explicit non-editable on protected sections
-            ['standings','leagueSchedule','leagueAdmin','player-stats','adminHeader','memberHeader','paypalSettings'].forEach(function(id) {
+            ['standings','leagueSchedule','player-stats','adminHeader','memberHeader','paypalSettings','leagueScheduleAdminPanel'].forEach(function(id) {
                 var el = document.getElementById(id);
                 if (el) { el.setAttribute('contenteditable','false'); el.setAttribute('data-no-admin-edit','true'); }
             });
 
             // 9. Disable and hide admin-only form controls in case a saved state leaked them into view
             document.querySelectorAll('#adminOnly input, #adminOnly select, #adminOnly textarea, #adminOnly button').forEach(function(el) {
+                el.disabled = true;
+            });
+            document.querySelectorAll('#leagueScheduleAdminPanel input, #leagueScheduleAdminPanel select, #leagueScheduleAdminPanel textarea, #leagueScheduleAdminPanel button').forEach(function(el) {
                 el.disabled = true;
             });
             document.querySelectorAll('#adminOnly .team-logo-input').forEach(function(el) {
@@ -1619,6 +1891,8 @@
                 // Force admin-only sections hidden in saved state
                 var aoClone = clone.querySelector('#adminOnly');
                 if (aoClone) aoClone.classList.remove('visible');
+                var schedulePanelClone = clone.querySelector('#leagueScheduleAdminPanel');
+                if (schedulePanelClone) schedulePanelClone.classList.remove('visible');
                 // Force admin nav items hidden
                 clone.querySelectorAll('.admin-nav-item').forEach(function(el) { el.classList.remove('visible'); });
                 // Hide stats admin buttons
@@ -1646,7 +1920,7 @@
         // Show the correct page immediately after restoring content
         (function() {
             var h = window.location.hash ? window.location.hash.substring(1) : 'home';
-            var restricted = ['myProfile','guestArea','leagueAdmin','teams','users','coaches','documentsAdmin'];
+            var restricted = ['myProfile','guestArea','teams','users','coaches','documentsAdmin'];
             var validPage = ALL_PAGE_IDS.indexOf(h) !== -1 && restricted.indexOf(h) === -1 ? h : 'home';
             showPage(validPage);
         })();
@@ -1675,23 +1949,66 @@
             renderAdminPaymentRequests();
         }
 
+        function updatePaymentTypeFields() {
+            const typeInput = document.getElementById('payType');
+            const teamMembersWrap = document.getElementById('teamMemberCountWrap');
+            const coachingStaffWrap = document.getElementById('teamCoachingStaffWrap');
+            const teamYearsWrap = document.getElementById('teamYearsWrap');
+            const positionWrap = document.getElementById('freeAgentPositionWrap');
+            const experienceWrap = document.getElementById('freeAgentExperienceWrap');
+            const teamMembersInput = document.getElementById('payTeamMembers');
+            const coachingStaffInput = document.getElementById('payCoachingStaff');
+            const teamYearsInput = document.getElementById('payTeamYears');
+            const positionInput = document.getElementById('payPosition');
+            const experienceInput = document.getElementById('payExperience');
+            if (!typeInput || !teamMembersWrap || !coachingStaffWrap || !teamYearsWrap || !positionWrap || !experienceWrap || !teamMembersInput || !coachingStaffInput || !teamYearsInput || !positionInput || !experienceInput) return;
+
+            const isTeam = typeInput.value === 'team';
+            const isFreeAgent = typeInput.value === 'freeAgent';
+            teamMembersWrap.style.display = isTeam ? 'block' : 'none';
+            coachingStaffWrap.style.display = isTeam ? 'block' : 'none';
+            teamYearsWrap.style.display = isTeam ? 'block' : 'none';
+            positionWrap.style.display = isFreeAgent ? 'block' : 'none';
+            experienceWrap.style.display = isFreeAgent ? 'block' : 'none';
+            teamMembersInput.required = isTeam;
+            coachingStaffInput.required = isTeam;
+            teamYearsInput.required = isTeam;
+            positionInput.required = isFreeAgent;
+            experienceInput.required = isFreeAgent;
+
+            if (!isTeam) {
+                teamMembersInput.value = '';
+                coachingStaffInput.value = '';
+                teamYearsInput.value = '';
+            }
+
+            if (!isFreeAgent) {
+                positionInput.value = '';
+                experienceInput.value = '';
+            }
+        }
+
         function renderAdminPaymentRequests() {
             const tbody = document.getElementById('adminPaymentsTbody');
             if (!tbody) return;
             const items = loadPaymentRequests();
             tbody.innerHTML = '';
             if (!items.length) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:#777; padding:20px;">No payment requests yet.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:#777; padding:20px;">No payment requests yet.</td></tr>';
                 return;
             }
             items.forEach((p, idx) => {
                 const tr = document.createElement('tr');
                 const label = p.type === 'team' ? 'Team Registration' : 'Free Agent';
+                const details = p.type === 'freeAgent'
+                    ? 'Position: ' + (p.position || 'N/A') + ' | Flag Football Experience: ' + (p.experience || 'N/A')
+                    : 'Team Members: ' + (p.teamMembers || 'N/A') + ' | Coaching Staff: ' + (p.coachingStaff || 'N/A') + ' | Team Years: ' + (p.teamYears || 'N/A');
                 const submitted = p.submittedAt ? new Date(p.submittedAt).toLocaleString() : '';
                 tr.innerHTML = `
                     <td>${p.name || ''}</td>
                     <td>${p.email || ''}</td>
                     <td>${label}</td>
+                    <td>${details}</td>
                     <td style="font-weight:700; color:${p.status === 'approved' ? '#2e7d32' : '#e65100'};">${p.status || 'pending'}</td>
                     <td>${submitted}</td>
                     <td>
@@ -1745,6 +2062,8 @@
                 const adminNameEl = document.getElementById('adminNameDisplay');
                 if (adminNameEl) adminNameEl.textContent = stored ? '(' + stored + ')' : '';
                 document.getElementById('adminOnly').classList.add('visible');
+                const scheduleAdminPanel = document.getElementById('leagueScheduleAdminPanel');
+                if (scheduleAdminPanel) scheduleAdminPanel.classList.add('visible');
                 document.querySelectorAll('.admin-nav-item').forEach(el => el.classList.add('visible'));
                 enablePageEdit(true);
                 renderUsersTableForAdmin();
@@ -1754,8 +2073,8 @@
                 renderPayPalSettings && renderPayPalSettings();
                 bindPayPalSettingsControls && bindPayPalSettingsControls();
                 // restore to hashed page or default to teams
-                const h = window.location.hash ? window.location.hash.substring(1) : 'leagueAdmin';
-                showPage(ALL_PAGE_IDS.indexOf(h) !== -1 ? h : 'leagueAdmin');
+                const h = window.location.hash ? window.location.hash.substring(1) : 'leagueSchedule';
+                showPage(ALL_PAGE_IDS.indexOf(h) !== -1 ? h : 'leagueSchedule');
             } else {
                 // Non-admin: full lockdown — no editing visible anywhere
                 lockdownForPublic();
@@ -1851,36 +2170,84 @@
 
         document.getElementById('switchToMemberLogin').addEventListener('click', function(e){ e.preventDefault(); document.getElementById('memberRegisterForm').style.display='none'; document.getElementById('memberLoginForm').style.display='block'; });
         document.getElementById('switchToMemberRegister').addEventListener('click', function(e){ e.preventDefault(); document.getElementById('memberRegisterForm').style.display='block'; document.getElementById('memberLoginForm').style.display='none'; });
+        document.getElementById('payType')?.addEventListener('change', updatePaymentTypeFields);
+        updatePaymentTypeFields();
 
-        document.getElementById('paymentForm')?.addEventListener('submit', function(e) {
+        document.getElementById('paymentForm')?.addEventListener('submit', async function(e) {
             e.preventDefault();
             const name = document.getElementById('payName').value.trim();
             const email = document.getElementById('payEmail').value.trim();
             const type = document.getElementById('payType').value;
+            const teamMembers = document.getElementById('payTeamMembers').value.trim();
+            const coachingStaff = document.getElementById('payCoachingStaff').value.trim();
+            const teamYears = document.getElementById('payTeamYears').value.trim();
+            const position = document.getElementById('payPosition').value.trim();
+            const experience = document.getElementById('payExperience').value.trim();
             const link = type === 'team' ? PAYMENT_LINKS.team : PAYMENT_LINKS.freeAgent;
             const msg = document.getElementById('paymentMsg');
             loadPaymentLinks();
+            loadPaymentNotificationSettings();
+
+            if (type === 'team' && (!teamMembers || !coachingStaff || !teamYears)) {
+                if (msg) {
+                    msg.style.color = '#e65100';
+                    msg.textContent = 'Team registrations must provide team members, coaching staff, and years as a flag football team.';
+                }
+                return;
+            }
+
+            if (type === 'freeAgent' && (!position || !experience)) {
+                if (msg) {
+                    msg.style.color = '#e65100';
+                    msg.textContent = 'Free agents must provide their position and how long they have been playing flag football.';
+                }
+                return;
+            }
+
+            const submittedAt = new Date().toISOString();
 
             const requests = loadPaymentRequests();
             requests.push({
                 name,
                 email,
                 type,
+                teamMembers,
+                coachingStaff,
+                teamYears,
+                position,
+                experience,
                 status: 'pending',
-                submittedAt: new Date().toISOString()
+                submittedAt: submittedAt
             });
             savePaymentRequests(requests);
+
+            const notificationResult = await sendAdminPaymentNotification({
+                name,
+                email,
+                type,
+                teamMembers,
+                coachingStaff,
+                teamYears,
+                position,
+                experience,
+                paypalLink: link,
+                submittedAt: submittedAt
+            });
 
             if (!link || !/^https:\/\//i.test(link) || !/paypal\.com/i.test(link)) {
                 if (msg) {
                     msg.style.color = '#e65100';
-                    msg.textContent = 'Payment info submitted for admin approval. PayPal link is not configured yet.';
+                    msg.textContent = notificationResult.sent
+                        ? 'Payment info submitted and admin was notified. PayPal link is not configured yet.'
+                        : 'Payment info submitted for admin approval. PayPal link is not configured yet.';
                 }
                 return;
             }
             if (msg) {
                 msg.style.color = 'green';
-                msg.textContent = 'Payment submitted. Redirecting to PayPal checkout... Approval is still required before registration.';
+                msg.textContent = notificationResult.sent
+                    ? 'Payment submitted. Admin was notified and you are being redirected to PayPal checkout.'
+                    : 'Payment submitted. Redirecting to PayPal checkout... Approval is still required before registration.';
             }
             window.open(link, '_blank', 'noopener,noreferrer');
         });
@@ -2004,6 +2371,29 @@
                     reader.readAsDataURL(file);
                 }
             });
+        });
+        document.addEventListener('change', function(e) {
+            const input = e.target;
+            if (!input.classList || !input.classList.contains('schedule-admin-logo-upload')) return;
+
+            const file = input.files && input.files[0];
+            if (!file) return;
+
+            const block = input.closest('.schedule-admin-team-block');
+            const hiddenInput = block ? block.querySelector('input[type="hidden"][data-key="' + input.dataset.key + '"]') : null;
+            const preview = block ? block.querySelector('.schedule-admin-logo-preview') : null;
+            const emptyState = block ? block.querySelector('.schedule-admin-logo-empty') : null;
+            if (!hiddenInput || !preview) return;
+
+            const reader = new FileReader();
+            reader.onload = function(ev) {
+                hiddenInput.value = ev.target.result;
+                preview.src = ev.target.result;
+                preview.classList.remove('hidden');
+                if (emptyState) emptyState.style.display = 'none';
+                markUnsaved();
+            };
+            reader.readAsDataURL(file);
         });
         document.getElementById('guestLogoutBtn')?.addEventListener('click', memberLogout);
 
@@ -2271,7 +2661,10 @@
             { key: 'week', placeholder: 'Week 1' },
             { key: 'date', placeholder: 'MM/DD/YYYY' },
             { key: 'time', placeholder: '7:00 PM' },
-            { key: 'matchup', placeholder: 'Team A vs Team B' },
+            { key: 'homeTeam', placeholder: 'Team 1 name' },
+            { key: 'homeLogo', placeholder: '' },
+            { key: 'awayTeam', placeholder: 'Team 2 name' },
+            { key: 'awayLogo', placeholder: '' },
             { key: 'location', placeholder: 'Field name' },
             { key: 'status', placeholder: 'Upcoming' }
         ];
@@ -2289,7 +2682,10 @@
                 week: 'Week 1',
                 date: 'TBD',
                 time: 'TBD',
-                matchup: '865 ELITE FLAG FOOTBALL vs TBD',
+                homeTeam: '865 ELITE FLAG FOOTBALL',
+                homeLogo: '',
+                awayTeam: 'TBD',
+                awayLogo: '',
                 location: 'TBD',
                 status: 'Upcoming'
             }
@@ -2320,6 +2716,65 @@
             return row;
         }
 
+        function getScheduleTeamInitials(name) {
+            var words = String(name || '').trim().split(/\s+/).filter(Boolean);
+            if (!words.length) return 'TBD';
+            return words.slice(0, 2).map(function(word) {
+                return word.charAt(0).toUpperCase();
+            }).join('');
+        }
+
+        function parseLegacyMatchup(matchup) {
+            var text = String(matchup || '').trim();
+            if (!text) return { homeTeam: '', awayTeam: '' };
+            var parts = text.split(/\s+vs\.?\s+/i);
+            if (parts.length < 2) {
+                return { homeTeam: text, awayTeam: '' };
+            }
+            return {
+                homeTeam: (parts.shift() || '').trim(),
+                awayTeam: parts.join(' vs ').trim()
+            };
+        }
+
+        function normalizeLeagueScheduleRow(row) {
+            var source = row || {};
+            var legacyTeams = parseLegacyMatchup(source.matchup);
+            return {
+                week: String(source.week || '').trim(),
+                date: String(source.date || '').trim(),
+                time: String(source.time || '').trim(),
+                homeTeam: String(source.homeTeam || legacyTeams.homeTeam || '').trim(),
+                homeLogo: String(source.homeLogo || '').trim(),
+                awayTeam: String(source.awayTeam || legacyTeams.awayTeam || '').trim(),
+                awayLogo: String(source.awayLogo || '').trim(),
+                location: String(source.location || '').trim(),
+                status: String(source.status || '').trim()
+            };
+        }
+
+        function renderScheduleTeamMarkup(name, logo, sideClass) {
+            var teamName = name || 'TBD';
+            var safeName = escapeHtml(teamName);
+            var safeLogo = escapeHtml(logo || '');
+            var logoMarkup = logo
+                ? '<img class="schedule-team-logo" src="' + safeLogo + '" alt="' + safeName + ' logo">'
+                : '<div class="schedule-team-logo schedule-team-logo-placeholder">' + escapeHtml(getScheduleTeamInitials(teamName)) + '</div>';
+
+            return '<div class="schedule-team ' + sideClass + '">' +
+                logoMarkup +
+                '<div class="schedule-team-name">' + safeName + '</div>' +
+            '</div>';
+        }
+
+        function renderScheduleMatchupMarkup(row) {
+            return '<div class="schedule-matchup" data-home-logo="' + escapeHtml(row.homeLogo || '') + '" data-away-logo="' + escapeHtml(row.awayLogo || '') + '">' +
+                renderScheduleTeamMarkup(row.homeTeam, row.homeLogo, 'schedule-team-home') +
+                '<div class="schedule-versus">VS</div>' +
+                renderScheduleTeamMarkup(row.awayTeam, row.awayLogo, 'schedule-team-away') +
+            '</div>';
+        }
+
         function loadLeagueCollection(key, defaults) {
             try {
                 const raw = localStorage.getItem(key);
@@ -2344,11 +2799,11 @@
         }
 
         function loadLeagueSchedule() {
-            return loadLeagueCollection(LEAGUE_SCHEDULE_KEY, defaultLeagueSchedule);
+            return loadLeagueCollection(LEAGUE_SCHEDULE_KEY, defaultLeagueSchedule).map(normalizeLeagueScheduleRow);
         }
 
         function saveLeagueSchedule(rows) {
-            saveLeagueCollection(LEAGUE_SCHEDULE_KEY, rows);
+            saveLeagueCollection(LEAGUE_SCHEDULE_KEY, rows.map(normalizeLeagueScheduleRow));
         }
 
         function syncLeagueStandingsFromPublicTable() {
@@ -2377,23 +2832,28 @@
             const tbody = document.getElementById('leagueScheduleBody');
             if (!tbody) return;
             const rows = Array.from(tbody.querySelectorAll('tr')).map(function(tr) {
-                const cells = Array.from(tr.querySelectorAll('td')).map(function(td) {
-                    return td.innerText.trim();
-                });
+                const cells = Array.from(tr.querySelectorAll('td'));
                 if (cells.length < 6) return null;
+                const matchup = cells[3].querySelector('.schedule-matchup');
+                const legacyMatchup = parseLegacyMatchup(cells[3].innerText.replace(/\s+/g, ' ').trim());
+                const homeTeamName = matchup ? matchup.querySelector('.schedule-team-home .schedule-team-name') : null;
+                const awayTeamName = matchup ? matchup.querySelector('.schedule-team-away .schedule-team-name') : null;
                 return {
-                    week: cells[0] || '',
-                    date: cells[1] || '',
-                    time: cells[2] || '',
-                    matchup: cells[3] || '',
-                    location: cells[4] || '',
-                    status: cells[5] || ''
+                    week: cells[0].innerText.trim() || '',
+                    date: cells[1].innerText.trim() || '',
+                    time: cells[2].innerText.trim() || '',
+                    homeTeam: homeTeamName ? homeTeamName.innerText.trim() : legacyMatchup.homeTeam,
+                    homeLogo: matchup ? (matchup.dataset.homeLogo || '') : '',
+                    awayTeam: awayTeamName ? awayTeamName.innerText.trim() : legacyMatchup.awayTeam,
+                    awayLogo: matchup ? (matchup.dataset.awayLogo || '') : '',
+                    location: cells[4].innerText.trim() || '',
+                    status: cells[5].innerText.trim() || ''
                 };
             }).filter(function(row) {
                 return row && Object.keys(row).some(function(key) { return row[key]; });
             });
             saveLeagueSchedule(rows);
-            renderLeagueAdminTable('leagueScheduleAdminBody', leagueScheduleFields, rows, 'schedule');
+            renderLeagueScheduleAdminTable(rows);
         }
 
         function renderLeagueStandingsPublic() {
@@ -2428,7 +2888,7 @@
                     '<td>' + escapeHtml(row.week || '\u2014') + '</td>' +
                     '<td>' + escapeHtml(row.date || '\u2014') + '</td>' +
                     '<td>' + escapeHtml(row.time || '\u2014') + '</td>' +
-                    '<td>' + escapeHtml(row.matchup || '\u2014') + '</td>' +
+                    '<td>' + renderScheduleMatchupMarkup(row) + '</td>' +
                     '<td>' + escapeHtml(row.location || '\u2014') + '</td>' +
                     '<td>' + escapeHtml(row.status || '\u2014') + '</td>' +
                 '</tr>';
@@ -2451,11 +2911,52 @@
             tbody.innerHTML = html;
         }
 
+        function renderLeagueScheduleAdminTable(rows) {
+            const tbody = document.getElementById('leagueScheduleAdminBody');
+            if (!tbody) return;
+            const editableRows = rows.length ? rows : [blankLeagueRow(leagueScheduleFields)];
+            let html = '';
+
+            editableRows.map(normalizeLeagueScheduleRow).forEach(function(row, rowIdx) {
+                html += '<tr>' +
+                    '<td><input type="text" data-key="week" value="' + escapeHtml(row.week || '') + '" placeholder="Week 1"></td>' +
+                    '<td><input type="text" data-key="date" value="' + escapeHtml(row.date || '') + '" placeholder="MM/DD/YYYY"></td>' +
+                    '<td><input type="text" data-key="time" value="' + escapeHtml(row.time || '') + '" placeholder="7:00 PM"></td>' +
+                    '<td>' +
+                        '<div class="schedule-admin-matchup">' +
+                            '<div class="schedule-admin-team-block">' +
+                                '<label>Team 1 Name</label>' +
+                                '<input type="text" data-key="homeTeam" value="' + escapeHtml(row.homeTeam || '') + '" placeholder="Team 1 name">' +
+                                '<label>Team 1 Logo</label>' +
+                                '<img class="schedule-admin-logo-preview' + (row.homeLogo ? '' : ' hidden') + '" src="' + escapeHtml(row.homeLogo || '') + '" alt="Team 1 logo preview">' +
+                                '<div class="schedule-admin-logo-empty"' + (row.homeLogo ? ' style="display:none;"' : '') + '>No logo selected</div>' +
+                                '<input type="hidden" data-key="homeLogo" value="' + escapeHtml(row.homeLogo || '') + '">' +
+                                '<input type="file" accept="image/*" class="schedule-admin-logo-upload" data-key="homeLogo">' +
+                            '</div>' +
+                            '<div class="schedule-admin-team-block">' +
+                                '<label>Team 2 Name</label>' +
+                                '<input type="text" data-key="awayTeam" value="' + escapeHtml(row.awayTeam || '') + '" placeholder="Team 2 name">' +
+                                '<label>Team 2 Logo</label>' +
+                                '<img class="schedule-admin-logo-preview' + (row.awayLogo ? '' : ' hidden') + '" src="' + escapeHtml(row.awayLogo || '') + '" alt="Team 2 logo preview">' +
+                                '<div class="schedule-admin-logo-empty"' + (row.awayLogo ? ' style="display:none;"' : '') + '>No logo selected</div>' +
+                                '<input type="hidden" data-key="awayLogo" value="' + escapeHtml(row.awayLogo || '') + '">' +
+                                '<input type="file" accept="image/*" class="schedule-admin-logo-upload" data-key="awayLogo">' +
+                            '</div>' +
+                        '</div>' +
+                    '</td>' +
+                    '<td><input type="text" data-key="location" value="' + escapeHtml(row.location || '') + '" placeholder="Field name"></td>' +
+                    '<td><input type="text" data-key="status" value="' + escapeHtml(row.status || '') + '" placeholder="Upcoming"></td>' +
+                    '<td><button type="button" class="cta-button small" style="background:#c62828;" onclick="removeLeagueAdminRow(\'schedule\',' + rowIdx + ')">Remove</button></td>' +
+                '</tr>';
+            });
+
+            tbody.innerHTML = html;
+        }
+
         function renderLeagueAdminTables() {
             renderLeagueStandingsPublic();
             renderLeagueSchedulePublic();
-            renderLeagueAdminTable('leagueStandingsAdminBody', leagueStandingsFields, loadLeagueStandings(), 'standings');
-            renderLeagueAdminTable('leagueScheduleAdminBody', leagueScheduleFields, loadLeagueSchedule(), 'schedule');
+            renderLeagueScheduleAdminTable(loadLeagueSchedule());
         }
 
         function collectLeagueAdminRows(bodyId, fields) {
@@ -2495,7 +2996,7 @@
             }
             const rows = loadLeagueSchedule();
             rows.push(blankLeagueRow(leagueScheduleFields));
-            renderLeagueAdminTable('leagueScheduleAdminBody', leagueScheduleFields, rows, 'schedule');
+            renderLeagueScheduleAdminTable(rows);
         }
 
         function removeLeagueAdminRow(type, rowIdx) {
@@ -2508,11 +3009,12 @@
             }
             const rows = collectLeagueAdminRows('leagueScheduleAdminBody', leagueScheduleFields);
             rows.splice(rowIdx, 1);
-            renderLeagueAdminTable('leagueScheduleAdminBody', leagueScheduleFields, rows, 'schedule');
+            renderLeagueScheduleAdminTable(rows);
         }
 
         function saveStandingsFromAdminForm() {
             if (!isAdminLoggedIn()) return;
+            if (!document.getElementById('leagueStandingsAdminBody')) return;
             const rows = collectLeagueAdminRows('leagueStandingsAdminBody', leagueStandingsFields);
             saveLeagueStandings(rows);
             renderLeagueAdminTables();
@@ -2647,7 +3149,6 @@
                 renderLeagueStandingsPublic();
                 renderLeagueSchedulePublic();
             } else {
-                saveStandingsFromAdminForm();
                 saveScheduleFromAdminForm();
             }
             persistSiteContent();
@@ -2678,7 +3179,7 @@
 
         function setAdminEditableText(enable) {
             var editableSelector = 'header .logo span, header .nav-links a, #home h1, #home p, #home .cta-button, section h2, section h3, section h4, section p, section li, section td, section th, section label, section a, section button, footer p';
-            var protectedScopeSelector = '.login-modal, #adminHeader, #memberHeader, #player-stats, #leagueAdmin, form';
+            var protectedScopeSelector = '.login-modal, #adminHeader, #memberHeader, #player-stats, #leagueScheduleAdminPanel, form';
 
             document.querySelectorAll(editableSelector).forEach(function(el) {
                 if (el.closest(protectedScopeSelector)) {
@@ -2706,10 +3207,13 @@
                 setAdminEditableText(true);
                 document.body.classList.add('admin-editable');
                 // Protect all form controls and protected surfaces from contenteditable
-                document.querySelectorAll('form, input, select, textarea, canvas, .login-modal, #memberHeader, #adminHeader, #paymentForm, #leagueAdmin, #player-stats').forEach(function(el) {
+                document.querySelectorAll('form, input, select, textarea, canvas, .login-modal, #memberHeader, #adminHeader, #paymentForm, #leagueScheduleAdminPanel, #player-stats').forEach(function(el) {
                     el.setAttribute('contenteditable', 'false');
                 });
                 document.querySelectorAll('#adminOnly input, #adminOnly select, #adminOnly textarea, #adminOnly button').forEach(function(el) {
+                    el.disabled = false;
+                });
+                document.querySelectorAll('#leagueScheduleAdminPanel input, #leagueScheduleAdminPanel select, #leagueScheduleAdminPanel textarea, #leagueScheduleAdminPanel button').forEach(function(el) {
                     el.disabled = false;
                 });
                 document.querySelectorAll('#adminOnly .team-logo-input').forEach(function(el) {
@@ -2724,6 +3228,9 @@
                 document.querySelectorAll('[contenteditable]').forEach(function(el) { el.removeAttribute('contenteditable'); });
                 document.body.classList.remove('admin-editable');
                 document.querySelectorAll('#adminOnly input, #adminOnly select, #adminOnly textarea, #adminOnly button').forEach(function(el) {
+                    el.disabled = false;
+                });
+                document.querySelectorAll('#leagueScheduleAdminPanel input, #leagueScheduleAdminPanel select, #leagueScheduleAdminPanel textarea, #leagueScheduleAdminPanel button').forEach(function(el) {
                     el.disabled = false;
                 });
                 document.querySelectorAll('#adminOnly .team-logo-input').forEach(function(el) {
@@ -2800,7 +3307,9 @@
             renderAdminPaymentRequests && renderAdminPaymentRequests();
             renderPayPalSettings && renderPayPalSettings();
             bindPayPalSettingsControls && bindPayPalSettingsControls();
-            showPage('leagueAdmin');
+            var scheduleAdminPanel = document.getElementById('leagueScheduleAdminPanel');
+            if (scheduleAdminPanel) scheduleAdminPanel.classList.add('visible');
+            showPage('leagueSchedule');
             persistSiteContent();
         }
 
@@ -2810,6 +3319,8 @@
             sessionStorage.removeItem('adminUsername');
             // Full public lockdown — removes ALL editing artifacts
             lockdownForPublic();
+            var scheduleAdminPanel = document.getElementById('leagueScheduleAdminPanel');
+            if (scheduleAdminPanel) scheduleAdminPanel.classList.remove('visible');
             renderLeagueAdminTables && renderLeagueAdminTables();
             // Re-render tables in public (non-admin) mode
             renderAllStats && renderAllStats();
