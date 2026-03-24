@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -19,6 +18,10 @@
             background: #1a1a2e;
         }
 
+        :root {
+            --hero-photo: none;
+        }
+
         header {
             background: linear-gradient(135deg, #0f0f23 0%, #16213e 50%, #0f0f23 100%);
             color: white;
@@ -28,6 +31,7 @@
             z-index: 100;
             box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             border-bottom: 3px solid #ff6f00;
+            transition: background 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, padding 0.4s ease;
         }
 
         .container {
@@ -41,6 +45,7 @@
             justify-content: space-between;
             align-items: center;
             position: relative;
+            transition: min-height 0.4s ease;
         }
 
         .logo {
@@ -50,6 +55,14 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transform-origin: top left;
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), background 0.4s ease, padding 0.4s ease, border-radius 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease, top 0.4s ease, left 0.4s ease;
+            will-change: transform;
+        }
+
+        .logo span {
+            transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease, letter-spacing 0.35s ease, font-size 0.35s ease;
+            transform-origin: left center;
         }
 
         .site-logo {
@@ -60,6 +73,7 @@
             background: #fff;
             padding: 2px;
             border: 3px solid #ff6f00;
+            transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1), height 0.45s cubic-bezier(0.22, 1, 0.36, 1), transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.4s ease;
         }
 
 
@@ -69,6 +83,50 @@
             list-style: none;
             gap: 2rem;
             align-items: center;
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+        }
+
+        header.scrolled {
+            background: transparent;
+            box-shadow: none;
+            border-bottom-color: transparent;
+            padding: 0;
+        }
+
+        header.scrolled nav {
+            min-height: 0;
+        }
+
+        header.scrolled .nav-links {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-12px);
+        }
+
+        header.scrolled .logo {
+            position: fixed;
+            top: 12px;
+            left: 20px;
+            z-index: 180;
+            padding: 8px 16px 8px 8px;
+            background: rgba(15, 15, 35, 0.92);
+            border: 1px solid rgba(255, 111, 0, 0.9);
+            border-radius: 999px;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.28);
+            backdrop-filter: blur(10px);
+            transform: translateY(0) scale(0.88);
+        }
+
+        header.scrolled .site-logo {
+            width: 68px;
+            height: 68px;
+            transform: scale(1);
+        }
+
+        header.scrolled .logo span {
+            transform: scale(0.9);
+            letter-spacing: 0.5px;
         }
 
         .nav-links a {
@@ -82,7 +140,7 @@
         }
 
         /* Login menu (top-right) */
-        .login-menu { position: relative; }
+        .login-menu { position: relative; isolation: isolate; }
         .login-dropdown {
             position: absolute;
             right: 0;
@@ -92,11 +150,22 @@
             box-shadow: 0 6px 20px rgba(0,0,0,0.4);
             padding: 6px 0;
             min-width: 160px;
-            display: none;
+            display: block;
             z-index: 2000;
             border: 1px solid #2a2a4a;
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+            transform: translateY(-6px) scale(0.98);
+            transform-origin: top right;
+            transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
         }
-        .login-dropdown.visible { display: block; }
+        .login-dropdown.visible {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0) scale(1);
+        }
         .login-dropdown .dropdown-item {
             display: block;
             width: 100%;
@@ -110,12 +179,20 @@
         }
         .login-dropdown .dropdown-item:hover { background: #1e2d50; }
         .cta-button.small { padding: 6px 10px; font-size: 0.95rem; border-radius: 4px; }
-        .login-dropdown.hidden { display: none; }
+        .login-dropdown.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
 
         .hero {
-            background: linear-gradient(135deg, rgba(15,15,35,0.92) 0%, rgba(22,33,62,0.88) 40%, rgba(15,15,35,0.95) 100%),
-                        repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(255,111,0,0.08) 49px, rgba(255,111,0,0.08) 50px),
-                        repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(255,111,0,0.08) 49px, rgba(255,111,0,0.08) 50px);
+            background-image: linear-gradient(135deg, rgba(15,15,35,0.92) 0%, rgba(22,33,62,0.88) 40%, rgba(15,15,35,0.95) 100%),
+                              var(--hero-photo),
+                              repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(255,111,0,0.08) 49px, rgba(255,111,0,0.08) 50px),
+                              repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(255,111,0,0.08) 49px, rgba(255,111,0,0.08) 50px);
+            background-size: cover, cover, auto, auto;
+            background-position: center, center, center, center;
+            background-repeat: no-repeat, no-repeat, repeat, repeat;
             color: white;
             text-align: center;
             padding: 120px 20px;
@@ -250,6 +327,32 @@
             align-items: center;
             gap: 8px;
             min-width: 110px;
+            position: relative;
+        }
+
+        .schedule-team-badge {
+            position: absolute;
+            top: -10px;
+            right: -6px;
+            min-width: 28px;
+            height: 28px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.82rem;
+            font-weight: 900;
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+            border: 2px solid rgba(255,255,255,0.15);
+        }
+
+        .schedule-team-badge.win {
+            background: #2e7d32;
+        }
+
+        .schedule-team-badge.loss {
+            background: #c62828;
         }
 
         .schedule-team-logo {
@@ -278,6 +381,52 @@
             max-width: 150px;
         }
 
+        .schedule-result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-align: center;
+            min-width: 180px;
+        }
+
+        .schedule-result-scoreboard {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            align-items: end;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .schedule-result-score {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.06em;
+        }
+
+        .schedule-result-separator {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #ff8f00;
+            line-height: 1;
+        }
+
+        .schedule-result-teams {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: 12px;
+            width: 100%;
+            color: #ffcc80;
+            font-size: 0.88rem;
+            line-height: 1.3;
+        }
+
+        .schedule-result-team {
+            word-break: break-word;
+        }
+
         .schedule-versus {
             font-size: 1.15rem;
             font-weight: 800;
@@ -290,6 +439,24 @@
             display: grid;
             grid-template-columns: repeat(2, minmax(180px, 1fr));
             gap: 12px;
+        }
+
+        .schedule-score-editor {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+            gap: 8px;
+            align-items: center;
+            min-width: 140px;
+        }
+
+        .schedule-score-editor span {
+            color: #ff8f00;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .schedule-score-editor input[type="number"] {
+            text-align: center;
         }
 
         .schedule-admin-team-block {
@@ -425,49 +592,6 @@
             color: #e0e0e0;
         }
 
-        .coaches {
-            background: #1a1a2e;
-        }
-
-        .coaches-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #16213e;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            border: 1px solid #2a2a4a;
-        }
-
-        .coaches-table th {
-            background: linear-gradient(135deg, #e65100, #ff6f00);
-            color: white;
-            padding: 15px;
-            text-align: left;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .coaches-table td {
-            padding: 15px;
-            border-bottom: 1px solid #2a2a4a;
-            color: #e0e0e0;
-        }
-
-        .coaches-table tr:hover {
-            background: #1e2d50;
-        }
-
-        .coaches-table input {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #2a2a4a;
-            border-radius: 4px;
-            font-size: 1rem;
-            background: #0f0f23;
-            color: #e0e0e0;
-        }
-
         .registration-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -555,6 +679,63 @@
             padding: 12px;
             border-bottom: 1px solid #2a2a4a;
             color: #e0e0e0;
+        }
+
+        .sortable-stat-header {
+            cursor: pointer;
+            user-select: none;
+            position: relative;
+            transition: background 0.2s ease;
+            padding-right: 30px !important;
+        }
+
+        .sortable-stat-header:hover {
+            background: linear-gradient(135deg, #f57c00, #ff9800);
+        }
+
+        .stat-sort-indicator {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.95rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.75);
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .sortable-stat-header.sort-desc .stat-sort-indicator {
+            color: #ffffff;
+        }
+
+        .sortable-stat-header.sort-asc .stat-sort-indicator {
+            color: #ffffff;
+        }
+
+        .stats-filter-row th {
+            background: #13203c;
+            padding: 8px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .stats-filter-input {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #2a2a4a;
+            border-radius: 4px;
+            background: #0f0f23;
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            appearance: none;
+        }
+
+        .stats-filter-input::placeholder {
+            color: #8c96ad;
+        }
+
+        .stats-filter-spacer {
+            background: #13203c;
         }
 
         .doc-actions button {
@@ -758,6 +939,23 @@
                 width: 60px;
                 height: 60px;
             }
+
+            header.scrolled .logo {
+                top: 10px;
+                left: 12px;
+                padding-right: 12px;
+                max-width: calc(100vw - 24px);
+            }
+
+            header.scrolled .site-logo {
+                width: 56px;
+                height: 56px;
+            }
+
+            header.scrolled .logo span {
+                font-size: 1rem;
+                transform: scale(0.94);
+            }
         }
 
         /* highlight editable areas when admin has editing enabled */
@@ -768,7 +966,7 @@
             background: rgba(255,111,0,0.3);
         }
         /* Page navigation — each section is its own page */
-        #about, #standings, #leagueSchedule, #player-stats, #payments,
+        #about, #standings, #leagueSchedule, #player-stats, #season-recap, #payments,
         #documentsPublic, #guestArea, #myProfile, #contact {
             display: none;
         }
@@ -884,14 +1082,12 @@
                     <li><a href="#about">About</a></li>
                     <li><a href="#standings">League Standings</a></li>
                     <li><a href="#leagueSchedule">League Schedule</a></li>
-                    <li><a href="#player-stats">Stats</a></li>
+                    <li><a href="#player-stats">Season Stats</a></li>
+                    <li><a href="#season-recap">Season Recap</a></li>
                     <li><a href="#payments">Sign Up</a></li>
                     <li><a href="#documentsPublic">Documents</a></li>
                     <li><a href="#contact">Contact</a></li>
-                    <li class="admin-nav-item" id="navStats"><a href="#teams">Teams by State</a></li>
-                    <li class="admin-nav-item" id="navUsers"><a href="#users">Users</a></li>
-                    <li class="admin-nav-item" id="navCoaches"><a href="#coaches">Coaches</a></li>
-                    <li class="admin-nav-item" id="navManageDocs"><a href="#documentsAdmin">Manage Docs</a></li>
+                    <li class="admin-nav-item" id="navAdmin"><a href="#documentsAdmin">Admin Dashboard</a></li>
                     <li class="member-nav-item" id="navProfile"><a href="#myProfile">My Profile</a></li>
                     <li class="login-menu">
                         <button id="loginMenuBtn" class="cta-button small" aria-haspopup="true" aria-expanded="false">Login ▾</button>
@@ -910,7 +1106,7 @@
             <div>
                 <h1>865 ELITE FLAG FOOTBALL</h1>
                 <p>ADULT FLAG FOOTBALL</p>
-                <a href="#payments" class="cta-button">Join Our Team</a>
+                <a href="#payments" class="cta-button">Join Our League</a>
             </div>
         </div>
     </section>
@@ -983,7 +1179,7 @@
                         <th>Time</th>
                         <th>Matchup</th>
                         <th>Location</th>
-                        <th>Status</th>
+                        <th>Results</th>
                     </tr>
                 </thead>
                 <tbody id="leagueScheduleBody">
@@ -1005,7 +1201,19 @@
                             </div>
                         </td>
                         <td>TBD</td>
-                        <td>Upcoming</td>
+                        <td>
+                            <div class="schedule-result">
+                                <div class="schedule-result-scoreboard">
+                                    <div class="schedule-result-score">0</div>
+                                    <div class="schedule-result-separator">-</div>
+                                    <div class="schedule-result-score">0</div>
+                                </div>
+                                <div class="schedule-result-teams">
+                                    <div class="schedule-result-team">865 ELITE FLAG FOOTBALL</div>
+                                    <div class="schedule-result-team">TBD</div>
+                                </div>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -1019,7 +1227,7 @@
                             <th>Time</th>
                             <th>Teams</th>
                             <th>Location</th>
-                            <th>Status</th>
+                            <th>Results</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -1034,29 +1242,39 @@
         </div>
     </section>
 
-    <!-- Player Stats Section -->
+    <!-- Season Stats Section -->
     <section class="schedule" id="player-stats" data-no-admin-edit="true" contenteditable="false">
         <div class="container">
-            <h2>Stats</h2>
+            <h2>Season Stats</h2>
+            <p id="currentSeasonLabelDisplay" style="text-align:center; margin-bottom:16px; color:#ffb366; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;"></p>
+            <p id="statsSortHint" style="text-align:center; margin:-4px auto 18px; color:#bbb; max-width:720px;">Use the sort dropdowns under each stat column for greatest to least or least to greatest, or click a stat header to toggle the order.</p>
 
             <!-- Offensive Player Stats -->
             <h3 style="color:#ff6f00; margin-top:1.5rem; margin-bottom:0.5rem; text-align:center;">Offensive Player Stats</h3>
             <table class="schedule-table" id="offensiveStatsTable">
                 <thead>
                     <tr>
-                        <th>Player</th>
                         <th>Team</th>
-                        <th>Touchdowns</th>
-                        <th>Passing Yards</th>
-                        <th>Rushing Yards</th>
-                        <th>Receptions</th>
-                        <th>Receiving Yards</th>
+                        <th>Player Name</th>
+                        <th>Player Position<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Passing TD<span class="stat-sort-indicator" aria-hidden="true">↓</span></th>
+                        <th>Passing Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>INT's<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Rushing Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Rushing Touchdowns<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Recieving Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Recieving Touchdowns<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Receptions<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
                     </tr>
                 </thead>
                 <tbody id="offensiveStatsBody">
                     <tr>
                         <td>—</td>
                         <td>—</td>
+                        <td>—</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
                         <td>0</td>
                         <td>0</td>
                         <td>0</td>
@@ -1074,17 +1292,19 @@
             <table class="schedule-table" id="defensiveStatsTable">
                 <thead>
                     <tr>
-                        <th>Player</th>
                         <th>Team</th>
-                        <th>Tackles</th>
-                        <th>Sacks</th>
-                        <th>Interceptions</th>
-                        <th>Fumble Recoveries</th>
-                        <th>Flag Pulls</th>
+                        <th>Player Name</th>
+                        <th>Player Position<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Tackles<span class="stat-sort-indicator" aria-hidden="true">↓</span></th>
+                        <th>Sacks<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Interceptions<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Pass Break Ups<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Defensive TDs<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
                     </tr>
                 </thead>
                 <tbody id="defensiveStatsBody">
                     <tr>
+                        <td>—</td>
                         <td>—</td>
                         <td>—</td>
                         <td>0</td>
@@ -1098,6 +1318,76 @@
             <div id="defensiveStatsAdminBtns" style="text-align:center; margin:10px 0; display:none;">
                 <button class="cta-button small" onclick="addStatsRow('defensiveStatsBody','defensive')">+ Add Defensive Player</button>
             </div>
+            <div id="seasonStatsAdminPanel" class="admin-only" data-no-admin-edit="true" contenteditable="false" style="display:none; margin-top:24px;">
+                <div class="registration-form" style="max-width:820px;">
+                    <h3 style="color:#ff6f00; margin-bottom:12px; text-align:center;">Season Archive Tools</h3>
+                    <div class="registration-grid">
+                        <div>
+                            <label for="currentSeasonLabelInput">Current Season Label</label>
+                            <input id="currentSeasonLabelInput" type="text" placeholder="2026 Season">
+                        </div>
+                    </div>
+                    <div style="margin-top:12px; text-align:center;">
+                        <button type="button" class="cta-button small" onclick="saveCurrentSeasonLabel()">Save Season Label</button>
+                        <button type="button" class="cta-button small" style="margin-left:8px;" onclick="archiveCurrentSeasonToRecap()">Archive Current Season To Recap</button>
+                    </div>
+                    <p id="seasonStatsAdminMsg" style="text-align:center; margin-top:10px;"></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="schedule" id="season-recap" data-no-admin-edit="true" contenteditable="false">
+        <div class="container">
+            <h2>Season Recap</h2>
+            <p id="seasonRecapLabelDisplay" style="text-align:center; margin-bottom:16px; color:#ffb366; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;"></p>
+            <p id="seasonRecapSortHint" style="text-align:center; margin:-4px auto 18px; color:#bbb; max-width:720px;">Use the sort dropdowns under each stat column for greatest to least or least to greatest, or click a stat header to toggle the order.</p>
+            <div class="registration-form" style="max-width:720px; margin-bottom:20px;">
+                <label for="seasonRecapSelect">Choose Archived Season</label>
+                <select id="seasonRecapSelect"></select>
+                <p id="seasonRecapUpdatedNote" style="text-align:center; margin-top:10px; color:#bbb;"></p>
+            </div>
+
+            <h3 style="color:#ff6f00; margin-top:1.5rem; margin-bottom:0.5rem; text-align:center;">Offensive Season Recap</h3>
+            <table class="schedule-table" id="recapOffensiveStatsTable">
+                <thead>
+                    <tr>
+                        <th>Team</th>
+                        <th>Player Name</th>
+                        <th>Player Position<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Passing TD<span class="stat-sort-indicator" aria-hidden="true">↓</span></th>
+                        <th>Passing Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>INT's<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Rushing Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Rushing Touchdowns<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Recieving Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Recieving Touchdowns<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Receptions<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                    </tr>
+                </thead>
+                <tbody id="recapOffensiveStatsBody">
+                    <tr><td colspan="11" style="text-align:center; color:#aaa;">No archived offensive stats yet.</td></tr>
+                </tbody>
+            </table>
+
+            <h3 style="color:#ff6f00; margin-top:2rem; margin-bottom:0.5rem; text-align:center;">Defensive Season Recap</h3>
+            <table class="schedule-table" id="recapDefensiveStatsTable">
+                <thead>
+                    <tr>
+                        <th>Team</th>
+                        <th>Player Name</th>
+                        <th>Player Position<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Tackles<span class="stat-sort-indicator" aria-hidden="true">↓</span></th>
+                        <th>Sacks<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Interceptions<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Pass Break Ups<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                        <th>Defensive TDs<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>
+                    </tr>
+                </thead>
+                <tbody id="recapDefensiveStatsBody">
+                    <tr><td colspan="7" style="text-align:center; color:#aaa;">No archived defensive stats yet.</td></tr>
+                </tbody>
+            </table>
         </div>
     </section>
 
@@ -1161,10 +1451,6 @@
                             <option value="14">14</option>
                             <option value="15">15</option>
                             <option value="16">16</option>
-                            <option value="17">17</option>
-                            <option value="18">18</option>
-                            <option value="19">19</option>
-                            <option value="20">20+</option>
                         </select>
                     </div>
                     <div id="freeAgentPositionWrap" style="display:none;">
@@ -1189,18 +1475,6 @@
                         <label for="payExperience">How Long Have You Been Playing Flag Football?</label>
                         <input id="payExperience" type="text" placeholder="Example: 4 years">
                     </div>
-                    <div id="teamCoachingStaffWrap">
-                        <label for="payCoachingStaff">Number of Coaching Staff</label>
-                        <select id="payCoachingStaff">
-                            <option value="">Select coaching staff count</option>
-                            <option value="0">0</option>
-                            <option value="1">1</option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5+</option>
-                        </select>
-                    </div>
                 </div>
                 <div style="margin-top:12px; text-align:center;">
                     <button type="submit" class="cta-button">Continue To PayPal</button>
@@ -1210,12 +1484,14 @@
         </div>
     </section>
 
-    <!-- Admin Editable Sections -->
+    <!-- Admin Dashboard -->
     <div id="adminOnly" class="admin-only">
-        <!-- Teams by State Section -->
-    <section class="teams" id="teams">
+    <!-- Documents (admin-managed) -->
+    <section class="documents" id="documentsAdmin">
         <div class="container">
-            <h2>Teams by State</h2>
+            <h2>Admin Dashboard</h2>
+
+            <h3 style="color:#ff6f00; margin-top:1rem; margin-bottom:0.75rem; text-align:center;">Teams by State</h3>
             <table class="teams-table">
                 <thead>
                     <tr>
@@ -1283,13 +1559,8 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
-    </section>
 
-    <!-- User Profiles Section -->
-    <section class="users" id="users">
-        <div class="container">
-            <h2>User Profiles</h2>
+            <h3 style="color:#ff6f00; margin-top:2rem; margin-bottom:0.75rem; text-align:center;">User Profiles</h3>
             <table class="users-table">
                 <thead>
                     <tr>
@@ -1302,56 +1573,8 @@
                 </thead>
                 <tbody id="usersTbody"></tbody>
             </table>
-        </div>
-    </section>
 
-    <!-- Coaches Section -->
-    <section class="coaches" id="coaches">
-        <div class="container">
-            <h2>Team Coaches</h2>
-            <table class="coaches-table">
-                <thead>
-                    <tr>
-                        <th>Team Name</th>
-                        <th>Head Coach</th>
-                        <th>Assistant Coach 1</th>
-                        <th>Assistant Coach 2</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><input type="text" value="865 ELITE FLAG FOOTBALL" placeholder="Team Name"></td>
-                        <td><input type="text" placeholder="Head Coach Name"></td>
-                        <td><input type="text" placeholder="Assistant Coach Name"></td>
-                        <td><input type="text" placeholder="Assistant Coach Name"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" placeholder="Team Name"></td>
-                        <td><input type="text" placeholder="Head Coach Name"></td>
-                        <td><input type="text" placeholder="Assistant Coach Name"></td>
-                        <td><input type="text" placeholder="Assistant Coach Name"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" placeholder="Team Name"></td>
-                        <td><input type="text" placeholder="Head Coach Name"></td>
-                        <td><input type="text" placeholder="Assistant Coach Name"></td>
-                        <td><input type="text" placeholder="Assistant Coach Name"></td>
-                    </tr>
-                    <tr>
-                        <td><input type="text" placeholder="Team Name"></td>
-                        <td><input type="text" placeholder="Head Coach Name"></td>
-                        <td><input type="text" placeholder="Assistant Coach Name"></td>
-                        <td><input type="text" placeholder="Assistant Coach Name"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </section>
-
-    <!-- Documents (admin-managed) -->
-    <section class="documents" id="documentsAdmin">
-        <div class="container">
-            <h2>Manage Documents</h2>
+            <h3 style="color:#ff6f00; margin-top:2rem; margin-bottom:0.75rem; text-align:center;">Manage Documents</h3>
             <div style="display:flex; gap:8px; align-items:center; margin-bottom:12px;">
                 <input id="docTitleInput" type="text" placeholder="Document title (optional)" style="flex:1; padding:8px;">
                 <input id="docUploadInput" type="file" accept=".pdf,image/*" style="padding:6px;">
@@ -1369,16 +1592,16 @@
                 <div class="registration-grid">
                     <div>
                         <label for="paypalTeamLink">Team Registration PayPal Link</label>
-                        <input id="paypalTeamLink" type="url" placeholder="https://www.paypal.com/checkoutnow?token=...">
+                        <input id="paypalTeamLink" type="url" value="https://paypal.me/tfick123" placeholder="https://paypal.me/tfick123">
                     </div>
                     <div>
                         <label for="paypalFreeAgentLink">Free Agent PayPal Link</label>
-                        <input id="paypalFreeAgentLink" type="url" placeholder="https://www.paypal.com/checkoutnow?token=...">
+                        <input id="paypalFreeAgentLink" type="url" value="https://paypal.me/tfick123" placeholder="https://paypal.me/tfick123">
                     </div>
                 </div>
                 <div style="margin-top:12px;">
                     <label for="adminNotificationEmail">Signup Notification Email</label>
-                    <input id="adminNotificationEmail" type="email" placeholder="Email address that receives signup notifications">
+                    <input id="adminNotificationEmail" type="email" value="865eliteflagfootball@gmail.com" placeholder="865eliteflagfootball@gmail.com" readonly>
                 </div>
                 <div class="registration-grid" style="margin-top:12px;">
                     <div>
@@ -1411,7 +1634,7 @@
         </div>
     </section>
     </div>
-    <!-- End Admin Editable Sections -->
+    <!-- End Admin Dashboard -->
 
     <!-- Public Documents -->
     <section class="documents-public" id="documentsPublic">
@@ -1501,29 +1724,40 @@
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script>
         // --- Admin credentials (unchanged) ---
-        const ADMIN_USERNAME = '123';
-        const ADMIN_PASSWORD = '123';
+        const ADMIN_ACCOUNTS = [
+            { username: 'Ficken', password: 'IowaTenneessee' },
+            { username: 'Maxwell22339', password: 'Daush+1115' }
+        ];
         const PAGE_CONTENT_KEY = 'siteContentHTML_v3';
         const SITE_LOGO_KEY = 'siteLogoDataUrl_v1';
+        const HOME_HERO_BACKGROUND_KEY = 'homeHeroBackgroundDataUrl_v1';
+        const DEFAULT_PAYPAL_URL = 'https://paypal.me/tfick123';
+        const DEFAULT_ADMIN_NOTIFICATION_EMAIL = '865eliteflagfootball@gmail.com';
         const PAYMENT_LINKS_KEY = 'paypalPaymentLinks_v1';
         const PAYMENT_NOTIFICATION_SETTINGS_KEY = 'paymentNotificationSettings_v1';
         let PAYMENT_LINKS = {
-            team: '',
-            freeAgent: ''
+            team: DEFAULT_PAYPAL_URL,
+            freeAgent: DEFAULT_PAYPAL_URL
         };
         let PAYMENT_NOTIFICATION_SETTINGS = {
-            adminEmail: '',
+            adminEmail: DEFAULT_ADMIN_NOTIFICATION_EMAIL,
             publicKey: '',
             serviceId: '',
             templateId: ''
         };
 
         // ---- Page navigation (SPA-style) ----
-        const ALL_PAGE_IDS = ['home','about','standings','leagueSchedule','player-stats','payments',
-            'teams','users','coaches','documentsAdmin','documentsPublic','guestArea','myProfile','contact'];
+        const ALL_PAGE_IDS = ['home','about','standings','leagueSchedule','player-stats','season-recap','payments',
+            'documentsAdmin','documentsPublic','guestArea','myProfile','contact'];
 
         function isAdminLoggedIn() {
             return sessionStorage.getItem('adminLoggedIn') === 'true';
+        }
+
+        function getMatchingAdminAccount(username, password) {
+            return ADMIN_ACCOUNTS.find(function(account) {
+                return account.username === username && account.password === password;
+            }) || null;
         }
 
         function isMemberLoggedIn() {
@@ -1531,7 +1765,7 @@
         }
 
         function canAccessPage(id) {
-            const adminOnlyPages = ['teams', 'users', 'coaches', 'documentsAdmin'];
+            const adminOnlyPages = ['documentsAdmin'];
             const memberOnlyPages = ['myProfile', 'guestArea'];
 
             if (adminOnlyPages.indexOf(id) !== -1) {
@@ -1560,7 +1794,218 @@
                 window.scrollTo(0, 0);
                 if (history.pushState) history.pushState(null, '', '#' + id);
                 else window.location.hash = id;
+                updateHeaderScrollState();
             }
+        }
+
+        var lastHeaderScrollY = 0;
+        var headerScrollTicking = false;
+
+        function setHeaderScrolledState(shouldScroll) {
+            const siteHeader = document.querySelector('header');
+            if (!siteHeader) return;
+            var changed = siteHeader.classList.contains('scrolled') !== shouldScroll;
+            siteHeader.classList.toggle('scrolled', shouldScroll);
+            if (changed) toggleLoginDropdown(false);
+        }
+
+        function updateHeaderScrollState() {
+            if (headerScrollTicking) return;
+            headerScrollTicking = true;
+
+            window.requestAnimationFrame(function() {
+                const currentY = Math.max(window.scrollY || 0, 0);
+                const delta = currentY - lastHeaderScrollY;
+                const siteHeader = document.querySelector('header');
+                if (!siteHeader) {
+                    headerScrollTicking = false;
+                    lastHeaderScrollY = currentY;
+                    return;
+                }
+
+                if (currentY <= 24) {
+                    setHeaderScrolledState(false);
+                } else if (delta > 6 && currentY > 90) {
+                    setHeaderScrolledState(true);
+                } else if (delta < -6) {
+                    setHeaderScrolledState(false);
+                }
+
+                lastHeaderScrollY = currentY;
+                headerScrollTicking = false;
+            });
+        }
+
+        function buildSeasonStatsAdminPanelMarkup() {
+            return '' +
+                '<div id="seasonStatsAdminPanel" class="admin-only" data-no-admin-edit="true" contenteditable="false" style="display:none; margin-top:24px;">' +
+                    '<div class="registration-form" style="max-width:820px;">' +
+                        '<h3 style="color:#ff6f00; margin-bottom:12px; text-align:center;">Season Archive Tools</h3>' +
+                        '<div class="registration-grid">' +
+                            '<div>' +
+                                '<label for="currentSeasonLabelInput">Current Season Label</label>' +
+                                '<input id="currentSeasonLabelInput" type="text" placeholder="2026 Season">' +
+                            '</div>' +
+                        '</div>' +
+                        '<div style="margin-top:12px; text-align:center;">' +
+                            '<button type="button" class="cta-button small" onclick="saveCurrentSeasonLabel()">Save Season Label</button>' +
+                            '<button type="button" class="cta-button small" style="margin-left:8px;" onclick="archiveCurrentSeasonToRecap()">Archive Current Season To Recap</button>' +
+                        '</div>' +
+                        '<p id="seasonStatsAdminMsg" style="text-align:center; margin-top:10px;"></p>' +
+                    '</div>' +
+                '</div>';
+        }
+
+        function buildSeasonRecapSectionMarkup() {
+            return '' +
+                '<section class="schedule" id="season-recap" data-no-admin-edit="true" contenteditable="false">' +
+                    '<div class="container">' +
+                        '<h2>Season Recap</h2>' +
+                        '<p id="seasonRecapLabelDisplay" style="text-align:center; margin-bottom:16px; color:#ffb366; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;"></p>' +
+                        '<p id="seasonRecapSortHint" style="text-align:center; margin:-4px auto 18px; color:#bbb; max-width:720px;">Use the sort dropdowns under each stat column for greatest to least or least to greatest, or click a stat header to toggle the order.</p>' +
+                        '<div class="registration-form" style="max-width:720px; margin-bottom:20px;">' +
+                            '<label for="seasonRecapSelect">Choose Archived Season</label>' +
+                            '<select id="seasonRecapSelect"></select>' +
+                            '<p id="seasonRecapUpdatedNote" style="text-align:center; margin-top:10px; color:#bbb;"></p>' +
+                        '</div>' +
+                        '<h3 style="color:#ff6f00; margin-top:1.5rem; margin-bottom:0.5rem; text-align:center;">Offensive Season Recap</h3>' +
+                        '<table class="schedule-table" id="recapOffensiveStatsTable">' +
+                            '<thead>' +
+                                '<tr>' +
+                                    '<th>Team</th>' +
+                                    '<th>Player Name</th>' +
+                                    '<th>Player Position<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>Passing TD<span class="stat-sort-indicator" aria-hidden="true">↓</span></th>' +
+                                    '<th>Passing Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>INT\'s<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>Rushing Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>Rushing Touchdowns<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>Recieving Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>Recieving Touchdowns<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>Receptions<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                '</tr>' +
+                            '</thead>' +
+                            '<tbody id="recapOffensiveStatsBody">' +
+                                '<tr><td colspan="11" style="text-align:center; color:#aaa;">No archived offensive stats yet.</td></tr>' +
+                            '</tbody>' +
+                        '</table>' +
+                        '<h3 style="color:#ff6f00; margin-top:2rem; margin-bottom:0.5rem; text-align:center;">Defensive Season Recap</h3>' +
+                        '<table class="schedule-table" id="recapDefensiveStatsTable">' +
+                            '<thead>' +
+                                '<tr>' +
+                                    '<th>Team</th>' +
+                                    '<th>Player Name</th>' +
+                                    '<th>Player Position<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>Tackles<span class="stat-sort-indicator" aria-hidden="true">↓</span></th>' +
+                                    '<th>Sacks<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>Interceptions<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>Pass Break Ups<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                    '<th>Defensive TDs<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>' +
+                                '</tr>' +
+                            '</thead>' +
+                            '<tbody id="recapDefensiveStatsBody">' +
+                                '<tr><td colspan="7" style="text-align:center; color:#aaa;">No archived defensive stats yet.</td></tr>' +
+                            '</tbody>' +
+                        '</table>' +
+                    '</div>' +
+                '</section>';
+        }
+
+        function ensureSeasonStatsAndRecapUI() {
+            var navLinks = document.querySelector('header .nav-links');
+            var statsLink = navLinks ? navLinks.querySelector('a[href="#player-stats"]') : null;
+            if (statsLink) statsLink.textContent = 'Season Stats';
+
+            if (navLinks && !navLinks.querySelector('a[href="#season-recap"]')) {
+                var recapNavItem = document.createElement('li');
+                recapNavItem.innerHTML = '<a href="#season-recap">Season Recap</a>';
+                var paymentsItem = navLinks.querySelector('a[href="#payments"]');
+                if (paymentsItem && paymentsItem.parentElement) navLinks.insertBefore(recapNavItem, paymentsItem.parentElement);
+                else navLinks.appendChild(recapNavItem);
+            }
+
+            var statsSection = document.getElementById('player-stats');
+            if (statsSection) {
+                var statsContainer = statsSection.querySelector('.container');
+                var statsHeading = statsContainer ? statsContainer.querySelector('h2') : null;
+                if (statsHeading) statsHeading.textContent = 'Season Stats';
+                if (statsHeading && !document.getElementById('currentSeasonLabelDisplay')) {
+                    statsHeading.insertAdjacentHTML('afterend', '<p id="currentSeasonLabelDisplay" style="text-align:center; margin-bottom:16px; color:#ffb366; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;"></p>');
+                }
+                if (statsHeading && !document.getElementById('statsSortHint')) {
+                    var seasonLabelDisplay = document.getElementById('currentSeasonLabelDisplay');
+                    if (seasonLabelDisplay) seasonLabelDisplay.insertAdjacentHTML('afterend', '<p id="statsSortHint" style="text-align:center; margin:-4px auto 18px; color:#bbb; max-width:720px;">Use the sort dropdowns under each stat column for greatest to least or least to greatest, or click a stat header to toggle the order.</p>');
+                }
+                var offensiveTableHead = document.querySelector('#offensiveStatsTable thead tr');
+                if (offensiveTableHead) {
+                    offensiveTableHead.innerHTML = '<th>Team</th><th>Player Name</th><th>Player Position<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Passing TD<span class="stat-sort-indicator" aria-hidden="true">↓</span></th><th>Passing Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>INT\'s<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Rushing Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Rushing Touchdowns<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Recieving Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Recieving Touchdowns<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Receptions<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>';
+                }
+                var defensiveTableHead = document.querySelector('#defensiveStatsTable thead tr');
+                if (defensiveTableHead) {
+                    defensiveTableHead.innerHTML = '<th>Team</th><th>Player Name</th><th>Player Position<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Tackles<span class="stat-sort-indicator" aria-hidden="true">↓</span></th><th>Sacks<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Interceptions<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Pass Break Ups<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Defensive TDs<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>';
+                }
+                if (statsContainer && !document.getElementById('seasonStatsAdminPanel')) {
+                    statsContainer.insertAdjacentHTML('beforeend', buildSeasonStatsAdminPanelMarkup());
+                }
+            }
+
+            if (!document.getElementById('season-recap') && statsSection) {
+                statsSection.insertAdjacentHTML('afterend', buildSeasonRecapSectionMarkup());
+            }
+
+            var recapTableHead = document.querySelector('#recapOffensiveStatsTable thead tr');
+            if (recapTableHead) {
+                recapTableHead.innerHTML = '<th>Team</th><th>Player Name</th><th>Player Position<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Passing TD<span class="stat-sort-indicator" aria-hidden="true">↓</span></th><th>Passing Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>INT\'s<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Rushing Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Rushing Touchdowns<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Recieving Yards<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Recieving Touchdowns<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Receptions<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>';
+            }
+            var recapLabelDisplay = document.getElementById('seasonRecapLabelDisplay');
+            if (recapLabelDisplay && !document.getElementById('seasonRecapSortHint')) {
+                recapLabelDisplay.insertAdjacentHTML('afterend', '<p id="seasonRecapSortHint" style="text-align:center; margin:-4px auto 18px; color:#bbb; max-width:720px;">Use the sort dropdowns under each stat column for greatest to least or least to greatest, or click a stat header to toggle the order.</p>');
+            }
+            var recapDefensiveTableHead = document.querySelector('#recapDefensiveStatsTable thead tr');
+            if (recapDefensiveTableHead) {
+                recapDefensiveTableHead.innerHTML = '<th>Team</th><th>Player Name</th><th>Player Position<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Tackles<span class="stat-sort-indicator" aria-hidden="true">↓</span></th><th>Sacks<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Interceptions<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Pass Break Ups<span class="stat-sort-indicator" aria-hidden="true">↕</span></th><th>Defensive TDs<span class="stat-sort-indicator" aria-hidden="true">↕</span></th>';
+            }
+
+            var recapEmptyState = document.querySelector('#recapOffensiveStatsBody tr td[colspan]');
+            if (recapEmptyState && /No archived offensive stats yet\./i.test(recapEmptyState.textContent || '')) {
+                recapEmptyState.setAttribute('colspan', '11');
+            }
+        }
+
+        function ensureLeagueScheduleResultsUI() {
+            var publicScheduleHeader = document.querySelector('#leagueScheduleTable thead tr th:last-child');
+            if (publicScheduleHeader) publicScheduleHeader.textContent = 'Results';
+
+            var adminScheduleHeader = document.querySelector('#leagueScheduleAdminPanel thead tr th:nth-child(6)');
+            if (adminScheduleHeader) adminScheduleHeader.textContent = 'Results';
+
+            var publicScheduleRows = document.querySelectorAll('#leagueScheduleBody tr');
+            publicScheduleRows.forEach(function(row) {
+                var cells = row.querySelectorAll('td');
+                if (cells.length < 6) return;
+                var resultCell = cells[5];
+                if (resultCell.querySelector('.schedule-result-scoreboard') && resultCell.querySelector('.schedule-result-team')) return;
+
+                var matchup = cells[3].querySelector('.schedule-matchup');
+                var homeTeamName = matchup ? matchup.querySelector('.schedule-team-home .schedule-team-name') : null;
+                var awayTeamName = matchup ? matchup.querySelector('.schedule-team-away .schedule-team-name') : null;
+                var scoreText = (resultCell.textContent || '').trim() || '\u2014';
+                var homeTeam = homeTeamName ? homeTeamName.textContent.trim() : 'TBD';
+                var awayTeam = awayTeamName ? awayTeamName.textContent.trim() : 'TBD';
+                var parsedResult = parseScheduleResultText(scoreText);
+
+                resultCell.innerHTML = '<div class="schedule-result">' +
+                    '<div class="schedule-result-scoreboard">' +
+                        '<div class="schedule-result-score">' + escapeHtml(parsedResult.leftScore) + '</div>' +
+                        '<div class="schedule-result-separator">-</div>' +
+                        '<div class="schedule-result-score">' + escapeHtml(parsedResult.rightScore) + '</div>' +
+                    '</div>' +
+                    '<div class="schedule-result-teams">' +
+                        '<div class="schedule-result-team">' + escapeHtml(homeTeam) + '</div>' +
+                        '<div class="schedule-result-team">' + escapeHtml(awayTeam) + '</div>' +
+                    '</div>' +
+                '</div>';
+            });
         }
 
         window.addEventListener('popstate', function() {
@@ -1572,20 +2017,32 @@
                 });
                 var target = document.getElementById(id);
                 if (target) { target.style.display = 'block'; window.scrollTo(0, 0); }
+                updateHeaderScrollState();
             } else {
                 showPage('home');
             }
         });
 
+        window.addEventListener('scroll', updateHeaderScrollState, { passive: true });
+
         function loadPaymentLinks() {
             try {
                 const saved = JSON.parse(localStorage.getItem(PAYMENT_LINKS_KEY) || '{}');
-                PAYMENT_LINKS = {
-                    team: saved.team || '',
-                    freeAgent: saved.freeAgent || ''
+                const normalizedLinks = {
+                    team: (saved.team || DEFAULT_PAYPAL_URL).trim(),
+                    freeAgent: (saved.freeAgent || DEFAULT_PAYPAL_URL).trim()
                 };
+                PAYMENT_LINKS = {
+                    team: normalizedLinks.team,
+                    freeAgent: normalizedLinks.freeAgent
+                };
+
+                if (saved.team !== normalizedLinks.team || saved.freeAgent !== normalizedLinks.freeAgent) {
+                    localStorage.setItem(PAYMENT_LINKS_KEY, JSON.stringify(normalizedLinks));
+                }
             } catch (err) {
-                PAYMENT_LINKS = { team: '', freeAgent: '' };
+                PAYMENT_LINKS = { team: DEFAULT_PAYPAL_URL, freeAgent: DEFAULT_PAYPAL_URL };
+                localStorage.setItem(PAYMENT_LINKS_KEY, JSON.stringify(PAYMENT_LINKS));
             }
         }
 
@@ -1593,32 +2050,36 @@
             try {
                 const saved = JSON.parse(localStorage.getItem(PAYMENT_NOTIFICATION_SETTINGS_KEY) || '{}');
                 PAYMENT_NOTIFICATION_SETTINGS = {
-                    adminEmail: saved.adminEmail || '',
+                    adminEmail: DEFAULT_ADMIN_NOTIFICATION_EMAIL,
                     publicKey: saved.publicKey || '',
                     serviceId: saved.serviceId || '',
                     templateId: saved.templateId || ''
                 };
+                if (saved.adminEmail !== DEFAULT_ADMIN_NOTIFICATION_EMAIL) {
+                    localStorage.setItem(PAYMENT_NOTIFICATION_SETTINGS_KEY, JSON.stringify(PAYMENT_NOTIFICATION_SETTINGS));
+                }
             } catch (err) {
                 PAYMENT_NOTIFICATION_SETTINGS = {
-                    adminEmail: '',
+                    adminEmail: DEFAULT_ADMIN_NOTIFICATION_EMAIL,
                     publicKey: '',
                     serviceId: '',
                     templateId: ''
                 };
+                localStorage.setItem(PAYMENT_NOTIFICATION_SETTINGS_KEY, JSON.stringify(PAYMENT_NOTIFICATION_SETTINGS));
             }
         }
 
         function savePaymentLinks(links) {
             PAYMENT_LINKS = {
-                team: (links.team || '').trim(),
-                freeAgent: (links.freeAgent || '').trim()
+                team: (links.team || DEFAULT_PAYPAL_URL).trim(),
+                freeAgent: (links.freeAgent || DEFAULT_PAYPAL_URL).trim()
             };
             localStorage.setItem(PAYMENT_LINKS_KEY, JSON.stringify(PAYMENT_LINKS));
         }
 
         function savePaymentNotificationSettings(settings) {
             PAYMENT_NOTIFICATION_SETTINGS = {
-                adminEmail: (settings.adminEmail || '').trim(),
+                adminEmail: (settings.adminEmail || DEFAULT_ADMIN_NOTIFICATION_EMAIL).trim() || DEFAULT_ADMIN_NOTIFICATION_EMAIL,
                 publicKey: (settings.publicKey || '').trim(),
                 serviceId: (settings.serviceId || '').trim(),
                 templateId: (settings.templateId || '').trim()
@@ -1648,7 +2109,6 @@
                         payer_name: details.name,
                         payer_email: details.email,
                         team_member_count: details.teamMembers || 'N/A',
-                        coaching_staff_count: details.coachingStaff || 'N/A',
                         team_years: details.teamYears || 'N/A',
                         player_position: details.position || 'N/A',
                         football_experience: details.experience || 'N/A',
@@ -1690,7 +2150,7 @@
                     freeAgent: freeInput.value
                 });
                 savePaymentNotificationSettings({
-                    adminEmail: adminEmailInput.value,
+                    adminEmail: DEFAULT_ADMIN_NOTIFICATION_EMAIL,
                     publicKey: publicKeyInput.value,
                     serviceId: serviceIdInput.value,
                     templateId: templateIdInput.value
@@ -1714,7 +2174,7 @@
             const templateIdInput = document.getElementById('emailjsTemplateId');
             if (teamInput) teamInput.value = PAYMENT_LINKS.team || '';
             if (freeInput) freeInput.value = PAYMENT_LINKS.freeAgent || '';
-            if (adminEmailInput) adminEmailInput.value = PAYMENT_NOTIFICATION_SETTINGS.adminEmail || '';
+            if (adminEmailInput) adminEmailInput.value = DEFAULT_ADMIN_NOTIFICATION_EMAIL;
             if (publicKeyInput) publicKeyInput.value = PAYMENT_NOTIFICATION_SETTINGS.publicKey || '';
             if (serviceIdInput) serviceIdInput.value = PAYMENT_NOTIFICATION_SETTINGS.serviceId || '';
             if (templateIdInput) templateIdInput.value = PAYMENT_NOTIFICATION_SETTINGS.templateId || '';
@@ -1736,21 +2196,35 @@
             }
         }
 
+        function applySavedHeroBackground() {
+            try {
+                const savedBackground = localStorage.getItem(HOME_HERO_BACKGROUND_KEY);
+                if (savedBackground) {
+                    document.documentElement.style.setProperty('--hero-photo', 'url("' + savedBackground + '")');
+                } else {
+                    document.documentElement.style.setProperty('--hero-photo', 'none');
+                }
+            } catch (err) {
+                document.documentElement.style.setProperty('--hero-photo', 'none');
+            }
+        }
+
         function bindAdminBrandingControls() {
             const changeLogoBtn = document.getElementById('changeLogoBtn');
             const logoUploadInput = document.getElementById('logoUploadInput');
+            const changeHeroBackgroundBtn = document.getElementById('changeHeroBackgroundBtn');
+            const heroBackgroundUploadInput = document.getElementById('heroBackgroundUploadInput');
 
-            if (changeLogoBtn && logoUploadInput && !changeLogoBtn.dataset.bound) {
-                changeLogoBtn.dataset.bound = 'true';
-                changeLogoBtn.addEventListener('click', function() {
+            if (changeLogoBtn) {
+                changeLogoBtn.onclick = function() {
                     if (sessionStorage.getItem('adminLoggedIn') !== 'true') return;
-                    logoUploadInput.click();
-                });
+                    var currentLogoInput = document.getElementById('logoUploadInput');
+                    if (currentLogoInput) currentLogoInput.click();
+                };
             }
 
-            if (logoUploadInput && !logoUploadInput.dataset.bound) {
-                logoUploadInput.dataset.bound = 'true';
-                logoUploadInput.addEventListener('change', function() {
+            if (logoUploadInput) {
+                logoUploadInput.onchange = function() {
                     const file = this.files && this.files[0];
                     if (!file || sessionStorage.getItem('adminLoggedIn') !== 'true') return;
                     const reader = new FileReader();
@@ -1768,7 +2242,32 @@
                     };
                     reader.readAsDataURL(file);
                     this.value = '';
-                });
+                };
+            }
+
+            if (changeHeroBackgroundBtn) {
+                changeHeroBackgroundBtn.onclick = function() {
+                    if (sessionStorage.getItem('adminLoggedIn') !== 'true') return;
+                    var currentBackgroundInput = document.getElementById('heroBackgroundUploadInput');
+                    if (currentBackgroundInput) currentBackgroundInput.click();
+                };
+            }
+
+            if (heroBackgroundUploadInput) {
+                heroBackgroundUploadInput.onchange = function() {
+                    const file = this.files && this.files[0];
+                    if (!file || sessionStorage.getItem('adminLoggedIn') !== 'true') return;
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const dataUrl = e.target && e.target.result;
+                        if (!dataUrl) return;
+                        document.documentElement.style.setProperty('--hero-photo', 'url("' + dataUrl + '")');
+                        localStorage.setItem(HOME_HERO_BACKGROUND_KEY, dataUrl);
+                        flushPersistSiteContent();
+                    };
+                    reader.readAsDataURL(file);
+                    this.value = '';
+                };
             }
         }
 
@@ -1791,6 +2290,25 @@
             if (!document.getElementById('logoUploadInput')) {
                 const input = document.createElement('input');
                 input.id = 'logoUploadInput';
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.style.display = 'none';
+                adminHeader.appendChild(input);
+            }
+
+            if (!document.getElementById('changeHeroBackgroundBtn')) {
+                const btn = document.createElement('button');
+                btn.id = 'changeHeroBackgroundBtn';
+                btn.className = 'cta-button small';
+                btn.style.marginRight = '8px';
+                btn.textContent = 'Change Home Background';
+                if (toggleBtn) adminHeader.insertBefore(btn, toggleBtn);
+                else adminHeader.appendChild(btn);
+            }
+
+            if (!document.getElementById('heroBackgroundUploadInput')) {
+                const input = document.createElement('input');
+                input.id = 'heroBackgroundUploadInput';
                 input.type = 'file';
                 input.accept = 'image/*';
                 input.style.display = 'none';
@@ -1854,7 +2372,7 @@
             document.querySelectorAll('.admin-remove-th').forEach(function(el) { el.remove(); });
 
             // 8. Re-apply explicit non-editable on protected sections
-            ['standings','leagueSchedule','player-stats','adminHeader','memberHeader','paypalSettings','leagueScheduleAdminPanel'].forEach(function(id) {
+            ['standings','leagueSchedule','player-stats','season-recap','adminHeader','memberHeader','paypalSettings','leagueScheduleAdminPanel','seasonStatsAdminPanel'].forEach(function(id) {
                 var el = document.getElementById(id);
                 if (el) { el.setAttribute('contenteditable','false'); el.setAttribute('data-no-admin-edit','true'); }
             });
@@ -1885,6 +2403,10 @@
                 if (offClone) offClone.innerHTML = '';
                 var defClone = clone.querySelector('#defensiveStatsBody');
                 if (defClone) defClone.innerHTML = '';
+                var recapOffClone = clone.querySelector('#recapOffensiveStatsBody');
+                if (recapOffClone) recapOffClone.innerHTML = '';
+                var recapDefClone = clone.querySelector('#recapDefensiveStatsBody');
+                if (recapDefClone) recapDefClone.innerHTML = '';
                 // Force admin header hidden in saved state
                 var ahClone = clone.querySelector('#adminHeader');
                 if (ahClone) { ahClone.style.display = 'none'; ahClone.classList.add('hidden'); }
@@ -1900,6 +2422,8 @@
                 if (offBtnC) offBtnC.style.display = 'none';
                 var defBtnC = clone.querySelector('#defensiveStatsAdminBtns');
                 if (defBtnC) defBtnC.style.display = 'none';
+                var seasonPanelClone = clone.querySelector('#seasonStatsAdminPanel');
+                if (seasonPanelClone) seasonPanelClone.style.display = 'none';
                 // Remove admin-only column headers from stats
                 clone.querySelectorAll('.admin-remove-th').forEach(function(el) { el.remove(); });
                 localStorage.setItem(PAGE_CONTENT_KEY, clone.innerHTML);
@@ -1909,8 +2433,12 @@
         }
 
         restoreSiteContent();
+        ensureSeasonStatsAndRecapUI();
+        ensureLeagueScheduleResultsUI();
+        ensurePaymentSignupUI();
         loadPaymentLinks();
         applySavedBranding();
+        applySavedHeroBackground();
         ensureAdminBrandingUI();
         enforceNonEditableAdminUI();
         bindAdminBrandingControls();
@@ -1920,9 +2448,10 @@
         // Show the correct page immediately after restoring content
         (function() {
             var h = window.location.hash ? window.location.hash.substring(1) : 'home';
-            var restricted = ['myProfile','guestArea','teams','users','coaches','documentsAdmin'];
+            var restricted = ['myProfile','guestArea','documentsAdmin'];
             var validPage = ALL_PAGE_IDS.indexOf(h) !== -1 && restricted.indexOf(h) === -1 ? h : 'home';
             showPage(validPage);
+            updateHeaderScrollState();
         })();
 
         // logo/image support removed — header shows text only.
@@ -1940,6 +2469,29 @@
             renderUsersTableForAdmin();
         }
 
+        function ensurePaymentSignupUI() {
+            var coachingWrap = document.getElementById('teamCoachingStaffWrap');
+            if (coachingWrap) coachingWrap.remove();
+
+            var staleCoachingLabel = Array.from(document.querySelectorAll('#paymentForm label')).find(function(label) {
+                return /number of coaching staff/i.test(label.textContent || '');
+            });
+            if (staleCoachingLabel && staleCoachingLabel.parentElement) {
+                staleCoachingLabel.parentElement.remove();
+            }
+
+            var teamMembersInput = document.getElementById('payTeamMembers');
+            if (teamMembersInput && teamMembersInput.tagName === 'SELECT') {
+                Array.from(teamMembersInput.options).forEach(function(option) {
+                    var value = Number(option.value || '0');
+                    if (value > 16) option.remove();
+                });
+                if (Number(teamMembersInput.value || '0') > 16) {
+                    teamMembersInput.value = '16';
+                }
+            }
+        }
+
         function loadPaymentRequests() {
             try { return JSON.parse(localStorage.getItem('paymentRequests') || '[]'); }
             catch (err) { return []; }
@@ -1950,35 +2502,35 @@
         }
 
         function updatePaymentTypeFields() {
+            ensurePaymentSignupUI();
             const typeInput = document.getElementById('payType');
             const teamMembersWrap = document.getElementById('teamMemberCountWrap');
-            const coachingStaffWrap = document.getElementById('teamCoachingStaffWrap');
             const teamYearsWrap = document.getElementById('teamYearsWrap');
             const positionWrap = document.getElementById('freeAgentPositionWrap');
             const experienceWrap = document.getElementById('freeAgentExperienceWrap');
             const teamMembersInput = document.getElementById('payTeamMembers');
-            const coachingStaffInput = document.getElementById('payCoachingStaff');
             const teamYearsInput = document.getElementById('payTeamYears');
             const positionInput = document.getElementById('payPosition');
             const experienceInput = document.getElementById('payExperience');
-            if (!typeInput || !teamMembersWrap || !coachingStaffWrap || !teamYearsWrap || !positionWrap || !experienceWrap || !teamMembersInput || !coachingStaffInput || !teamYearsInput || !positionInput || !experienceInput) return;
+            if (!typeInput || !teamMembersWrap || !teamYearsWrap || !positionWrap || !experienceWrap || !teamMembersInput || !teamYearsInput || !positionInput || !experienceInput) return;
 
             const isTeam = typeInput.value === 'team';
             const isFreeAgent = typeInput.value === 'freeAgent';
             teamMembersWrap.style.display = isTeam ? 'block' : 'none';
-            coachingStaffWrap.style.display = isTeam ? 'block' : 'none';
             teamYearsWrap.style.display = isTeam ? 'block' : 'none';
             positionWrap.style.display = isFreeAgent ? 'block' : 'none';
             experienceWrap.style.display = isFreeAgent ? 'block' : 'none';
             teamMembersInput.required = isTeam;
-            coachingStaffInput.required = isTeam;
             teamYearsInput.required = isTeam;
             positionInput.required = isFreeAgent;
             experienceInput.required = isFreeAgent;
 
+            if (Number(teamMembersInput.value || '0') > 16) {
+                teamMembersInput.value = '16';
+            }
+
             if (!isTeam) {
                 teamMembersInput.value = '';
-                coachingStaffInput.value = '';
                 teamYearsInput.value = '';
             }
 
@@ -2002,7 +2554,7 @@
                 const label = p.type === 'team' ? 'Team Registration' : 'Free Agent';
                 const details = p.type === 'freeAgent'
                     ? 'Position: ' + (p.position || 'N/A') + ' | Flag Football Experience: ' + (p.experience || 'N/A')
-                    : 'Team Members: ' + (p.teamMembers || 'N/A') + ' | Coaching Staff: ' + (p.coachingStaff || 'N/A') + ' | Team Years: ' + (p.teamYears || 'N/A');
+                    : 'Team Members: ' + (p.teamMembers || 'N/A') + ' | Team Years: ' + (p.teamYears || 'N/A');
                 const submitted = p.submittedAt ? new Date(p.submittedAt).toLocaleString() : '';
                 tr.innerHTML = `
                     <td>${p.name || ''}</td>
@@ -2072,15 +2624,18 @@
                 renderAdminPaymentRequests && renderAdminPaymentRequests();
                 renderPayPalSettings && renderPayPalSettings();
                 bindPayPalSettingsControls && bindPayPalSettingsControls();
-                // restore to hashed page or default to teams
-                const h = window.location.hash ? window.location.hash.substring(1) : 'leagueSchedule';
-                showPage(ALL_PAGE_IDS.indexOf(h) !== -1 ? h : 'leagueSchedule');
+                // restore to hashed page or default to the admin dashboard
+                const h = window.location.hash ? window.location.hash.substring(1) : 'documentsAdmin';
+                showPage(ALL_PAGE_IDS.indexOf(h) !== -1 ? h : 'documentsAdmin');
             } else {
                 // Non-admin: full lockdown — no editing visible anywhere
                 lockdownForPublic();
                 renderAllStats && renderAllStats();
             }
             applySavedBranding();
+            applySavedHeroBackground();
+            ensureSeasonStatsAndRecapUI();
+            ensureLeagueScheduleResultsUI();
             ensureAdminBrandingUI();
             enforceNonEditableAdminUI();
             bindAdminBrandingControls();
@@ -2103,6 +2658,7 @@
             } else {
                 document.getElementById('memberHeader').style.display = 'none';
             }
+            updateHeaderScrollState();
         });
 
         // --- Admin login (existing) ---
@@ -2154,10 +2710,12 @@
             if (!dd || !btn) return;
             const isOpen = !dd.classList.contains('hidden');
             const shouldOpen = (typeof forceState === 'boolean') ? forceState : !isOpen;
-            if (shouldOpen) { dd.classList.remove('hidden'); dd.classList.add('visible'); dd.style.display = 'block'; btn.setAttribute('aria-expanded','true'); }
-            else { dd.classList.add('hidden'); dd.classList.remove('visible'); dd.style.display = 'none'; btn.setAttribute('aria-expanded','false'); }
+            dd.style.display = 'block';
+            if (shouldOpen) { dd.classList.remove('hidden'); dd.classList.add('visible'); btn.setAttribute('aria-expanded','true'); }
+            else { dd.classList.add('hidden'); dd.classList.remove('visible'); btn.setAttribute('aria-expanded','false'); }
         }
         document.getElementById('loginMenuBtn')?.addEventListener('click', function(e){ e.stopPropagation(); toggleLoginDropdown(); });
+        document.getElementById('loginDropdown')?.addEventListener('click', function(e){ e.stopPropagation(); });
         document.getElementById('loginDropdownAdmin')?.addEventListener('click', function(e){ e.preventDefault(); showAdminLoginModal(); toggleLoginDropdown(false); });
         document.getElementById('closeLoginModal')?.addEventListener('click', function(){
             document.getElementById('loginModal').classList.add('hidden');
@@ -2179,7 +2737,6 @@
             const email = document.getElementById('payEmail').value.trim();
             const type = document.getElementById('payType').value;
             const teamMembers = document.getElementById('payTeamMembers').value.trim();
-            const coachingStaff = document.getElementById('payCoachingStaff').value.trim();
             const teamYears = document.getElementById('payTeamYears').value.trim();
             const position = document.getElementById('payPosition').value.trim();
             const experience = document.getElementById('payExperience').value.trim();
@@ -2188,10 +2745,18 @@
             loadPaymentLinks();
             loadPaymentNotificationSettings();
 
-            if (type === 'team' && (!teamMembers || !coachingStaff || !teamYears)) {
+            if (type === 'team' && (!teamMembers || !teamYears)) {
                 if (msg) {
                     msg.style.color = '#e65100';
-                    msg.textContent = 'Team registrations must provide team members, coaching staff, and years as a flag football team.';
+                    msg.textContent = 'Team registrations must provide team members and years as a flag football team.';
+                }
+                return;
+            }
+
+            if (type === 'team' && Number(teamMembers) > 16) {
+                if (msg) {
+                    msg.style.color = '#e65100';
+                    msg.textContent = 'Team registrations cannot exceed 16 players.';
                 }
                 return;
             }
@@ -2212,7 +2777,6 @@
                 email,
                 type,
                 teamMembers,
-                coachingStaff,
                 teamYears,
                 position,
                 experience,
@@ -2226,7 +2790,6 @@
                 email,
                 type,
                 teamMembers,
-                coachingStaff,
                 teamYears,
                 position,
                 experience,
@@ -2234,7 +2797,7 @@
                 submittedAt: submittedAt
             });
 
-            if (!link || !/^https:\/\//i.test(link) || !/paypal\.com/i.test(link)) {
+            if (!link || !/^https:\/\//i.test(link) || !/paypal\.(com|me)/i.test(link)) {
                 if (msg) {
                     msg.style.color = '#e65100';
                     msg.textContent = notificationResult.sent
@@ -2650,6 +3213,12 @@
         const LEAGUE_SCHEDULE_KEY = 'leagueSchedule_v1';
         const OFFENSIVE_STATS_KEY = 'offensivePlayerStats_v1';
         const DEFENSIVE_STATS_KEY = 'defensivePlayerStats_v1';
+        const RECAP_OFFENSIVE_STATS_KEY = 'recapOffensivePlayerStats_v1';
+        const RECAP_DEFENSIVE_STATS_KEY = 'recapDefensivePlayerStats_v1';
+        const CURRENT_SEASON_LABEL_KEY = 'currentSeasonLabel_v1';
+        const RECAP_SEASON_LABEL_KEY = 'recapSeasonLabel_v1';
+        const SEASON_ARCHIVES_KEY = 'seasonArchives_v1';
+        const SELECTED_SEASON_ARCHIVE_KEY = 'selectedSeasonArchive_v1';
         const leagueStandingsFields = [
             { key: 'team', placeholder: 'Team name' },
             { key: 'wins', placeholder: '0' },
@@ -2666,7 +3235,7 @@
             { key: 'awayTeam', placeholder: 'Team 2 name' },
             { key: 'awayLogo', placeholder: '' },
             { key: 'location', placeholder: 'Field name' },
-            { key: 'status', placeholder: 'Upcoming' }
+            { key: 'status', placeholder: '0-0' }
         ];
         const defaultLeagueStandings = [
             {
@@ -2687,11 +3256,231 @@
                 awayTeam: 'TBD',
                 awayLogo: '',
                 location: 'TBD',
-                status: 'Upcoming'
+                status: '0-0'
             }
         ];
-        const offensiveCols = ['Player','Team','Touchdowns','Passing Yards','Rushing Yards','Receptions','Receiving Yards'];
-        const defensiveCols = ['Player','Team','Tackles','Sacks','Interceptions','Fumble Recoveries','Flag Pulls'];
+        const offensiveCols = ['Team','Player Name','Player Position','Passing TD','Passing Yards','INT\'s','Rushing Yards','Rushing Touchdowns','Recieving Yards','Recieving Touchdowns','Receptions'];
+        const defensiveCols = ['Team','Player Name','Player Position','Tackles','Sacks','Interceptions','Pass Break Ups','Defensive TDs'];
+        const statsSortState = {
+            offensive: { column: 3, direction: 'desc' },
+            defensive: { column: 3, direction: 'desc' },
+            recapOffensive: { column: 3, direction: 'desc' },
+            recapDefensive: { column: 3, direction: 'desc' }
+        };
+
+        function getDefaultStatsSortConfig(type) {
+            if (type === 'defensive' || type === 'recapDefensive') {
+                return { column: 3, direction: 'desc' };
+            }
+            return { column: 3, direction: 'desc' };
+        }
+
+        function getStatsSortSelectValue(type, column) {
+            var config = getStatsSortConfig(type);
+            return config.column === column ? config.direction : '';
+        }
+
+        function normalizeStatsRow(row, cols) {
+            return cols.map(function(_, index) {
+                return row && row[index] !== undefined ? row[index] : '';
+            });
+        }
+
+        function handleStatsFilterInput(input) {
+            if (!input) return;
+            var type = input.getAttribute('data-stats-filter-type');
+            var column = input.getAttribute('data-stats-filter-col');
+            if (!type || column == null || !statsSortState[type]) return;
+            var selectedDirection = input.value || '';
+            var numericColumn = Number(column);
+
+            if (selectedDirection === 'asc' || selectedDirection === 'desc') {
+                statsSortState[type].column = numericColumn;
+                statsSortState[type].direction = selectedDirection;
+            } else if (statsSortState[type].column === numericColumn) {
+                statsSortState[type] = getDefaultStatsSortConfig(type);
+            }
+
+            renderAllStats();
+        }
+
+        function ensureStatsFilterRow(tableId, cols, type) {
+            var table = document.getElementById(tableId);
+            var thead = table ? table.querySelector('thead') : null;
+            if (!thead) return;
+
+            var headerRow = thead.querySelector('tr');
+            if (!headerRow) return;
+            headerRow.classList.add('stats-column-row');
+
+            var filterRow = thead.querySelector('.stats-filter-row');
+            if (!filterRow) {
+                filterRow = document.createElement('tr');
+                filterRow.className = 'stats-filter-row';
+                thead.appendChild(filterRow);
+            }
+
+            var headerCount = headerRow.querySelectorAll('th').length;
+            var sortableColumns = type === 'offensive' || type === 'recapOffensive'
+                ? [2, 3, 4, 5, 6, 7, 8, 9, 10]
+                : [2, 3, 4, 5, 6, 7];
+            var html = '';
+            for (var index = 0; index < headerCount; index += 1) {
+                if (index >= cols.length) {
+                    html += '<th class="stats-filter-spacer"></th>';
+                    continue;
+                }
+                if (sortableColumns.indexOf(index) === -1) {
+                    html += '<th class="stats-filter-spacer"></th>';
+                    continue;
+                }
+                var currentValue = getStatsSortSelectValue(type, index);
+                var optionsHtml = '';
+                optionsHtml += '<option value="">Sort ' + escapeHtml(cols[index]) + '</option>';
+                optionsHtml += '<option value="desc"' + (currentValue === 'desc' ? ' selected' : '') + '>Greatest to Least</option>';
+                optionsHtml += '<option value="asc"' + (currentValue === 'asc' ? ' selected' : '') + '>Least to Greatest</option>';
+                html += '<th><select class="stats-filter-input" data-stats-filter-type="' + escapeHtml(type) + '" data-stats-filter-col="' + index + '" onchange="handleStatsFilterInput(this)">' + optionsHtml + '</select></th>';
+            }
+            filterRow.innerHTML = html;
+        }
+
+        function ensureAllStatsFilterUI() {
+            ensureStatsFilterRow('offensiveStatsTable', offensiveCols, 'offensive');
+            ensureStatsFilterRow('defensiveStatsTable', defensiveCols, 'defensive');
+            ensureStatsFilterRow('recapOffensiveStatsTable', offensiveCols, 'recapOffensive');
+            ensureStatsFilterRow('recapDefensiveStatsTable', defensiveCols, 'recapDefensive');
+        }
+
+        function getDefaultSeasonLabel(offset) {
+            return String(new Date().getFullYear() + (offset || 0)) + ' Season';
+        }
+
+        function getNextSeasonLabel(label) {
+            var text = String(label || '').trim();
+            var match = text.match(/(19|20)\d{2}/);
+            if (!match) return getDefaultSeasonLabel(1);
+            var nextYear = String(Number(match[0]) + 1);
+            return text.replace(match[0], nextYear);
+        }
+
+        function loadSeasonLabel(key, fallback) {
+            try {
+                return (localStorage.getItem(key) || fallback || '').trim() || fallback;
+            } catch (err) {
+                return fallback;
+            }
+        }
+
+        function saveSeasonLabel(key, value) {
+            localStorage.setItem(key, String(value || '').trim());
+        }
+
+        function loadSeasonArchives() {
+            try {
+                var parsed = JSON.parse(localStorage.getItem(SEASON_ARCHIVES_KEY) || '[]');
+                return Array.isArray(parsed) ? parsed : [];
+            } catch (err) {
+                return [];
+            }
+        }
+
+        function saveSeasonArchives(items) {
+            localStorage.setItem(SEASON_ARCHIVES_KEY, JSON.stringify(items || []));
+        }
+
+        function getSelectedSeasonArchiveId() {
+            return localStorage.getItem(SELECTED_SEASON_ARCHIVE_KEY) || '';
+        }
+
+        function setSelectedSeasonArchiveId(id) {
+            if (id) localStorage.setItem(SELECTED_SEASON_ARCHIVE_KEY, id);
+            else localStorage.removeItem(SELECTED_SEASON_ARCHIVE_KEY);
+        }
+
+        function migrateLegacyRecapArchive() {
+            var archives = loadSeasonArchives();
+            if (archives.length) return archives;
+
+            var legacyOffensive = loadPlayerStats(RECAP_OFFENSIVE_STATS_KEY) || [];
+            var legacyDefensive = loadPlayerStats(RECAP_DEFENSIVE_STATS_KEY) || [];
+            var legacyLabel = loadSeasonLabel(RECAP_SEASON_LABEL_KEY, '').trim();
+            if (!legacyLabel && !legacyOffensive.length && !legacyDefensive.length) {
+                return archives;
+            }
+
+            var legacyArchive = {
+                id: 'archive-' + Date.now(),
+                label: legacyLabel || 'Archived Season',
+                archivedAt: new Date().toISOString(),
+                offensive: legacyOffensive,
+                defensive: legacyDefensive
+            };
+            archives = [legacyArchive];
+            saveSeasonArchives(archives);
+            setSelectedSeasonArchiveId(legacyArchive.id);
+            return archives;
+        }
+
+        function getSelectedSeasonArchive() {
+            var archives = migrateLegacyRecapArchive();
+            if (!archives.length) return null;
+            var selectedId = getSelectedSeasonArchiveId();
+            var selected = archives.find(function(item) { return item.id === selectedId; }) || archives[0];
+            if (selected && selected.id !== selectedId) setSelectedSeasonArchiveId(selected.id);
+            return selected || null;
+        }
+
+        function renderSeasonLabels() {
+            var currentLabel = loadSeasonLabel(CURRENT_SEASON_LABEL_KEY, getDefaultSeasonLabel(0));
+            var selectedArchive = getSelectedSeasonArchive();
+            var recapLabel = selectedArchive ? selectedArchive.label : 'Previous Season Not Archived Yet';
+            var currentDisplay = document.getElementById('currentSeasonLabelDisplay');
+            var recapDisplay = document.getElementById('seasonRecapLabelDisplay');
+            var currentInput = document.getElementById('currentSeasonLabelInput');
+            if (currentDisplay) currentDisplay.textContent = currentLabel;
+            if (recapDisplay) recapDisplay.textContent = recapLabel;
+            if (currentInput) currentInput.value = currentLabel;
+        }
+
+        function formatArchiveUpdatedAt(value) {
+            if (!value) return 'Archive has not been updated yet.';
+            var date = new Date(value);
+            if (Number.isNaN(date.getTime())) return 'Archive has not been updated yet.';
+            return 'Last updated: ' + date.toLocaleString();
+        }
+
+        function bindSeasonRecapSelect() {
+            var select = document.getElementById('seasonRecapSelect');
+            if (!select || select.dataset.bound === 'true') return;
+            select.dataset.bound = 'true';
+            select.addEventListener('change', function() {
+                setSelectedSeasonArchiveId(this.value);
+                renderSeasonLabels();
+                renderSeasonRecapStats();
+            });
+        }
+
+        function renderSeasonArchiveSelect() {
+            var select = document.getElementById('seasonRecapSelect');
+            var note = document.getElementById('seasonRecapUpdatedNote');
+            if (!select) return;
+            var archives = migrateLegacyRecapArchive();
+            var selectedArchive = getSelectedSeasonArchive();
+
+            if (!archives.length) {
+                select.innerHTML = '<option value="">No archived seasons yet</option>';
+                select.disabled = true;
+                if (note) note.textContent = 'Archive has not been updated yet.';
+                return;
+            }
+
+            select.disabled = false;
+            select.innerHTML = archives.map(function(item) {
+                return '<option value="' + escapeHtml(item.id) + '">' + escapeHtml(item.label) + '</option>';
+            }).join('');
+            if (selectedArchive) select.value = selectedArchive.id;
+            if (note) note.textContent = formatArchiveUpdatedAt(selectedArchive && selectedArchive.archivedAt);
+        }
 
         function escapeHtml(value) {
             return String(value == null ? '' : value)
@@ -2724,6 +3513,12 @@
             }).join('');
         }
 
+        function normalizeScheduleResultText(value) {
+            var text = String(value || '').trim();
+            if (!text || /^upcoming$/i.test(text)) return '0-0';
+            return text;
+        }
+
         function parseLegacyMatchup(matchup) {
             var text = String(matchup || '').trim();
             if (!text) return { homeTeam: '', awayTeam: '' };
@@ -2749,29 +3544,102 @@
                 awayTeam: String(source.awayTeam || legacyTeams.awayTeam || '').trim(),
                 awayLogo: String(source.awayLogo || '').trim(),
                 location: String(source.location || '').trim(),
-                status: String(source.status || '').trim()
+                status: normalizeScheduleResultText(source.status)
             };
         }
 
-        function renderScheduleTeamMarkup(name, logo, sideClass) {
+        function getScheduleResultOutcome(text) {
+            var result = parseScheduleResultText(normalizeScheduleResultText(text));
+            var left = Number(result.leftScore);
+            var right = Number(result.rightScore);
+            if (!result.hasPair || Number.isNaN(left) || Number.isNaN(right) || left === right) {
+                return { home: '', away: '' };
+            }
+            return left > right ? { home: 'win', away: 'loss' } : { home: 'loss', away: 'win' };
+        }
+
+        function renderScheduleTeamMarkup(name, logo, sideClass, outcome) {
             var teamName = name || 'TBD';
             var safeName = escapeHtml(teamName);
             var safeLogo = escapeHtml(logo || '');
+            var badgeMarkup = outcome === 'win'
+                ? '<div class="schedule-team-badge win">W</div>'
+                : outcome === 'loss'
+                    ? '<div class="schedule-team-badge loss">L</div>'
+                    : '';
             var logoMarkup = logo
                 ? '<img class="schedule-team-logo" src="' + safeLogo + '" alt="' + safeName + ' logo">'
                 : '<div class="schedule-team-logo schedule-team-logo-placeholder">' + escapeHtml(getScheduleTeamInitials(teamName)) + '</div>';
 
             return '<div class="schedule-team ' + sideClass + '">' +
+                badgeMarkup +
                 logoMarkup +
                 '<div class="schedule-team-name">' + safeName + '</div>' +
             '</div>';
         }
 
         function renderScheduleMatchupMarkup(row) {
+            var outcome = getScheduleResultOutcome(row.status);
             return '<div class="schedule-matchup" data-home-logo="' + escapeHtml(row.homeLogo || '') + '" data-away-logo="' + escapeHtml(row.awayLogo || '') + '">' +
-                renderScheduleTeamMarkup(row.homeTeam, row.homeLogo, 'schedule-team-home') +
+                renderScheduleTeamMarkup(row.homeTeam, row.homeLogo, 'schedule-team-home', outcome.home) +
                 '<div class="schedule-versus">VS</div>' +
-                renderScheduleTeamMarkup(row.awayTeam, row.awayLogo, 'schedule-team-away') +
+                renderScheduleTeamMarkup(row.awayTeam, row.awayLogo, 'schedule-team-away', outcome.away) +
+            '</div>';
+        }
+
+        function parseScheduleResultText(text) {
+            var value = normalizeScheduleResultText(text);
+            var match = value.match(/^(.+?)\s*-\s*(.+)$/);
+            if (!match) {
+                return {
+                    leftScore: value || '\u2014',
+                    rightScore: '\u2014',
+                    hasPair: false
+                };
+            }
+            return {
+                leftScore: match[1].trim() || '\u2014',
+                rightScore: match[2].trim() || '\u2014',
+                hasPair: true
+            };
+        }
+
+        function getScheduleAdminScoreParts(text) {
+            var parsed = parseScheduleResultText(text);
+            var left = String(parsed.leftScore || '0').trim();
+            var right = String(parsed.rightScore || '0').trim();
+            return {
+                left: /^\d+$/.test(left) ? left : '0',
+                right: /^\d+$/.test(right) ? right : '0'
+            };
+        }
+
+        function syncScheduleScoreInputs(input) {
+            var row = input ? input.closest('tr') : null;
+            if (!row) return;
+            var leftInput = row.querySelector('input[data-score-part="left"]');
+            var rightInput = row.querySelector('input[data-score-part="right"]');
+            var hiddenInput = row.querySelector('input[data-key="status"]');
+            if (!leftInput || !rightInput || !hiddenInput) return;
+            var left = String(leftInput.value || '0').replace(/[^0-9]/g, '') || '0';
+            var right = String(rightInput.value || '0').replace(/[^0-9]/g, '') || '0';
+            leftInput.value = left;
+            rightInput.value = right;
+            hiddenInput.value = left + '-' + right;
+        }
+
+        function renderScheduleResultMarkup(row) {
+            var result = parseScheduleResultText(row.status);
+            return '<div class="schedule-result">' +
+                '<div class="schedule-result-scoreboard">' +
+                    '<div class="schedule-result-score">' + escapeHtml(result.leftScore) + '</div>' +
+                    '<div class="schedule-result-separator">-</div>' +
+                    '<div class="schedule-result-score">' + escapeHtml(result.rightScore) + '</div>' +
+                '</div>' +
+                '<div class="schedule-result-teams">' +
+                    '<div class="schedule-result-team">' + escapeHtml(row.homeTeam || 'TBD') + '</div>' +
+                    '<div class="schedule-result-team">' + escapeHtml(row.awayTeam || 'TBD') + '</div>' +
+                '</div>' +
             '</div>';
         }
 
@@ -2835,6 +3703,7 @@
                 const cells = Array.from(tr.querySelectorAll('td'));
                 if (cells.length < 6) return null;
                 const matchup = cells[3].querySelector('.schedule-matchup');
+                const resultScore = cells[5].querySelector('.schedule-result-score');
                 const legacyMatchup = parseLegacyMatchup(cells[3].innerText.replace(/\s+/g, ' ').trim());
                 const homeTeamName = matchup ? matchup.querySelector('.schedule-team-home .schedule-team-name') : null;
                 const awayTeamName = matchup ? matchup.querySelector('.schedule-team-away .schedule-team-name') : null;
@@ -2847,7 +3716,7 @@
                     awayTeam: awayTeamName ? awayTeamName.innerText.trim() : legacyMatchup.awayTeam,
                     awayLogo: matchup ? (matchup.dataset.awayLogo || '') : '',
                     location: cells[4].innerText.trim() || '',
-                    status: cells[5].innerText.trim() || ''
+                    status: normalizeScheduleResultText(resultScore ? resultScore.innerText.trim() : cells[5].innerText.trim() || '')
                 };
             }).filter(function(row) {
                 return row && Object.keys(row).some(function(key) { return row[key]; });
@@ -2890,7 +3759,7 @@
                     '<td>' + escapeHtml(row.time || '\u2014') + '</td>' +
                     '<td>' + renderScheduleMatchupMarkup(row) + '</td>' +
                     '<td>' + escapeHtml(row.location || '\u2014') + '</td>' +
-                    '<td>' + escapeHtml(row.status || '\u2014') + '</td>' +
+                    '<td>' + renderScheduleResultMarkup(row) + '</td>' +
                 '</tr>';
             }).join('');
         }
@@ -2918,6 +3787,7 @@
             let html = '';
 
             editableRows.map(normalizeLeagueScheduleRow).forEach(function(row, rowIdx) {
+                var scoreParts = getScheduleAdminScoreParts(row.status);
                 html += '<tr>' +
                     '<td><input type="text" data-key="week" value="' + escapeHtml(row.week || '') + '" placeholder="Week 1"></td>' +
                     '<td><input type="text" data-key="date" value="' + escapeHtml(row.date || '') + '" placeholder="MM/DD/YYYY"></td>' +
@@ -2945,7 +3815,14 @@
                         '</div>' +
                     '</td>' +
                     '<td><input type="text" data-key="location" value="' + escapeHtml(row.location || '') + '" placeholder="Field name"></td>' +
-                    '<td><input type="text" data-key="status" value="' + escapeHtml(row.status || '') + '" placeholder="Upcoming"></td>' +
+                    '<td>' +
+                        '<div class="schedule-score-editor">' +
+                            '<input type="number" min="0" step="1" data-score-part="left" value="' + escapeHtml(scoreParts.left) + '" oninput="syncScheduleScoreInputs(this)">' +
+                            '<span>-</span>' +
+                            '<input type="number" min="0" step="1" data-score-part="right" value="' + escapeHtml(scoreParts.right) + '" oninput="syncScheduleScoreInputs(this)">' +
+                            '<input type="hidden" data-key="status" value="' + escapeHtml(normalizeScheduleResultText(row.status || '0-0')) + '">' +
+                        '</div>' +
+                    '</td>' +
                     '<td><button type="button" class="cta-button small" style="background:#c62828;" onclick="removeLeagueAdminRow(\'schedule\',' + rowIdx + ')">Remove</button></td>' +
                 '</tr>';
             });
@@ -3036,13 +3913,134 @@
             localStorage.setItem(key, JSON.stringify(data));
         }
 
-        function renderStatsTable(bodyId, key, cols) {
+        function getStatsSortConfig(type) {
+            return statsSortState[type] || { column: 3, direction: 'desc' };
+        }
+
+        function getStatsCellValue(row, column) {
+            if (!row || row[column] == null) return { type: 'text', value: '' };
+            const rawValue = String(row[column]).trim();
+            const numeric = Number(rawValue.replace(/[^0-9.-]/g, ''));
+            if (rawValue && !Number.isNaN(numeric) && /^-?[0-9]+(?:\.[0-9]+)?$/.test(rawValue.replace(/,/g, ''))) {
+                return { type: 'number', value: numeric };
+            }
+            return { type: 'text', value: rawValue.toLowerCase() };
+        }
+
+        function getSortedStatsRows(data, type) {
+            const config = getStatsSortConfig(type);
+            return data.map(function(row, originalIndex) {
+                if (row && row.row && row.originalIndex !== undefined) {
+                    return row;
+                }
+                return { row: row, originalIndex: originalIndex };
+            }).sort(function(left, right) {
+                const leftValue = getStatsCellValue(left.row, config.column);
+                const rightValue = getStatsCellValue(right.row, config.column);
+
+                if (!leftValue.value && !rightValue.value) {
+                    return left.originalIndex - right.originalIndex;
+                }
+                if (!leftValue.value) return 1;
+                if (!rightValue.value) return -1;
+
+                if (leftValue.type === 'number' && rightValue.type === 'number') {
+                    if (leftValue.value === rightValue.value) {
+                        return left.originalIndex - right.originalIndex;
+                    }
+                    return config.direction === 'asc' ? leftValue.value - rightValue.value : rightValue.value - leftValue.value;
+                }
+
+                const compareResult = String(leftValue.value).localeCompare(String(rightValue.value), undefined, { numeric: true, sensitivity: 'base' });
+                if (compareResult === 0) {
+                    return left.originalIndex - right.originalIndex;
+                }
+                return config.direction === 'asc' ? compareResult : -compareResult;
+            });
+        }
+
+        function bindStatsHeaderSorting() {
+            [
+                { type: 'offensive', tableId: 'offensiveStatsTable', sortableColumns: [2, 3, 4, 5, 6, 7, 8, 9, 10] },
+                { type: 'defensive', tableId: 'defensiveStatsTable', sortableColumns: [2, 3, 4, 5, 6, 7] },
+                { type: 'recapOffensive', tableId: 'recapOffensiveStatsTable', sortableColumns: [2, 3, 4, 5, 6, 7, 8, 9, 10] },
+                { type: 'recapDefensive', tableId: 'recapDefensiveStatsTable', sortableColumns: [2, 3, 4, 5, 6, 7] }
+            ].forEach(function(config) {
+                const table = document.getElementById(config.tableId);
+                const headers = table ? table.querySelectorAll('thead .stats-column-row th') : [];
+                if (!headers.length) return;
+
+                headers.forEach(function(header, index) {
+                    header.classList.remove('sortable-stat-header', 'sort-asc', 'sort-desc');
+                    header.removeAttribute('role');
+                    header.removeAttribute('tabindex');
+                    header.removeAttribute('title');
+                    header.removeAttribute('aria-label');
+
+                    var indicator = header.querySelector('.stat-sort-indicator');
+                    if (config.sortableColumns.indexOf(index) === -1) {
+                        if (indicator) indicator.remove();
+                        return;
+                    }
+
+                    header.classList.add('sortable-stat-header');
+                    header.setAttribute('role', 'button');
+                    header.setAttribute('tabindex', '0');
+                    header.setAttribute('title', 'Sort greatest to least. Click again for least to greatest.');
+                    header.setAttribute('aria-label', header.textContent.trim() + '. Sort greatest to least, then least to greatest.');
+
+                    if (!indicator) {
+                        indicator = document.createElement('span');
+                        indicator.className = 'stat-sort-indicator';
+                        indicator.setAttribute('aria-hidden', 'true');
+                        header.appendChild(indicator);
+                    }
+                    indicator.textContent = '↕';
+
+                    if (statsSortState[config.type].column === index) {
+                        header.classList.add(statsSortState[config.type].direction === 'asc' ? 'sort-asc' : 'sort-desc');
+                        indicator.textContent = statsSortState[config.type].direction === 'asc' ? '↑' : '↓';
+                    }
+
+                    if (header.dataset.sortBound === 'true') return;
+                    header.dataset.sortBound = 'true';
+
+                    function handleSortTrigger() {
+                        if (statsSortState[config.type].column === index) {
+                            statsSortState[config.type].direction = statsSortState[config.type].direction === 'desc' ? 'asc' : 'desc';
+                        } else {
+                            statsSortState[config.type].column = index;
+                            statsSortState[config.type].direction = 'desc';
+                        }
+                        renderAllStats();
+                    }
+
+                    header.addEventListener('click', handleSortTrigger);
+                    header.addEventListener('keydown', function(event) {
+                        if (event.key === 'Enter' || event.key === ' ') {
+                            event.preventDefault();
+                            handleSortTrigger();
+                        }
+                    });
+                });
+            });
+        }
+
+        function renderStatsTable(bodyId, key, cols, type, allowEditing, useBlankFallback, overrideData) {
             const tbody = document.getElementById(bodyId);
             if (!tbody) return;
-            const isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
-            const data = loadPlayerStats(key) || [cols.map(function() { return ''; })];
+            const isAdmin = !!allowEditing;
+            const fallbackRows = useBlankFallback === false ? [] : [cols.map(function() { return ''; })];
+            const data = Array.isArray(overrideData) ? overrideData : (loadPlayerStats(key) || fallbackRows);
+            const sortedRows = getSortedStatsRows(data, type);
+            if (!data.length) {
+                tbody.innerHTML = '<tr><td colspan="' + cols.length + '" style="text-align:center; color:#aaa;">No stats recorded yet.</td></tr>';
+                return;
+            }
             let html = '';
-            data.forEach(function(row, rIdx) {
+            sortedRows.forEach(function(entry) {
+                const row = normalizeStatsRow(entry.row, cols);
+                const rIdx = entry.originalIndex;
                 html += '<tr>';
                 row.forEach(function(cell, cIdx) {
                     if (isAdmin) {
@@ -3058,7 +4056,6 @@
             });
             tbody.innerHTML = html;
 
-            // bind input events for admin
             if (isAdmin) {
                 tbody.querySelectorAll('input[type="text"]').forEach(function(inp) {
                     inp.addEventListener('input', function() {
@@ -3072,34 +4069,92 @@
             }
         }
 
+        function saveCurrentSeasonLabel() {
+            if (!isAdminLoggedIn()) return;
+            var input = document.getElementById('currentSeasonLabelInput');
+            var label = input ? input.value.trim() : '';
+            if (!label) label = getDefaultSeasonLabel(0);
+            saveSeasonLabel(CURRENT_SEASON_LABEL_KEY, label);
+            renderSeasonLabels();
+            var msg = document.getElementById('seasonStatsAdminMsg');
+            if (msg) {
+                msg.style.color = 'green';
+                msg.textContent = 'Current season label saved.';
+                setTimeout(function() { if (msg.textContent === 'Current season label saved.') msg.textContent = ''; }, 3000);
+            }
+        }
+
+        function archiveCurrentSeasonToRecap() {
+            if (!isAdminLoggedIn()) return;
+            var currentLabelInput = document.getElementById('currentSeasonLabelInput');
+            var currentLabel = currentLabelInput && currentLabelInput.value.trim() ? currentLabelInput.value.trim() : loadSeasonLabel(CURRENT_SEASON_LABEL_KEY, getDefaultSeasonLabel(0));
+            saveSeasonLabel(CURRENT_SEASON_LABEL_KEY, currentLabel);
+            var archivedAt = new Date().toISOString();
+            var archives = migrateLegacyRecapArchive().filter(function(item) {
+                return item.label !== currentLabel;
+            });
+            var archiveEntry = {
+                id: 'archive-' + Date.now(),
+                label: currentLabel,
+                archivedAt: archivedAt,
+                offensive: loadPlayerStats(OFFENSIVE_STATS_KEY) || [],
+                defensive: loadPlayerStats(DEFENSIVE_STATS_KEY) || []
+            };
+            archives.unshift(archiveEntry);
+            saveSeasonArchives(archives);
+            setSelectedSeasonArchiveId(archiveEntry.id);
+            saveSeasonLabel(RECAP_SEASON_LABEL_KEY, currentLabel);
+
+            var nextSeasonLabel = getNextSeasonLabel(currentLabel);
+            saveSeasonLabel(CURRENT_SEASON_LABEL_KEY, nextSeasonLabel);
+            renderSeasonLabels();
+            renderSeasonArchiveSelect();
+            renderSeasonRecapStats();
+            var msg = document.getElementById('seasonStatsAdminMsg');
+            if (msg) {
+                msg.style.color = 'green';
+                msg.textContent = 'Season archived. Current season advanced to ' + nextSeasonLabel + '.';
+                setTimeout(function() { if (msg.textContent === 'Season archived. Current season advanced to ' + nextSeasonLabel + '.') msg.textContent = ''; }, 3000);
+            }
+        }
+
+        function renderSeasonRecapStats() {
+            var selectedArchive = getSelectedSeasonArchive();
+            ensureAllStatsFilterUI();
+            bindStatsHeaderSorting();
+            renderSeasonArchiveSelect();
+            renderStatsTable('recapOffensiveStatsBody', '__recapOffensiveVirtual__', offensiveCols, 'recapOffensive', false, false, selectedArchive ? selectedArchive.offensive : []);
+            renderStatsTable('recapDefensiveStatsBody', '__recapDefensiveVirtual__', defensiveCols, 'recapDefensive', false, false, selectedArchive ? selectedArchive.defensive : []);
+        }
+
         function addStatsRow(bodyId, type) {
             var key = type === 'offensive' ? OFFENSIVE_STATS_KEY : DEFENSIVE_STATS_KEY;
             var cols = type === 'offensive' ? offensiveCols : defensiveCols;
             var data = loadPlayerStats(key) || [];
             data.push(cols.map(function() { return ''; }));
             savePlayerStats(key, data);
-            renderStatsTable(bodyId, key, cols);
+            renderAllStats();
             markUnsaved();
         }
 
         function removeStatsRow(bodyId, key, rowIdx) {
-            var cols = key === OFFENSIVE_STATS_KEY ? offensiveCols : defensiveCols;
             var data = loadPlayerStats(key) || [];
             if (data.length <= 1) { alert('Cannot remove the last row.'); return; }
             data.splice(rowIdx, 1);
             savePlayerStats(key, data);
-            renderStatsTable(bodyId, key, cols);
+            renderAllStats();
             markUnsaved();
         }
 
         function renderAllStats() {
             var isAdmin = sessionStorage.getItem('adminLoggedIn') === 'true';
-            // Show/hide admin buttons
             var offBtn = document.getElementById('offensiveStatsAdminBtns');
             var defBtn = document.getElementById('defensiveStatsAdminBtns');
+            var seasonPanel = document.getElementById('seasonStatsAdminPanel');
             if (offBtn) offBtn.style.display = isAdmin ? 'block' : 'none';
             if (defBtn) defBtn.style.display = isAdmin ? 'block' : 'none';
-            // Add/remove "Remove" column header
+            if (seasonPanel) seasonPanel.style.display = isAdmin ? 'block' : 'none';
+
             var offThead = document.querySelector('#offensiveStatsTable thead tr');
             var defThead = document.querySelector('#defensiveStatsTable thead tr');
             if (isAdmin) {
@@ -3113,10 +4168,17 @@
                 if (offThead) { var rmTh = offThead.querySelector('.admin-remove-th'); if (rmTh) rmTh.remove(); }
                 if (defThead) { var rmTh2 = defThead.querySelector('.admin-remove-th'); if (rmTh2) rmTh2.remove(); }
             }
-            renderStatsTable('offensiveStatsBody', OFFENSIVE_STATS_KEY, offensiveCols);
-            renderStatsTable('defensiveStatsBody', DEFENSIVE_STATS_KEY, defensiveCols);
+
+            renderSeasonLabels();
+            bindSeasonRecapSelect();
+            ensureAllStatsFilterUI();
+            bindStatsHeaderSorting();
+            renderStatsTable('offensiveStatsBody', OFFENSIVE_STATS_KEY, offensiveCols, 'offensive', isAdmin, true);
+            renderStatsTable('defensiveStatsBody', DEFENSIVE_STATS_KEY, defensiveCols, 'defensive', isAdmin, true);
+            renderSeasonRecapStats();
         }
         renderLeagueAdminTables();
+        ensureLeagueScheduleResultsUI();
         renderAllStats();
 
         // page-wide edit state
@@ -3262,9 +4324,11 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
 
-            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+            const adminAccount = getMatchingAdminAccount(username, password);
+
+            if (adminAccount) {
                 sessionStorage.setItem('adminLoggedIn', 'true');
-                sessionStorage.setItem('adminUsername', username);
+                sessionStorage.setItem('adminUsername', adminAccount.username);
                 // show feedback inside modal
                 const msgEl = document.getElementById('loginError');
                 if (msgEl) {
@@ -3290,6 +4354,8 @@
             document.getElementById('loginModal').classList.add('hidden');
             document.getElementById('loginModal').style.display = 'none';
             document.getElementById('adminHeader').style.display = 'block';
+            ensureAdminBrandingUI();
+            bindAdminBrandingControls();
             // display username if available
             const adminNameEl = document.getElementById('adminNameDisplay');
             const stored = sessionStorage.getItem('adminUsername');
@@ -3309,7 +4375,7 @@
             bindPayPalSettingsControls && bindPayPalSettingsControls();
             var scheduleAdminPanel = document.getElementById('leagueScheduleAdminPanel');
             if (scheduleAdminPanel) scheduleAdminPanel.classList.add('visible');
-            showPage('leagueSchedule');
+            showPage('documentsAdmin');
             persistSiteContent();
         }
 
