@@ -64,6 +64,12 @@
 
         <label>Therapist Signature <input name="signature"></label>
         <label>Date <input name="signatureDate" type="date"></label>
+
+        <h2>Intake Forms</h2>
+        <label>
+          Upload scanned intake forms
+          <input id="intakeForms" name="intakeForms" type="file" accept=".pdf,image/*" multiple>
+        </label>
       </section>
 
       <button type="submit">Save Note</button>
@@ -73,6 +79,8 @@
     <section class="card">
       <h2>Saved Notes</h2>
       <div id="savedNotes"></div>
+      <h2>Saved Intake Forms</h2>
+      <div id="savedIntakeForms"></div>
     </section>
   </main>
 

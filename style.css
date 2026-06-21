@@ -75,6 +75,16 @@ button:hover {
   padding: 10px 0;
 }
 
+.note a {
+  display: inline-block;
+  margin: 8px 10px 0 0;
+}
+
+[role="status"] {
+  margin: 0 0 20px;
+  font-weight: 600;
+}
+
 @media print {
   button, #savedNotes {
     display: none;
