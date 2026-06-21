@@ -5,15 +5,15 @@
 // The user_id column is populated automatically by the RLS policy
 // using auth.uid(), so it must not be sent from the client.
 
-import { createClient } from "@supabase/supabase-js";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import type { Database, ClientInsert, ClientRow } from "../types";
 
-const supabase = createClient<Database>(
+const supabase = createSupabaseClient<Database>(
   process.env.SUPABASE_URL!,
   process.env.SUPABASE_ANON_KEY!
 );
 
-export async function createClient_(
+export async function createClient(
   payload: ClientInsert
 ): Promise<ClientRow> {
   const { data, error } = await supabase
@@ -27,7 +27,7 @@ export async function createClient_(
 }
 
 // --------------- Example usage ---------------
-// const newClient = await createClient_({
+// const newClient = await createClient({
 //   first_name: "Jane",
 //   last_name: "Doe",
 //   phone: "555-123-4567",
