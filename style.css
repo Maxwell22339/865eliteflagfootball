@@ -1,0 +1,86 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f4f0;
+  margin: 0;
+  color: #333;
+}
+
+.page {
+  max-width: 1100px;
+  margin: auto;
+  padding: 24px;
+}
+
+h1 {
+  text-align: center;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 6px;
+}
+
+h2 {
+  color: #59634d;
+  letter-spacing: 1px;
+}
+
+label {
+  display: block;
+  margin: 10px 0;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+}
+
+textarea {
+  min-height: 95px;
+}
+
+button {
+  background: #59634d;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  margin-right: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #414838;
+}
+
+.note {
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+@media print {
+  button, #savedNotes {
+    display: none;
+  }
+
+  body {
+    background: white;
+  }
+}
