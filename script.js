@@ -1,0 +1,160 @@
+const form = document.getElementById("soapForm");
+const savedNotes = document.getElementById("savedNotes");
+const savedIntakeForms = document.getElementById("savedIntakeForms");
+const intakeFormsInput = document.getElementById("intakeForms");
+
+function getStorageArray(key) {
+  try {
+    const data = JSON.parse(localStorage.getItem(key));
+    return Array.isArray(data) ? data : [];
+  } catch {
+    return [];
+  }
+}
+
+function setStorageArray(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+function getNotes() {
+  return getStorageArray("soapNotes");
+}
+
+function saveNotes(notes) {
+  setStorageArray("soapNotes", notes);
+}
+
+function getIntakeForms() {
+  return getStorageArray("intakeForms");
+}
+
+function saveIntakeForms(forms) {
+  setStorageArray("intakeForms", forms);
+}
+
+function createTextRow(label, value) {
+  const line = document.createElement("div");
+  line.textContent = `${label}: ${value || "N/A"}`;
+  return line;
+}
+
+function displayNotes() {
+  const notes = getNotes();
+  savedNotes.innerHTML = "";
+
+  notes.forEach((note, index) => {
+    const card = document.createElement("div");
+    card.className = "note";
+
+    const title = document.createElement("strong");
+    title.textContent = note.name || "Unnamed Client";
+    card.appendChild(title);
+    card.appendChild(createTextRow("Date", note.date || "No date"));
+    card.appendChild(createTextRow("Session Length", note.sessionLength || "N/A"));
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => deleteNote(index));
+    card.appendChild(deleteButton);
+
+    savedNotes.appendChild(card);
+  });
+}
+
+function displayIntakeForms() {
+  const forms = getIntakeForms();
+  savedIntakeForms.innerHTML = "";
+
+  forms.forEach((item, index) => {
+    const card = document.createElement("div");
+    card.className = "note";
+
+    const name = document.createElement("strong");
+    name.textContent = item.name || "Uploaded intake form";
+    card.appendChild(name);
+    card.appendChild(createTextRow("Uploaded", item.uploadedAt || "Unknown"));
+
+    const openLink = document.createElement("a");
+    openLink.href = item.dataUrl;
+    openLink.target = "_blank";
+    openLink.rel = "noopener noreferrer";
+    openLink.textContent = "Open file";
+    card.appendChild(openLink);
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.textContent = "Delete";
+    deleteButton.addEventListener("click", () => deleteIntakeForm(index));
+    card.appendChild(deleteButton);
+
+    savedIntakeForms.appendChild(card);
+  });
+}
+
+function deleteNote(index) {
+  const notes = getNotes();
+  notes.splice(index, 1);
+  saveNotes(notes);
+  displayNotes();
+}
+
+function deleteIntakeForm(index) {
+  const forms = getIntakeForms();
+  forms.splice(index, 1);
+  saveIntakeForms(forms);
+  displayIntakeForms();
+}
+
+function fileToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(reader.error);
+    reader.readAsDataURL(file);
+  });
+}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+
+  const formData = new FormData(form);
+  const note = {};
+
+  formData.forEach((value, key) => {
+    if (key === "modalities") {
+      if (!note.modalities) note.modalities = [];
+      note.modalities.push(value);
+      return;
+    }
+
+    if (key === "intakeForms") return;
+    note[key] = value;
+  });
+
+  const notes = getNotes();
+  notes.push(note);
+  saveNotes(notes);
+
+  const uploads = Array.from(intakeFormsInput.files || []);
+  if (uploads.length) {
+    const existingForms = getIntakeForms();
+    for (const file of uploads) {
+      const dataUrl = await fileToDataUrl(file);
+      existingForms.push({
+        name: file.name,
+        type: file.type,
+        uploadedAt: new Date().toLocaleString(),
+        dataUrl
+      });
+    }
+    saveIntakeForms(existingForms);
+  }
+
+  form.reset();
+  displayNotes();
+  displayIntakeForms();
+});
+
+displayNotes();
+displayIntakeForms();
