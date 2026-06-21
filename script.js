@@ -2,8 +2,9 @@ const form = document.getElementById("soapForm");
 const savedNotes = document.getElementById("savedNotes");
 const savedIntakeForms = document.getElementById("savedIntakeForms");
 const intakeFormsInput = document.getElementById("intakeForms");
-const MAX_FILE_SIZE_BYTES = 3 * 1024 * 1024;
-const MAX_FILE_SIZE_MB = MAX_FILE_SIZE_BYTES / (1024 * 1024);
+const MAX_FILE_SIZE_MB = 3;
+const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+const MAX_LOCAL_STORAGE_CHARS = 4_500_000;
 
 const statusMessage = document.createElement("p");
 statusMessage.setAttribute("role", "status");
@@ -134,7 +135,7 @@ function fileToDataUrl(file) {
 
 function assertStorageBudget(forms) {
   const serialized = JSON.stringify(forms);
-  if (serialized.length > 4_500_000) {
+  if (serialized.length > MAX_LOCAL_STORAGE_CHARS) {
     throw new Error(
       "Storage limit reached. Delete older intake forms or upload fewer files."
     );
@@ -174,7 +175,7 @@ form.addEventListener("submit", async (event) => {
       newForms.push({
         name: file.name,
         type: file.type,
-        uploadedAt: new Date().toLocaleString(),
+        uploadedAt: new Date().toISOString(),
         dataUrl
       });
     }
@@ -199,7 +200,17 @@ form.addEventListener("submit", async (event) => {
     try {
       saveNotes(previousNotes);
       saveIntakeForms(previousForms);
-    } catch {}
+    } catch (rollbackError) {
+      setStatus(
+        `${error.message || "Unable to save note."} Rollback failed: ${
+          rollbackError.message || "Unknown error"
+        }.`,
+        true
+      );
+      displayNotes();
+      displayIntakeForms();
+      return;
+    }
     setStatus(error.message || "Unable to save note.", true);
     displayNotes();
     displayIntakeForms();
