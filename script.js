@@ -30,7 +30,8 @@ function setStorageArray(key, value) {
 
 function setStatus(message, isError = false) {
   statusMessage.textContent = message;
-  statusMessage.style.color = isError ? "#b22222" : "#2b5f2b";
+  statusMessage.style.color = isError ? "var(--danger)" : "var(--success)";
+  statusMessage.style.borderLeftColor = isError ? "var(--danger)" : "var(--success)";
 }
 
 function sanitizeFileName(name) {
@@ -252,3 +253,29 @@ form.addEventListener("submit", async (event) => {
 
 displayNotes();
 displayIntakeForms();
+
+function printTherapistNote() {
+  document.body.classList.add("print-therapist-only");
+  window.print();
+  document.body.classList.remove("print-therapist-only");
+}
+
+function printClientSheet() {
+  const nameInput = form.querySelector('[name="name"]');
+  const dateInput = form.querySelector('[name="date"]');
+  const clientName = nameInput ? nameInput.value.trim() : "";
+  const clientDate = dateInput ? dateInput.value.trim() : "";
+
+  if (!clientName && !clientDate) {
+    setStatus("Tip: Fill in the client name and date before printing the take-home sheet.");
+  }
+
+  document.getElementById("sheetClientName").textContent = clientName;
+  document.getElementById("sheetDate").textContent = clientDate;
+  document.body.classList.add("print-client-only");
+  window.print();
+  document.body.classList.remove("print-client-only");
+}
+
+document.getElementById("btnPrintTherapist").addEventListener("click", printTherapistNote);
+document.getElementById("btnPrintClient").addEventListener("click", printClientSheet);
