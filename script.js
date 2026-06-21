@@ -4,6 +4,7 @@ const savedIntakeForms = document.getElementById("savedIntakeForms");
 const intakeFormsInput = document.getElementById("intakeForms");
 const MAX_FILE_SIZE_MB = 3;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
+// Keep below common 5MB localStorage quotas and leave room for other app keys.
 const MAX_LOCAL_STORAGE_CHARS = 4_500_000;
 
 const statusMessage = document.createElement("p");
@@ -27,6 +28,17 @@ function setStorageArray(key, value) {
 function setStatus(message, isError = false) {
   statusMessage.textContent = message;
   statusMessage.style.color = isError ? "#b22222" : "#2b5f2b";
+}
+
+function sanitizeFileName(name) {
+  return String(name || "uploaded-file")
+    .replace(/[<>`"'\\]/g, "_")
+    .replace(/[\u0000-\u001F\u007F]/g, "")
+    .slice(0, 120);
+}
+
+function sanitizeMimeType(type) {
+  return /^[\w.+-]+\/[\w.+-]+$/.test(type || "") ? type : "application/octet-stream";
 }
 
 function getNotes() {
@@ -122,23 +134,44 @@ function deleteIntakeForm(index) {
 function fileToDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
+    const safeName = sanitizeFileName(file.name);
     reader.onload = () => resolve(reader.result);
     reader.onerror = () =>
       reject(
         new Error(
-          `Could not read "${file.name}": ${reader.error?.message || "Unknown error"}.`
+          `Could not read "${safeName}": ${reader.error?.message || "Unknown error"}.`
         )
       );
     reader.readAsDataURL(file);
   });
 }
 
-function assertStorageBudget(forms) {
-  const serialized = JSON.stringify(forms);
-  if (serialized.length > MAX_LOCAL_STORAGE_CHARS) {
+function assertStorageBudget(notes, forms) {
+  const noteChars = JSON.stringify(notes).length;
+  const formChars = JSON.stringify(forms).length;
+  if (noteChars + formChars > MAX_LOCAL_STORAGE_CHARS) {
     throw new Error(
       "Storage limit reached. Delete older intake forms or upload fewer files."
     );
+  }
+}
+
+function persistState(nextNotes, nextForms, previousNotes, previousForms) {
+  try {
+    saveNotes(nextNotes);
+    saveIntakeForms(nextForms);
+  } catch (saveError) {
+    try {
+      saveNotes(previousNotes);
+      saveIntakeForms(previousForms);
+    } catch (rollbackError) {
+      throw new Error(
+        `${saveError.message || "Save failed"} Rollback failed: ${
+          rollbackError.message || "Unknown error"
+        }.`
+      );
+    }
+    throw new Error(saveError.message || "Unable to save note.");
   }
 }
 
@@ -167,14 +200,16 @@ form.addEventListener("submit", async (event) => {
     const newForms = [];
 
     for (const file of uploads) {
+      const safeName = sanitizeFileName(file.name);
+
       if (file.size > MAX_FILE_SIZE_BYTES) {
-        throw new Error(`"${file.name}" is too large. Max size is ${MAX_FILE_SIZE_MB}MB.`);
+        throw new Error(`"${safeName}" is too large. Max size is ${MAX_FILE_SIZE_MB}MB.`);
       }
 
       const dataUrl = await fileToDataUrl(file);
       newForms.push({
-        name: file.name,
-        type: file.type,
+        name: safeName,
+        type: sanitizeMimeType(file.type),
         uploadedAt: new Date().toISOString(),
         dataUrl
       });
@@ -182,10 +217,8 @@ form.addEventListener("submit", async (event) => {
 
     const nextNotes = [...previousNotes, note];
     const nextForms = [...previousForms, ...newForms];
-    assertStorageBudget(nextForms);
-
-    saveNotes(nextNotes);
-    saveIntakeForms(nextForms);
+    assertStorageBudget(nextNotes, nextForms);
+    persistState(nextNotes, nextForms, previousNotes, previousForms);
 
     form.reset();
     setStatus(
@@ -196,21 +229,6 @@ form.addEventListener("submit", async (event) => {
     displayNotes();
     displayIntakeForms();
   } catch (error) {
-    // Restore persisted state if either save step failed.
-    try {
-      saveNotes(previousNotes);
-      saveIntakeForms(previousForms);
-    } catch (rollbackError) {
-      setStatus(
-        `${error.message || "Unable to save note."} Rollback failed: ${
-          rollbackError.message || "Unknown error"
-        }.`,
-        true
-      );
-      displayNotes();
-      displayIntakeForms();
-      return;
-    }
     setStatus(error.message || "Unable to save note.", true);
     displayNotes();
     displayIntakeForms();
