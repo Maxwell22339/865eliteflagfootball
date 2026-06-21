@@ -30,7 +30,8 @@ function setStorageArray(key, value) {
 
 function setStatus(message, isError = false) {
   statusMessage.textContent = message;
-  statusMessage.style.color = isError ? "#b22222" : "#2b5f2b";
+  statusMessage.style.color = isError ? "var(--danger)" : "var(--success)";
+  statusMessage.style.borderLeftColor = isError ? "var(--danger)" : "var(--success)";
 }
 
 function sanitizeFileName(name) {

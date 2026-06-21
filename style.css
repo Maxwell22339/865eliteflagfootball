@@ -1,129 +1,280 @@
+/* ── Design tokens ─────────────────────────────────────────── */
+:root {
+  --bg:           #0d1117;
+  --surface:      #161c2d;
+  --surface-raised:#1e2640;
+  --border:       #273250;
+  --border-subtle:#1e2a45;
+  --accent:       #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-dim:   rgba(59, 130, 246, 0.15);
+  --text-primary: #e8eeff;
+  --text-secondary:#8ba3cc;
+  --success:      #4ade80;
+  --danger:       #f87171;
+  --danger-hover: #ef4444;
+  --radius-sm:    6px;
+  --radius-md:    10px;
+  --shadow-card:  0 4px 20px rgba(0, 0, 0, 0.45);
+  --transition:   0.18s ease;
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
 body {
-  font-family: Arial, sans-serif;
-  background: #000;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
   margin: 0;
-  color: #d1deff;
+  color: var(--text-primary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* ── Page wrapper ───────────────────────────────────────────── */
 .page {
-  max-width: 1100px;
-  margin: auto;
-  padding: 24px;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 28px 60px;
 }
 
+/* ── Page heading ───────────────────────────────────────────── */
 h1 {
   text-align: center;
-  color: #d1deff;
+  color: var(--text-primary);
+  font-size: 1.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
 }
 
+/* ── Section headings ───────────────────────────────────────── */
+h2 {
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin: 24px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+h3 {
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 20px 0 8px;
+}
+
+p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin: 0 0 8px;
+}
+
+/* ── Layout ─────────────────────────────────────────────────── */
 .grid {
   display: grid;
   grid-template-columns: 1fr 2fr;
   gap: 20px;
 }
 
+/* ── Cards ──────────────────────────────────────────────────── */
 .card {
-  background: #050505;
-  border: 1px solid #1c3d6e;
-  padding: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 24px 28px;
   margin-bottom: 20px;
-  border-radius: 6px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--transition);
 }
 
-h3,
-p,
-label,
-.note,
-.note a,
-[role="status"] {
-  color: #d1deff;
+.card:hover {
+  border-color: #354070;
 }
 
-h2 {
-  color: #d1deff;
-  letter-spacing: 1px;
-}
-
+/* ── Labels ─────────────────────────────────────────────────── */
 label {
   display: block;
-  margin: 10px 0;
+  margin: 12px 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-primary);
 }
 
-input, textarea {
+/* ── Inputs & textareas ─────────────────────────────────────── */
+input,
+textarea {
   width: 100%;
-  padding: 8px;
-  margin-top: 4px;
-  border: 1px solid #1c3d6e;
-  border-radius: 4px;
-  background: #0b0b0b;
-  color: #d1deff;
+  padding: 9px 12px;
+  margin-top: 5px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-raised);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: rgba(209, 222, 255, 0.85);
+  color: var(--text-secondary);
+  opacity: 0.7;
 }
 
 input:focus,
 textarea:focus {
-  outline: 2px solid #d1deff;
-  outline-offset: 1px;
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-dim);
 }
 
 input[type="checkbox"],
 input[type="radio"] {
   width: auto;
+  margin-right: 6px;
+  accent-color: var(--accent);
 }
 
 textarea {
-  min-height: 95px;
+  min-height: 100px;
+  resize: vertical;
 }
 
+/* ── Buttons ────────────────────────────────────────────────── */
 button {
-  background: #d1deff;
-  color: #0d1f40;
-  border: 1px solid #4f79c9;
-  padding: 12px 18px;
-  margin-right: 8px;
-  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  padding: 10px 22px;
+  margin-right: 10px;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
   cursor: pointer;
+  transition: background var(--transition), box-shadow var(--transition), transform var(--transition);
 }
 
 button:hover {
-  background: #b8cbf6;
+  background: var(--accent-hover);
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.35);
+  transform: translateY(-1px);
 }
 
+button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Delete buttons inside saved-note cards */
+.note button {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  padding: 5px 14px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  box-shadow: none;
+  transform: none;
+}
+
+.note button:hover {
+  background: var(--danger);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(248, 113, 113, 0.35);
+  transform: none;
+}
+
+/* ── Saved-note rows ────────────────────────────────────────── */
 .note {
-  border-bottom: 1px solid #1c3d6e;
-  padding: 10px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 12px 0;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.note:last-child {
+  border-bottom: none;
+}
+
+.note strong {
+  flex: 1 1 auto;
+  font-weight: 600;
+  min-width: 120px;
 }
 
 .note a {
   display: inline-block;
-  margin: 8px 10px 0 0;
+  color: var(--accent);
+  font-size: 0.85rem;
+  text-decoration: none;
+  padding: 3px 0;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--transition), color var(--transition);
 }
 
+.note a:hover {
+  color: #93c5fd;
+  border-bottom-color: #93c5fd;
+}
+
+/* ── Status messages ────────────────────────────────────────── */
 [role="status"] {
-  margin: 0 0 20px;
+  margin: 0 0 22px;
   font-weight: 600;
+  font-size: 0.875rem;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  border-left: 3px solid transparent;
 }
 
+/* ── Print ──────────────────────────────────────────────────── */
 @media print {
-  button, #savedNotes {
+  button,
+  #savedNotes {
     display: none;
   }
 
   body {
-    background: white;
-    color: black;
+    background: #fff;
+    color: #000;
+  }
+
+  :root {
+    --surface: #fff;
+    --surface-raised: #fff;
+    --border: #ccc;
+    --text-primary: #000;
+    --text-secondary: #444;
+    --accent: #1d4ed8;
   }
 
   .card,
   input,
   textarea {
-    background: white;
-    color: black;
-    border-color: #999;
+    background: #fff;
+    color: #000;
+    border-color: #bbb;
+    box-shadow: none;
   }
 
   h1,
@@ -134,6 +285,10 @@ button:hover {
   .note,
   .note a,
   [role="status"] {
-    color: black;
+    color: #000;
+  }
+
+  h2 {
+    color: #1d4ed8;
   }
 }
