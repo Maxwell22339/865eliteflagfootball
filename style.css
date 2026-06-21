@@ -61,12 +61,12 @@ input, textarea {
 
 input::placeholder,
 textarea::placeholder {
-  color: #e1ebff;
+  color: #d1deff;
 }
 
 input:focus,
 textarea:focus {
-  outline: 1px solid #e1ebff;
+  outline: 1px solid #d1deff;
   outline-offset: 1px;
 }
 
