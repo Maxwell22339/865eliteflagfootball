@@ -4,7 +4,10 @@ const savedIntakeForms = document.getElementById("savedIntakeForms");
 const intakeFormsInput = document.getElementById("intakeForms");
 const MAX_FILE_SIZE_MB = 3;
 const MAX_FILE_SIZE_BYTES = MAX_FILE_SIZE_MB * 1024 * 1024;
-// Keep below common 5MB localStorage quotas and leave room for other app keys.
+const MAX_FILE_NAME_LENGTH = 120;
+const MAX_SINGLE_FILE_DATA_URL_CHARS = 2_500_000;
+// Typical browser localStorage quota is around 5MB per origin; we reserve ~0.5MB
+// for key names, app overhead, and unrelated entries to reduce QuotaExceeded errors.
 const MAX_LOCAL_STORAGE_CHARS = 4_500_000;
 
 const statusMessage = document.createElement("p");
@@ -34,7 +37,7 @@ function sanitizeFileName(name) {
   return String(name || "uploaded-file")
     .replace(/[<>`"'\\]/g, "_")
     .replace(/[\u0000-\u001F\u007F]/g, "")
-    .slice(0, 120);
+    .slice(0, MAX_FILE_NAME_LENGTH);
 }
 
 function sanitizeMimeType(type) {
@@ -147,9 +150,18 @@ function fileToDataUrl(file) {
 }
 
 function assertStorageBudget(notes, forms) {
-  const noteChars = JSON.stringify(notes).length;
-  const formChars = JSON.stringify(forms).length;
-  if (noteChars + formChars > MAX_LOCAL_STORAGE_CHARS) {
+  const noteKey = "soapNotes";
+  const formsKey = "intakeForms";
+  const noteChars = JSON.stringify(notes).length + noteKey.length;
+  const formChars = JSON.stringify(forms).length + formsKey.length;
+  let otherChars = 0;
+  for (let i = 0; i < localStorage.length; i += 1) {
+    const key = localStorage.key(i);
+    if (!key || key === noteKey || key === formsKey) continue;
+    otherChars += key.length + (localStorage.getItem(key) || "").length;
+  }
+
+  if (noteChars + formChars + otherChars > MAX_LOCAL_STORAGE_CHARS) {
     throw new Error(
       "Storage limit reached. Delete older intake forms or upload fewer files."
     );
@@ -207,6 +219,9 @@ form.addEventListener("submit", async (event) => {
       }
 
       const dataUrl = await fileToDataUrl(file);
+      if (dataUrl.length > MAX_SINGLE_FILE_DATA_URL_CHARS) {
+        throw new Error(`"${safeName}" is too large after encoding. Use a smaller file.`);
+      }
       newForms.push({
         name: safeName,
         type: sanitizeMimeType(file.type),
@@ -223,7 +238,7 @@ form.addEventListener("submit", async (event) => {
     form.reset();
     setStatus(
       uploads.length
-        ? "Note and intake forms saved. Large uploads may fill browser storage quickly."
+        ? `Note and ${uploads.length} intake form(s) saved. Large uploads may fill browser storage quickly.`
         : "Note saved successfully."
     );
     displayNotes();
