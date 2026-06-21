@@ -263,8 +263,15 @@ function printTherapistNote() {
 function printClientSheet() {
   const nameInput = form.querySelector('[name="name"]');
   const dateInput = form.querySelector('[name="date"]');
-  document.getElementById("sheetClientName").textContent = nameInput ? nameInput.value : "";
-  document.getElementById("sheetDate").textContent = dateInput ? dateInput.value : "";
+  const clientName = nameInput ? nameInput.value.trim() : "";
+  const clientDate = dateInput ? dateInput.value.trim() : "";
+
+  if (!clientName && !clientDate) {
+    setStatus("Tip: Fill in the client name and date before printing the take-home sheet.");
+  }
+
+  document.getElementById("sheetClientName").textContent = clientName;
+  document.getElementById("sheetDate").textContent = clientDate;
   document.body.classList.add("print-client-only");
   window.print();
   document.body.classList.remove("print-client-only");
