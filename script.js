@@ -3,6 +3,7 @@ const savedNotes = document.getElementById("savedNotes");
 const savedIntakeForms = document.getElementById("savedIntakeForms");
 const intakeFormsInput = document.getElementById("intakeForms");
 const MAX_FILE_SIZE_BYTES = 3 * 1024 * 1024;
+const MAX_FILE_SIZE_MB = MAX_FILE_SIZE_BYTES / (1024 * 1024);
 
 const statusMessage = document.createElement("p");
 statusMessage.setAttribute("role", "status");
@@ -121,9 +122,23 @@ function fileToDataUrl(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(new Error(`Could not read "${file.name}".`));
+    reader.onerror = () =>
+      reject(
+        new Error(
+          `Could not read "${file.name}": ${reader.error?.message || "Unknown error"}.`
+        )
+      );
     reader.readAsDataURL(file);
   });
+}
+
+function assertStorageBudget(forms) {
+  const serialized = JSON.stringify(forms);
+  if (serialized.length > 4_500_000) {
+    throw new Error(
+      "Storage limit reached. Delete older intake forms or upload fewer files."
+    );
+  }
 }
 
 form.addEventListener("submit", async (event) => {
@@ -143,39 +158,51 @@ form.addEventListener("submit", async (event) => {
     note[key] = value;
   });
 
-  const notes = getNotes();
-  notes.push(note);
-  saveNotes(notes);
+  const previousNotes = getNotes();
+  const previousForms = getIntakeForms();
 
   try {
     const uploads = Array.from(intakeFormsInput.files || []);
-    if (uploads.length) {
-      const existingForms = getIntakeForms();
-      for (const file of uploads) {
-        if (file.size > MAX_FILE_SIZE_BYTES) {
-          throw new Error(`"${file.name}" is too large. Max size is 3MB.`);
-        }
+    const newForms = [];
 
-        const dataUrl = await fileToDataUrl(file);
-        existingForms.push({
-          name: file.name,
-          type: file.type,
-          uploadedAt: new Date().toLocaleString(),
-          dataUrl
-        });
+    for (const file of uploads) {
+      if (file.size > MAX_FILE_SIZE_BYTES) {
+        throw new Error(`"${file.name}" is too large. Max size is ${MAX_FILE_SIZE_MB}MB.`);
       }
-      saveIntakeForms(existingForms);
+
+      const dataUrl = await fileToDataUrl(file);
+      newForms.push({
+        name: file.name,
+        type: file.type,
+        uploadedAt: new Date().toLocaleString(),
+        dataUrl
+      });
     }
 
+    const nextNotes = [...previousNotes, note];
+    const nextForms = [...previousForms, ...newForms];
+    assertStorageBudget(nextForms);
+
+    saveNotes(nextNotes);
+    saveIntakeForms(nextForms);
+
     form.reset();
-    setStatus("Note saved successfully.");
+    setStatus(
+      uploads.length
+        ? "Note and intake forms saved. Large uploads may fill browser storage quickly."
+        : "Note saved successfully."
+    );
     displayNotes();
     displayIntakeForms();
   } catch (error) {
-    notes.pop();
-    saveNotes(notes);
+    // Restore persisted state if either save step failed.
+    try {
+      saveNotes(previousNotes);
+      saveIntakeForms(previousForms);
+    } catch {}
     setStatus(error.message || "Unable to save note.", true);
     displayNotes();
+    displayIntakeForms();
   }
 });
 
