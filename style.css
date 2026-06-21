@@ -236,6 +236,65 @@ button:active {
   border-bottom-color: #93c5fd;
 }
 
+/* ── Button row ─────────────────────────────────────────────── */
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 24px;
+}
+
+.button-row button {
+  margin-right: 0;
+}
+
+/* ── Client Take-Home Sheet ─────────────────────────────────── */
+#clientSheet {
+  border-color: #2d4a7a;
+  background: #111827;
+}
+
+#clientSheet textarea {
+  min-height: 180px;
+}
+
+.sheet-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+.sheet-title {
+  border-bottom: none;
+  margin: 0 0 4px;
+  padding-bottom: 0;
+  font-size: 0.85rem;
+}
+
+.sheet-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  margin: 0;
+}
+
+.sheet-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: right;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.sheet-meta strong {
+  color: var(--text-primary);
+}
+
 /* ── Status messages ────────────────────────────────────────── */
 [role="status"] {
   margin: 0 0 22px;
@@ -250,7 +309,9 @@ button:active {
 /* ── Print ──────────────────────────────────────────────────── */
 @media print {
   button,
-  #savedNotes {
+  .button-row,
+  #savedNotes,
+  #savedIntakeForms {
     display: none;
   }
 
@@ -290,5 +351,46 @@ button:active {
 
   h2 {
     color: #1d4ed8;
+  }
+
+  /* Print therapist note only */
+  body.print-therapist-only #clientSheet {
+    display: none;
+  }
+
+  /* Print client sheet only */
+  body.print-client-only #therapistNote,
+  body.print-client-only h1 {
+    display: none;
+  }
+
+  /* Client sheet print formatting */
+  body.print-client-only #clientSheet {
+    border: 2px solid #1d4ed8;
+    padding: 32px;
+    margin: 0;
+    page-break-inside: avoid;
+  }
+
+  body.print-client-only .sheet-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #1d4ed8;
+    text-transform: none;
+    letter-spacing: 0;
+  }
+
+  body.print-client-only .sheet-meta {
+    text-align: right;
+    color: #000;
+  }
+
+  body.print-client-only .sheet-meta strong {
+    color: #000;
+  }
+
+  body.print-client-only textarea {
+    min-height: 300px;
+    font-size: 1rem;
   }
 }

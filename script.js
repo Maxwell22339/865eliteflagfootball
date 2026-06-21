@@ -253,3 +253,22 @@ form.addEventListener("submit", async (event) => {
 
 displayNotes();
 displayIntakeForms();
+
+function printTherapistNote() {
+  document.body.classList.add("print-therapist-only");
+  window.print();
+  document.body.classList.remove("print-therapist-only");
+}
+
+function printClientSheet() {
+  const nameInput = form.querySelector('[name="name"]');
+  const dateInput = form.querySelector('[name="date"]');
+  document.getElementById("sheetClientName").textContent = nameInput ? nameInput.value : "";
+  document.getElementById("sheetDate").textContent = dateInput ? dateInput.value : "";
+  document.body.classList.add("print-client-only");
+  window.print();
+  document.body.classList.remove("print-client-only");
+}
+
+document.getElementById("btnPrintTherapist").addEventListener("click", printTherapistNote);
+document.getElementById("btnPrintClient").addEventListener("click", printClientSheet);

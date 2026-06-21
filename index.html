@@ -14,69 +14,89 @@
     <h1>Massage Client SOAP Note</h1>
 
     <form id="soapForm">
-      <section class="grid">
-        <div class="card">
-          <h2>Client Information</h2>
 
-          <label>Name <input name="name" required></label>
-          <label>Phone <input name="phone"></label>
-          <label>Email <input name="email" type="email"></label>
-          <label>Occupation <input name="occupation"></label>
-          <label>Date <input name="date" type="date"></label>
-          <label>Session # <input name="sessionNumber"></label>
-          <label>Session Length <input name="sessionLength"></label>
+      <!-- ── Therapist Note (therapist's copy) ──────────────────── -->
+      <div id="therapistNote">
+        <section class="grid">
+          <div class="card">
+            <h2>Client Information</h2>
 
-          <h3>Modalities Used</h3>
-          <label><input type="checkbox" name="modalities" value="Swedish"> Swedish</label>
-          <label><input type="checkbox" name="modalities" value="Deep Tissue"> Deep Tissue</label>
-          <label><input type="checkbox" name="modalities" value="Trigger Point"> Trigger Point</label>
-          <label><input type="checkbox" name="modalities" value="Myofascial Release"> Myofascial Release</label>
-          <label><input type="checkbox" name="modalities" value="Sports Massage"> Sports Massage</label>
-          <label><input type="checkbox" name="modalities" value="Prenatal"> Prenatal</label>
-          <label><input type="checkbox" name="modalities" value="Hot Stone"> Hot Stone</label>
-          <label><input type="checkbox" name="modalities" value="Cupping"> Cupping</label>
-          <label><input type="checkbox" name="modalities" value="Stretching"> Stretching</label>
+            <label>Name <input name="name" required></label>
+            <label>Phone <input name="phone"></label>
+            <label>Email <input name="email" type="email"></label>
+            <label>Occupation <input name="occupation"></label>
+            <label>Date <input name="date" type="date"></label>
+            <label>Session # <input name="sessionNumber"></label>
+            <label>Session Length <input name="sessionLength"></label>
 
-          <h3>Draping</h3>
-          <label><input type="radio" name="draping" value="Yes"> Yes</label>
-          <label><input type="radio" name="draping" value="No"> No</label>
+            <h3>Modalities Used</h3>
+            <label><input type="checkbox" name="modalities" value="Swedish"> Swedish</label>
+            <label><input type="checkbox" name="modalities" value="Deep Tissue"> Deep Tissue</label>
+            <label><input type="checkbox" name="modalities" value="Trigger Point"> Trigger Point</label>
+            <label><input type="checkbox" name="modalities" value="Myofascial Release"> Myofascial Release</label>
+            <label><input type="checkbox" name="modalities" value="Sports Massage"> Sports Massage</label>
+            <label><input type="checkbox" name="modalities" value="Prenatal"> Prenatal</label>
+            <label><input type="checkbox" name="modalities" value="Hot Stone"> Hot Stone</label>
+            <label><input type="checkbox" name="modalities" value="Cupping"> Cupping</label>
+            <label><input type="checkbox" name="modalities" value="Stretching"> Stretching</label>
+
+            <h3>Draping</h3>
+            <label><input type="radio" name="draping" value="Yes"> Yes</label>
+            <label><input type="radio" name="draping" value="No"> No</label>
+          </div>
+
+          <div class="card">
+            <h2>S — Subjective</h2>
+            <p>What the client reports</p>
+            <textarea name="subjective"></textarea>
+
+            <h2>O — Objective</h2>
+            <p>What the therapist observes / assessment findings</p>
+            <textarea name="objective"></textarea>
+
+            <h2>A — Assessment</h2>
+            <p>Clinical impression / evaluation</p>
+            <textarea name="assessment"></textarea>
+
+            <h2>P — Plan</h2>
+            <p>Treatment plan / goals / recommendations</p>
+            <textarea name="plan"></textarea>
+          </div>
+        </section>
+
+        <section class="card">
+          <h2>Therapist Signature</h2>
+          <label>Therapist Signature <input name="signature"></label>
+          <label>Date <input name="signatureDate" type="date"></label>
+
+          <h2>Intake Forms</h2>
+          <label>
+            Upload scanned intake forms
+            <input id="intakeForms" name="intakeForms" type="file" accept=".pdf,image/*" multiple>
+          </label>
+        </section>
+      </div><!-- /#therapistNote -->
+
+      <!-- ── Client Take-Home Sheet ─────────────────────────────── -->
+      <section class="card" id="clientSheet">
+        <div class="sheet-header">
+          <div>
+            <h2 class="sheet-title">Client Take-Home Sheet</h2>
+            <p class="sheet-subtitle">Home Care &amp; Recommendations</p>
+          </div>
+          <div class="sheet-meta">
+            <span>Client: <strong id="sheetClientName"></strong></span>
+            <span>Date: <strong id="sheetDate"></strong></span>
+          </div>
         </div>
-
-        <div class="card">
-          <h2>S — Subjective</h2>
-          <p>What the client reports</p>
-          <textarea name="subjective"></textarea>
-
-          <h2>O — Objective</h2>
-          <p>What the therapist observes / assessment findings</p>
-          <textarea name="objective"></textarea>
-
-          <h2>A — Assessment</h2>
-          <p>Clinical impression / evaluation</p>
-          <textarea name="assessment"></textarea>
-
-          <h2>P — Plan</h2>
-          <p>Treatment plan / goals / recommendations</p>
-          <textarea name="plan"></textarea>
-        </div>
+        <textarea name="homeCare" placeholder="Enter home care instructions, stretches, self-care tips, and any recommendations for the client to take home…"></textarea>
       </section>
 
-      <section class="card">
-        <h2>Home Care / Recommendations</h2>
-        <textarea name="homeCare"></textarea>
-
-        <label>Therapist Signature <input name="signature"></label>
-        <label>Date <input name="signatureDate" type="date"></label>
-
-        <h2>Intake Forms</h2>
-        <label>
-          Upload scanned intake forms
-          <input id="intakeForms" name="intakeForms" type="file" accept=".pdf,image/*" multiple>
-        </label>
-      </section>
-
-      <button type="submit">Save Note</button>
-      <button type="button" onclick="window.print()">Print</button>
+      <div class="button-row">
+        <button type="submit">Save Note</button>
+        <button type="button" id="btnPrintTherapist">Print Therapist Note</button>
+        <button type="button" id="btnPrintClient">Print Client Sheet</button>
+      </div>
     </form>
 
     <section class="card">
