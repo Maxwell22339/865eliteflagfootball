@@ -1,8 +1,8 @@
 body {
   font-family: Arial, sans-serif;
-  background: #f4f4f0;
+  background: #000;
   margin: 0;
-  color: #333;
+  color: #2f5c9e;
 }
 
 .page {
@@ -13,6 +13,7 @@ body {
 
 h1 {
   text-align: center;
+  color: #2f5c9e;
 }
 
 .grid {
@@ -22,15 +23,24 @@ h1 {
 }
 
 .card {
-  background: white;
-  border: 1px solid #ddd;
+  background: #050505;
+  border: 1px solid #1c3d6e;
   padding: 20px;
   margin-bottom: 20px;
   border-radius: 6px;
 }
 
+h2,
+h3,
+p,
+label,
+.note,
+.note a,
+[role="status"] {
+  color: #2f5c9e;
+}
+
 h2 {
-  color: #59634d;
   letter-spacing: 1px;
 }
 
@@ -43,8 +53,21 @@ input, textarea {
   width: 100%;
   padding: 8px;
   margin-top: 4px;
-  border: 1px solid #aaa;
+  border: 1px solid #1c3d6e;
   border-radius: 4px;
+  background: #0b0b0b;
+  color: #2f5c9e;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #4d73ae;
+}
+
+input:focus,
+textarea:focus {
+  outline: 1px solid #4d73ae;
+  outline-offset: 1px;
 }
 
 input[type="checkbox"],
@@ -57,9 +80,9 @@ textarea {
 }
 
 button {
-  background: #59634d;
-  color: white;
-  border: none;
+  background: #000;
+  color: #2f5c9e;
+  border: 1px solid #1c3d6e;
   padding: 12px 18px;
   margin-right: 8px;
   border-radius: 4px;
@@ -67,11 +90,11 @@ button {
 }
 
 button:hover {
-  background: #414838;
+  background: #0b0f17;
 }
 
 .note {
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #1c3d6e;
   padding: 10px 0;
 }
 
@@ -92,5 +115,25 @@ button:hover {
 
   body {
     background: white;
+    color: black;
+  }
+
+  .card,
+  input,
+  textarea {
+    background: white;
+    color: black;
+    border-color: #999;
+  }
+
+  h1,
+  h2,
+  h3,
+  p,
+  label,
+  .note,
+  .note a,
+  [role="status"] {
+    color: black;
   }
 }
