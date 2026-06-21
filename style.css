@@ -66,7 +66,7 @@ textarea::placeholder {
 
 input:focus,
 textarea:focus {
-  outline: 1px solid #d1deff;
+  outline: 2px solid #ffffff;
   outline-offset: 1px;
 }
 
@@ -80,8 +80,8 @@ textarea {
 }
 
 button {
-  background: #0d1f40;
-  color: #d1deff;
+  background: #d1deff;
+  color: #0d1f40;
   border: 1px solid #4f79c9;
   padding: 12px 18px;
   margin-right: 8px;
@@ -90,7 +90,7 @@ button {
 }
 
 button:hover {
-  background: #15315f;
+  background: #b8cbf6;
 }
 
 .note {
